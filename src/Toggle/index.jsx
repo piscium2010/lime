@@ -21,6 +21,7 @@ export class Toggle extends React.PureComponent {
         let pegClasses = classnames('sd-toggle-peg',{
             on: this.state.value
         })
+        
         return(
             <div className={classes} onClick={this.onToggle} {...props}>
                 <div></div>

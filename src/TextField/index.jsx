@@ -21,7 +21,7 @@ export class TextField extends React.PureComponent {
             filled: this.state.value ? true : false
         })
 
-        return(
+        return (
             <div className={classes}>
                 {label && <label>{label}</label>}
                 <input type="text" onChange={this.onTextChange} value={this.state.value} />
