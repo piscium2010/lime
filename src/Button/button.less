@@ -1,0 +1,24 @@
+@import '../app.less';
+
+
+.sd-button {
+    border-radius: @sdBorderRadius;
+    padding: 10px 16px;
+    cursor: pointer;
+    &:active, &:focus {
+        outline: none;
+    }
+
+    &.primary {
+        color: white;
+        border: 1px solid @primaryColor;
+        background: @primaryColor;
+        &.active {
+            box-shadow: none;
+            background-color: lighten(@primaryColor, 8%);
+            border-color: lighten(@primaryColor, 8%);
+        }
+    }
+
+    .sd-box-shadow;
+}
