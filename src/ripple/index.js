@@ -1,6 +1,6 @@
 import React from 'react'
 
-const withRipple = WrappedComponent => {
+const withRipple = (WrappedComponent, display = 'inline-block') => {
     class Ripple extends React.Component {
         constructor(props) {
             super(props)
@@ -14,8 +14,8 @@ const withRipple = WrappedComponent => {
             evt.stopPropagation()
 
             const {
-                pageX,
-                pageY,
+                clientX,
+                clientY,
                 currentTarget: { offsetWidth, offsetHeight }
             } = evt
 
@@ -31,8 +31,8 @@ const withRipple = WrappedComponent => {
                     height: max * .6,
                     transform:'translate(-50%,-50%)',
                     backgroundColor: 'white',
-                    top: pageY - rect.top,
-                    left: pageX - rect.left,
+                    top: clientY - rect.top,
+                    left: clientX - rect.left,
                     opacity: .6,
                     transition: 'initial'
                 }
@@ -45,7 +45,7 @@ const withRipple = WrappedComponent => {
                         opacity: 0,
                         width: max * 2,
                         height: max * 2,
-                        transition: 'all .8s',
+                        transition: 'all .6s',
                         transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
                     }
                 })
@@ -55,7 +55,7 @@ const withRipple = WrappedComponent => {
         render() {
             const { children, ...props } = this.props
             return (
-                <div ref={ref => this.ref = ref} onMouseDown={this.onMouseDown} style={{ position: 'relative', display: 'inline-block' }}>
+                <div ref={ref => this.ref = ref} onMouseDown={this.onMouseDown} style={{ position: 'relative', display: display}}>
                     <WrappedComponent {...props}>
                         {children}
                     </WrappedComponent>

@@ -17,3 +17,16 @@ body, button {
     -webkit-box-shadow: @sdBoxShadow;
     box-shadow: @sdBoxShadow;
 }
+
+.input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 10px 0 13px;
+    border-radius: @sdBorderRadius;
+    border: 1px solid #d9d9d9;
+    height: 32px;
+
+    &:active, &:focus {
+        outline: 1px solid lighten(@primaryColor, 10%);
+    }
+}

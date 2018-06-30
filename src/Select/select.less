@@ -1,12 +1,25 @@
 @import '../app.less';
 
-.sd-textField-input {
+.sd-select-input {
     position: relative;
     input {
         .input;
     }
 
-    .sd-textField-input-label {
+    &::after {
+        content: " ";
+        display: block;
+        position: absolute;
+        border-right: 1px solid lighten(@primaryColor, 10%);
+        border-bottom: 1px solid lighten(@primaryColor, 10%);
+        top: 50%;
+        right: 20px;
+        width: 10px;
+        height: 10px;
+        transform: rotate(45deg) translateY(-100%);
+    }
+
+    .sd-select-input-label {
         color: rgba(0, 0, 0, .6);
         position: absolute;
         pointer-events: none;
@@ -16,7 +29,7 @@
     }
 
     &.filled {
-        .sd-textField-input-label {
+        .sd-select-input-label {
             left: 10px;
             top: 0;
             transform: translateY(-50%);

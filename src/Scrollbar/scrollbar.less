@@ -1,0 +1,28 @@
+@import '../app.less';
+.sd-scrollbar-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    .sd-scrollbar {
+        width: calc(100% + 20px);
+        &.track-vertical {
+            overflow-y: scroll;
+        }
+
+        
+    }
+
+    .track-vertical-button {
+        position: absolute;
+        width:4px;
+        right:1px;
+        border-radius: 2px;
+        background: lighten(@primaryColor,30%);
+        &:hover {
+            background: lighten(@primaryColor,25%);
+            width: 6px;
+            border-radius: 3px;
+        }
+        z-index: 1;
+    }
+}

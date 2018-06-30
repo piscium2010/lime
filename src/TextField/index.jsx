@@ -17,13 +17,13 @@ export class TextField extends React.PureComponent {
 
     render() {
         let { children, className, label, onChange, ...props } = this.props
-        let classes = classnames('sd-input', className,{
+        let classes = classnames('sd-textField-input', className,{
             filled: this.state.value ? true : false
         })
 
         return (
             <div className={classes}>
-                {label && <label>{label}</label>}
+                {label && <label className='sd-textField-input-label'>{label}</label>}
                 <input type="text" onChange={this.onTextChange} value={this.state.value} />
             </div>
         )
