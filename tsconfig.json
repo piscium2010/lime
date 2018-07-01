@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+    "outDir": "./public/",
+    "noImplicitAny": false,
+    "module": "es6",
+    "target": "es5",
+    "jsx": "React",
+    "allowJs": true,
+    "lib": [
+        "ES5",
+        "ES6",
+        "DOM"
+    ]
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+    ]
+}

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button } from './Button'
-import { Card } from './Card'
-import { Toggle } from './Toggle'
-import { TextField } from './TextField'
-import { Select } from './Select'
+import Button from './Button'
+import Card from './Card'
+import Toggle from './Toggle'
+import TextField from './TextField'
+import Select from './Select'
 
 const options = []
 for(let i = 0; i < 20; i++) {

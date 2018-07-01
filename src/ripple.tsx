@@ -1,18 +1,21 @@
-import React from 'react'
+import * as React from 'react'
 
-const withRipple = (WrappedComponent, display = 'inline-block') => {
-    class Ripple extends React.Component {
+export function withRipple(
+    WrappedComponent: ((props) => JSX.Element) | typeof React.Component,
+    display = 'inline-block'
+) {
+    class Ripple extends React.Component<any, any> {
+        ref = null
+
         constructor(props) {
             super(props)
             this.state = {
-                rippleStyle : {}
+                rippleStyle: {}
             }
             this.onMouseDown = this.onMouseDown.bind(this)
         }
 
         onMouseDown(evt) {
-            evt.stopPropagation()
-
             const {
                 clientX,
                 clientY,
@@ -29,7 +32,7 @@ const withRipple = (WrappedComponent, display = 'inline-block') => {
                     borderRadius: '50%',
                     width: max * .6,
                     height: max * .6,
-                    transform:'translate(-50%,-50%)',
+                    transform: 'translate(-50%,-50%)',
                     backgroundColor: 'white',
                     top: clientY - rect.top,
                     left: clientX - rect.left,
@@ -55,11 +58,11 @@ const withRipple = (WrappedComponent, display = 'inline-block') => {
         render() {
             const { children, ...props } = this.props
             return (
-                <div ref={ref => this.ref = ref} onMouseDown={this.onMouseDown} style={{ position: 'relative', display: display}}>
+                <div ref={ref => this.ref = ref} onMouseDown={this.onMouseDown} style={{ position: 'relative', display: display }}>
                     <WrappedComponent {...props}>
                         {children}
                     </WrappedComponent>
-                    <div style={{position:'absolute', width:'100%', height:'100%', top:0, left:0, overflow:'hidden', pointerEvents:'none'}}>
+                    <div style={{ position: 'absolute', width: '100%', height: '100%', top: 0, left: 0, overflow: 'hidden', pointerEvents: 'none' }}>
                         <div style={this.state.rippleStyle}></div>
                     </div>
                 </div>
@@ -67,8 +70,5 @@ const withRipple = (WrappedComponent, display = 'inline-block') => {
         }
     }
 
-    Ripple.defaultProps = WrappedComponent.defaultProps
     return Ripple
 }
-
-export default withRipple
