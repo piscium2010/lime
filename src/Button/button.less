@@ -3,8 +3,10 @@
 
 .sd-button {
     border-radius: @sdBorderRadius;
-    padding: 10px 16px;
     cursor: pointer;
+    padding: 10px 16px;
+    position: relative;
+
     &:active, &:focus {
         outline: none;
     }
@@ -18,7 +20,34 @@
             background-color: lighten(@primaryColor, 8%);
             border-color: lighten(@primaryColor, 8%);
         }
+        
+        &::before {
+            content: " ";
+            background: transparent;
+            display: block;
+            position: absolute;
+            pointer-events: none;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        &:hover::before{
+            background: #fff;
+            opacity: 0.08;
+        }
+
+        .sd-box-shadow;
     }
 
-    .sd-box-shadow;
+    &.text {
+        color: @primaryColor;
+        border: none;
+        &:hover {
+            background-color: lighten(@primaryColor, 50%);
+        }
+    }
+
+    
 }

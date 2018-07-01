@@ -16,9 +16,13 @@ for(let i = 0; i < 20; i++) {
 export default class App extends React.Component {
     render() {
         return <div style={{height:2000, position:'relative'}}>
-            <Card style={{width:'80%', height:200, position:'absolute',top:100}}>
-                <Button>开始使用</Button>
-                <Button>预览</Button>
+            <Card style={{width:'80%', height:300, position:'absolute',top:100, display:'flex',flexDirection:'column',justifyContent:'space-between',padding:10}}>
+                <div>
+                    <Button>开始使用</Button>
+                </div>
+                <div>
+                    <Button type='text'>预览</Button>
+                </div>
                 <div style={{margin:10}}>
                     <Toggle></Toggle>
                 </div>

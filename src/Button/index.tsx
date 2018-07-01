@@ -5,7 +5,7 @@ import './button.less'
 
 type Props = {
     className?: string
-    primary?: boolean
+    type?: 'primary' | 'text'
 }
 
 type State = {
@@ -14,7 +14,7 @@ type State = {
 
 export default class Button extends React.Component<Props, State> {
     public static defaultProps = {
-        primary: true
+        type: 'primary'
     }
 
     constructor(props) {
@@ -27,10 +27,9 @@ export default class Button extends React.Component<Props, State> {
     }
 
     public render() {
-        const { children, className, primary, ...props } = this.props
-        const classes = classnames('sd-button', className, {
-            active: this.state.active,
-            primary
+        const { children, className, type, ...props } = this.props
+        const classes = classnames('sd-button', className, type, {
+            active: this.state.active
         })
         return (
             <Ripple>
