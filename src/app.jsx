@@ -5,6 +5,7 @@ import Toggle from './Toggle'
 import TextField from './TextField'
 import Select from './Select'
 import Checkbox from './Checkbox'
+import Dialog from './Dialog'
 
 const options = []
 for(let i = 0; i < 20; i++) {
@@ -15,11 +16,19 @@ for(let i = 0; i < 20; i++) {
 }
 
 export default class App extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            showDialog: false
+        }
+    }
     render() {
         return <div style={{height:2000, position:'relative'}}>
             <Card style={{width:'80%', height:400, position:'absolute',top:100, display:'flex',flexDirection:'column',justifyContent:'space-between',padding:10}}>
                 <div>
-                    <Button>开始使用</Button>
+                    <Button onClick={()=>{
+                        this.setState({showDialog:true})
+                    }}>开始使用</Button>
                 </div>
                 <div>
                     <Button type='text'>预览</Button>
@@ -36,6 +45,8 @@ export default class App extends React.Component {
                 <div>
                     <Checkbox label='es lint'/>
                 </div>
+                <Dialog show={this.state.showDialog}>Test</Dialog>
+
             </Card>
             <Card style={{width:'80%', height:200, position:'absolute',top:700}}>
                 <Button>开始使用</Button>
