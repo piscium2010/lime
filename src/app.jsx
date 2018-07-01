@@ -4,6 +4,7 @@ import Card from './Card'
 import Toggle from './Toggle'
 import TextField from './TextField'
 import Select from './Select'
+import Checkbox from './Checkbox'
 
 const options = []
 for(let i = 0; i < 20; i++) {
@@ -16,7 +17,7 @@ for(let i = 0; i < 20; i++) {
 export default class App extends React.Component {
     render() {
         return <div style={{height:2000, position:'relative'}}>
-            <Card style={{width:'80%', height:300, position:'absolute',top:100, display:'flex',flexDirection:'column',justifyContent:'space-between',padding:10}}>
+            <Card style={{width:'80%', height:400, position:'absolute',top:100, display:'flex',flexDirection:'column',justifyContent:'space-between',padding:10}}>
                 <div>
                     <Button>开始使用</Button>
                 </div>
@@ -31,6 +32,9 @@ export default class App extends React.Component {
                 </div>
                 <div style={{margin:10}}>
                     <Select label='Standard' options={options}/>
+                </div>
+                <div>
+                    <Checkbox label='es lint'/>
                 </div>
             </Card>
             <Card style={{width:'80%', height:200, position:'absolute',top:700}}>

@@ -29,8 +29,6 @@ export default class Toggle extends React.PureComponent<Props, State> {
 
         return(
             <div className={classes} onClick={this.onToggle} {...props}>
-                <div></div>
-                <div></div>
                 <div className={pegClasses}></div>
             </div>
         )

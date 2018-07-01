@@ -5,6 +5,7 @@ body, button {
     font-size: 14px;
 }
 
+@sdBorderColor: #d9d9d9;
 @sdBorderRadius: 2px;
 
 @sdBoxShadow: 
@@ -23,11 +24,11 @@ body, button {
     width: 100%;
     padding: 0 10px 0 13px;
     border-radius: @sdBorderRadius;
-    border: 1px solid #d9d9d9;
+    border: 1px solid @sdBorderColor;
     height: 32px;
 
     &:active, &:focus {
-        outline: 1px solid lighten(@primaryColor, 10%);
-        border: 1px solid transparent;
+        outline: none;
+        border: 1px solid lighten(@primaryColor, 10%);
     }
 }

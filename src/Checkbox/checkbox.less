@@ -1,0 +1,94 @@
+@import '../lime.less';
+
+@keyframes check-left {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: 40%;
+    }
+}
+
+@keyframes check-right {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 70%;
+    }
+}
+
+.sd-checkbox-wrapper {
+    cursor: pointer;
+    display: inline-flex;
+    position: relative;
+
+    &:hover {
+        .sd-checkbox {
+            border: 1px solid @primaryColor;;
+        }
+    }
+
+    .sd-checkbox {
+        border: 1px solid @sdBorderColor;
+        border-radius: @sdBorderRadius;
+        display: inline-block;
+        height: 16px;
+        width: 16px;
+        position: relative;
+        .sd-checkbox-input {
+            cursor: inherit;
+            width: 100%;
+            margin: 0;
+            opacity: 0;
+            padding: 0;
+            height: 100%;
+        }
+    
+        &.checked {
+            border: 1px solid @primaryColor;
+            background: @primaryColor;
+        }
+    
+        &.checked::before {
+            animation: check-left .1s ease-in forwards, check-right .1s .1s ease-out forwards;
+            content: " ";
+            border-left: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            left: 2px;
+            top: 2px;
+            height: 0;
+            position: absolute;
+            transform: rotate(-45deg);
+            width: 0;
+        }
+
+        &.checked::after {
+            content: " ";
+            display: block;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            pointer-events: none;
+            background: transparent
+        }
+
+        &.checked:hover::after {
+            background: #fff;
+            opacity: 0.1;
+        }
+    }
+
+    .sd-checkbox-label {
+        cursor: inherit;
+        line-height: inherit;
+        margin-left: 6px;
+    }
+}
+
+
+
