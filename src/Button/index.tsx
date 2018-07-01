@@ -1,6 +1,6 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
-import { withRipple } from '../ripple'
+import Ripple from '../Ripple/index'
 import './button.less'
 
 type Props = {
@@ -12,7 +12,7 @@ type State = {
     active: boolean
 }
 
-class Button extends React.Component<Props, State> {
+export default class Button extends React.Component<Props, State> {
     public static defaultProps = {
         primary: true
     }
@@ -33,14 +33,16 @@ class Button extends React.Component<Props, State> {
             primary
         })
         return (
-            <button
-                className={classes}
-                {...props}
-                onMouseDown={this.onMouseDown}
-                onMouseUp={this.onMouseUp}
-            >
-                {children}
-            </button>
+            <Ripple>
+                <button
+                    className={classes}
+                    {...props}
+                    onMouseDown={this.onMouseDown}
+                    onMouseUp={this.onMouseUp}
+                >
+                    {children}
+                </button>
+            </Ripple>
         )
     }
 
@@ -51,7 +53,4 @@ class Button extends React.Component<Props, State> {
     private onMouseUp() {
         this.setState({ active: false })
     }
-
 }
-
-export default withRipple(Button)

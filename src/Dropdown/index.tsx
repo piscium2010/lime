@@ -1,6 +1,6 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
-import { withRipple } from '../ripple'
+import Ripple from '../Ripple/index'
 import Scrollbar from '../Scrollbar/index'
 import './dropdown.less'
 
@@ -12,13 +12,13 @@ type Props = {
     show: boolean
 }
 
-const Item = ({ item, onClick }) => (
-    <div key={item.label} className='sd-dropdown-item' onClick={() => onClick(item)}>
-        <span style={{ cursor: 'default' }} title={item.label}>{item.label}</span>
-    </div>
+const Row = ({ item, onClick }) => (
+    <Ripple display='block'>
+        <div key={item.label} className='sd-dropdown-item' onClick={() => onClick(item)}>
+            <span style={{ cursor: 'default' }} title={item.label}>{item.label}</span>
+        </div>
+    </Ripple>
 )
-
-const RippleItem = withRipple(Item, 'block')
 
 export default class Dropdown extends React.PureComponent<Props, {}> {
     public static defaultProps = {
@@ -61,7 +61,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
                         <Scrollbar trackVertical height={height} onBlur={onBlur}>
                             {
                                 items.map(item => (
-                                    <RippleItem key={item.label} item={item} onClick={onItemClick} />
+                                    <Row key={item.label} item={item} onClick={onItemClick} />
                                 ))
                             }
                         </Scrollbar>

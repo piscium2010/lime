@@ -5,7 +5,7 @@ export function withRipple(
     display = 'inline-block'
 ) {
     class Ripple extends React.Component<any, any> {
-        ref = null
+        private ref
 
         constructor(props) {
             super(props)
