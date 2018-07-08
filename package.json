@@ -14,6 +14,7 @@
   "devDependencies": {
     "@types/classnames": "^2.2.4",
     "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -26,6 +27,7 @@
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "style-loader": "^0.21.0",
     "ts-loader": "^4.4.2",
     "tslint": "^5.10.0",
@@ -40,7 +42,6 @@
     "@material/react-ripple": "^0.2.0",
     "classnames": "^2.2.6",
     "prop-types": "^15.6.2",
-    "react-dom": "^16.4.1",
     "react-ripples": "^1.1.2"
   },
   "description": ""

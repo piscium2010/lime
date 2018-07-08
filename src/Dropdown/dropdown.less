@@ -1,4 +1,9 @@
 @import '../lime.less';
+@keyframes sd-loading-spin {
+    from { transform: rotate(0deg)}
+    to { transform: rotate(360deg)}
+}
+
 .sd-dropdown-anchor {
     position: absolute;
     left: 0;
@@ -16,7 +21,6 @@
     .sd-dropdown-item {
         box-sizing: border-box;
         padding: 5px 10px;
-        min-width: 200px;
         &:hover {
             background: lighten(@primaryColor, 35%);
         }
@@ -25,6 +29,21 @@
     border-radius: @sdBorderRadius;
     .sd-box-shadow;
     z-index: 1;
+
+    .sd-dropdown-loading {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: auto;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border-top: 1px solid lighten(@primaryColor, 35%);
+        border-right: 1px solid lighten(@primaryColor, 35%);
+        border-bottom: 1px solid lighten(@primaryColor, 35%);
+        border-left: 1px solid @primaryColor;
+        animation: sd-loading-spin .5 ease-out 0 infinite forwards;
+    }
 }
 
 .sd-dropdown-mask {
