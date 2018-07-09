@@ -22,7 +22,7 @@ class Layer extends React.PureComponent<LayerProps, {}> {
                 className='sd-dropdown'
                 style={{ top: dropUp ? rect.top - height - 5 : rect.bottom, left: rect.left, width: rect.width, height }}
             >
-               {children}
+                {children}
             </div>
         ]
     }
@@ -34,19 +34,19 @@ type Props = {
     maxItems?: number
     onBlur?: (event) => void
     onItemClick?: ({ label, value }) => void
-    items: Array<{ label, value }> | Promise<Array<{ label, value}>>
+    items: Array<{ label, value }> | Promise<Array<{ label, value }>>
     show: boolean
 }
 
 const Row = ({ item, height, onClick }) => (
     <Ripple display='block'>
-        <div 
-            key={item.label} 
-            className='sd-dropdown-item' 
+        <div
+            key={item.label}
+            className='sd-dropdown-item'
             onClick={() => onClick(item)}
-            style={{height}}
+            style={{ height }}
         >
-            <span style={{ cursor: 'default', lineHeight:height+'px' }} title={item.label}>{item.label}</span>
+            <span style={{ cursor: 'default', lineHeight: height + 'px' }} title={item.label}>{item.label}</span>
         </div>
     </Ripple>
 )
@@ -55,8 +55,8 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
     public static defaultProps = {
         itemHeight: 38,
         maxItems: 10,
-        onBlur: () => {},
-        onItemClick: () => {}
+        onBlur: () => { },
+        onItemClick: () => { }
     }
 
     private loading
@@ -108,7 +108,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
     private renderDropdown() {
         this.loading = false
         const { items, itemHeight, maxItems, onBlur, onItemClick } = this.props
-        
+
         const Scrollable: any = ({ items }) => (
             <Layer
                 boundingClientRect={this.ref.getBoundingClientRect()}
@@ -123,36 +123,42 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
                             </div>
                             :
                             items.map(item => (
-                                <Row key={item.label} item={item} onClick={onItemClick} height={itemHeight}/>
+                                <Row key={item.label} item={item} onClick={onItemClick} height={itemHeight} />
                             ))
                     }
                 </Scrollbar>
             </Layer>
         )
 
-        if(Array.isArray(items)) {
-            ReactDOM.render(<Scrollable items={items} />, this.node)
-        } else if (items as any instanceof Promise) {
-            items.then(list => {
-                ReactDOM.render(<Scrollable items={list} />, this.node)
-            })
-        }
+        processArrayOrPromise(items, result => {
+            ReactDOM.render(<Scrollable items={result} />, this.node)
+        })
     }
 
     private removeDropdownNode() {
         this.loading = false
         if (this._node) {
             ReactDOM.unmountComponentAtNode(this._node)
-            document.removeChild(this._node)
+            document.body.removeChild(this._node)
             this._node = null
         }
     }
 
     private get node() {
-        if(!this._node) {
+        if (!this._node) {
             this._node = document.createElement('div')
             document.body.appendChild(this._node)
         }
         return this._node
+    }
+}
+
+function processArrayOrPromise(arrayOrPromise, process) {
+    if (Array.isArray(arrayOrPromise)) {
+        process(arrayOrPromise)
+    } else if (arrayOrPromise as any instanceof Promise) {
+        arrayOrPromise.then(result => {
+            process(result)
+        })
     }
 }

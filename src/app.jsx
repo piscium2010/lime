@@ -45,7 +45,17 @@ export default class App extends React.Component {
                 <div>
                     <Checkbox label='es lint'/>
                 </div>
-                <Dialog show={this.state.showDialog}>Test</Dialog>
+                <Dialog show={this.state.showDialog}>
+                    <div style={{height:100, fontSize:'1.1rem'}}>
+                    <p>
+                        10块钱买不了吃亏买不了上当
+                    </p>
+                    </div>
+                    <div style={{float:'right'}}>
+                        <Button type='text'>取消</Button>
+                        <Button onClick={()=>this.setState({showDialog:false})}>确定</Button>
+                    </div>
+                </Dialog>
 
             </Card>
             <Card style={{width:'80%', height:200, position:'absolute',top:700}}>

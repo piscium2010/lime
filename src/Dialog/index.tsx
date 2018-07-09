@@ -8,10 +8,12 @@ export default class Dialog extends React.PureComponent<any, any> {
     }
 
     public render() {
-        const { children, show } = this.props
+        const { className, children, show } = this.props
+        const classes = classnames('sd-dialog', className)
+
         return show ?
             <div key={0} className='sd-dialog-mask'>
-                <div className="sd-dialog">
+                <div className={classes}>
                     {children}
                 </div>
             </div>
