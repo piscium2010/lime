@@ -3,9 +3,11 @@ import * as React from 'react'
 import './scrollbar.less'
 
 type Props = {
-    onBlur: (evt?) => void
+    className?: string
+    onBlur?: (evt?) => void
+    onScroll?: (evt?) => void
     height: number
-    trackVertical: boolean
+    trackVertical?: boolean
 }
 
 type State = {
@@ -15,7 +17,9 @@ type State = {
 
 export default class Scrollbar extends React.PureComponent<Props, State> {
     public static defaultProps = {
-        onBlur: () => { }
+        onBlur: () => { },
+        onScroll: () => {},
+        trackVertical: true
     }
 
     private ref
@@ -42,7 +46,8 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
 
     public render() {
         const { rect, scrollTop } = this.state
-        const { height, trackVertical, children } = this.props
+        const { className, height, trackVertical, children } = this.props
+        const wrapperClasses = classnames('sd-scrollbar-wrapper', className)
         const classes = classnames('sd-scrollbar', {
             ['track-vertical']: trackVertical
         })
@@ -56,7 +61,7 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         )
 
         return (
-            <div className='sd-scrollbar-wrapper' style={{ height }}>
+            <div className={wrapperClasses} style={{ height }}>
                 <div ref={ref => this.scrollRef = ref} className={classes} style={{ height }} onScroll={this.onScroll}>
                     <VerticalTrack />
                     <div ref={ref => this.ref = ref}>
@@ -79,7 +84,8 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         }
     }
 
-    private onScroll() {
+    private onScroll(evt) {
         this.setState({ scrollTop: this.scrollRef.scrollTop })
+        this.props.onScroll(evt)
     }
 }
