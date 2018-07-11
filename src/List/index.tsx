@@ -6,6 +6,7 @@ import './list.less'
 export default class List extends React.PureComponent<any, any> {
     ref
     rowMetaData = []
+    scrollTop = 0
 
     public static defaultProps = {
         height: 200,
@@ -16,8 +17,10 @@ export default class List extends React.PureComponent<any, any> {
         super(props)
         this.state = {
             pageHeight: 0,
-            scrollTop: 0
+            paddingTop: 0,
+            paddingBottom: 200
         }
+        this.rowMetaData = props.items.map(i => ({ visible: false, height: 0 }))
         this.update = this.update.bind(this)
         this.onScroll = this.onScroll.bind(this)
     }
@@ -32,32 +35,60 @@ export default class List extends React.PureComponent<any, any> {
         const { className, items, height, pageItemsCount } = this.props
         const classes = classnames('sd-list-wrapper', className)
 
-        const { pageHeight } = this.state
-        const { scrollTop, itemHeight } = this.props
+        const { pageHeight, paddingBottom } = this.state
+        const { itemHeight } = this.props
         const startIndex = 0 
         const itemsToRender = []
         const approximateHeight = items.length / pageItemsCount * pageHeight
 
-        for (let i = 0; i < pageItemsCount; i++) {
-            itemsToRender.push(items[i + startIndex])
-        }
+        let flag = 'top'
+        let paddingTop = 0
+        let rows = []
+
+        items.forEach((item, index) => {
+            let isRowVisible = this.isRowVisible(index)
+            this.rowMetaData[index].visible = isRowVisible
+
+            if(!isRowVisible && flag === 'top') {
+                paddingTop += this.rowMetaData[index].height
+            }
+
+            if(isRowVisible && flag === 'top') {
+                flag = 'bottom'
+            }
+
+            rows.push(<Row
+                key={index}
+                index={index}
+                item={item}
+                rowMetaData={this.rowMetaData}
+                rowRenderer={this.rowRenderer}
+            />)
+        })
 
         return (
             approximateHeight ?
                 <Scrollbar className={className} height={height} onScroll={this.onScroll}>
                     <div className='sd-list-wrapper'>
-                        <div style={{ paddingBottom: approximateHeight }}>
+                        <div style={{ paddingBottom, paddingTop }}>
+                            <div ref={ref => this.ref = ref} className="sd-list-page">
+                                {
+                                    rows
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </Scrollbar>
+                :
+                <div className='sd-list-wrapper'>
+                        <div style={{ paddingBottom, paddingTop }}>
                             <div ref={ref => this.ref = ref} className="sd-list-page">
                                 {
                                     items.map((item, index) => {
-                                        let isRowVisible = this.isRowVisible(index)
-                                        let metaData = this.rowMetaData[index] || {}
-                                        metaData.visible = isRowVisible
-                                        this.rowMetaData[index] = metaData
-
                                         return (
-                                            isRowVisible ?
+                                            index < pageItemsCount?
                                             <Row
+                                                key={index}
                                                 index={index}
                                                 item={item}
                                                 rowMetaData={this.rowMetaData}
@@ -71,32 +102,24 @@ export default class List extends React.PureComponent<any, any> {
                             </div>
                         </div>
                     </div>
-                </Scrollbar>
-                :
-                <div className='sd-list-wrapper'>
-                    <div style={{ paddingBottom: 0 }}>
-                        <div ref={ref => this.ref = ref} className="sd-list-page">
-                            {
-                                itemsToRender.map(item => this.rowRenderer(item))
-                            }
-                        </div>
-                    </div>
-                </div>
         )
     }
 
     private update(scrollTop) {
-        console.log(`this.meta`,this.rowMetaData)
+        console.log(`this.meta`)
+
+        this.forceUpdate()
     }
 
     private onScroll(evt) {
         const { scrollTop } = evt.target
-        this.setState({
-            scrollTop
-        })
+        this.scrollTop = scrollTop
+
         setTimeout(() => {
-            this.update(scrollTop)
-        });
+            if(scrollTop === this.scrollTop) {
+                this.update(scrollTop)
+            }
+        },1000)
     }
 
     private listRenderer(index) {
@@ -104,26 +127,39 @@ export default class List extends React.PureComponent<any, any> {
     }
 
     private isRowVisible(index) {
-        let result = false
+        let result = null
 
-        const { scrollTop } = this.state
+        const { scrollTop } = this
         const { height, pageItemsCount } = this.props
         const sum = (accumulator, current) => {
-            console.log(`current`,current)
+            
             return accumulator + current.height || 0
         }
+        const selfHeight = this.rowMetaData[index] && this.rowMetaData[index].height ? this.rowMetaData[index].height : 0
         const array = this.rowMetaData.slice(0, index)
-        const min = array.reduce(sum, 0)
-        const max = min + height
+        const max = array.reduce(sum, 0) + selfHeight
+        const arrayII = this.rowMetaData.slice(pageItemsCount, Math.max(index,pageItemsCount))
+        const sumII = (a,c) => {
+                console.log(`index:`+index,c)
+            return a + c.height
+        }
+        
+        const min = arrayII.reduce(sumII, 0)
+        //const max = min + height + selfHeight
+        let a = null, b = null
+        
 
-        if (min <= scrollTop && scrollTop < max) {
+        if (min <= scrollTop && scrollTop <= max + selfHeight) {
             result = true
+            a = true
         }
 
-        if (this.rowMetaData.filter(i => i.visible).length >= pageItemsCount) {
-            result = false
-        }
+        // if (this.rowMetaData.filter(i => i.visible).length >= pageItemsCount) {
+        //     result = false
+        //     b = true
+        // }
 
+        console.log(`index:` + index, scrollTop, min, max,result, index > 9 ? arrayII : null)
         return result
     }
 
