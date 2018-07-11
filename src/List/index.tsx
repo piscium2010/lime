@@ -57,13 +57,15 @@ export default class List extends React.PureComponent<any, any> {
                 flag = 'bottom'
             }
 
-            rows.push(<Row
-                key={index}
-                index={index}
-                item={item}
-                rowMetaData={this.rowMetaData}
-                rowRenderer={this.rowRenderer}
-            />)
+            if(isRowVisible) {
+                rows.push(<Row
+                    key={index}
+                    index={index}
+                    item={item}
+                    rowMetaData={this.rowMetaData}
+                    rowRenderer={this.rowRenderer}
+                />)
+            }
         })
 
         return (
@@ -140,7 +142,7 @@ export default class List extends React.PureComponent<any, any> {
         const max = array.reduce(sum, 0) + selfHeight
         const arrayII = this.rowMetaData.slice(pageItemsCount, Math.max(index,pageItemsCount))
         const sumII = (a,c) => {
-                console.log(`index:`+index,c)
+                //console.log(`index:`+index,c)
             return a + c.height
         }
         
@@ -149,17 +151,17 @@ export default class List extends React.PureComponent<any, any> {
         let a = null, b = null
         
 
-        if (min <= scrollTop && scrollTop <= max + selfHeight) {
+        if (min <= scrollTop && scrollTop <= max) {
             result = true
             a = true
         }
 
-        // if (this.rowMetaData.filter(i => i.visible).length >= pageItemsCount) {
-        //     result = false
-        //     b = true
-        // }
+        if (this.rowMetaData.filter((item,i) => item.visible && i < index).length >= pageItemsCount) {
+            result = false
+            b = true
+        }
 
-        console.log(`index:` + index, scrollTop, min, max,result, index > 9 ? arrayII : null)
+        console.log(`index:` + index, scrollTop, min, max,result)
         return result
     }
 
