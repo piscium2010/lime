@@ -24,8 +24,8 @@ export default class App extends React.Component {
         }
     }
     render() {
-        return <div style={{height:2000, position:'relative'}}>
-            <Card style={{width:'80%', height:400, position:'absolute',top:100, display:'flex',flexDirection:'column',justifyContent:'space-between',padding:10}}>
+        return <div style={{height:600, position:'relative'}}>
+            {/* <Card style={{width:'80%', height:400, position:'absolute',top:100, display:'flex',flexDirection:'column',justifyContent:'space-between',padding:10}}>
                 <div>
                     <Button onClick={()=>{
                         this.setState({showDialog:true})
@@ -72,8 +72,8 @@ export default class App extends React.Component {
                 <div style={{margin:10}}>
                     <Select label='Standard' options={options}/>
                 </div>
-            </Card>
-            <Card style={{width:'80%', height:800, position:'absolute',bottom:100}}>
+            </Card> */}
+            <Card style={{width:'80%', height:500, position:'absolute',bottom:100}}>
                 <Button>开始使用</Button>
                 <Button>预览</Button>
                 <div style={{margin:10}}>
