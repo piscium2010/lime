@@ -4,14 +4,14 @@ import Scrollbar from '../Scrollbar/index'
 import './list.less'
 
 export default class List extends React.PureComponent<any, any> {
-    scrollTop = 0
-
     public static defaultProps = {
         height: 200,
         pageSize: 10,
         rowHeight: 30,
-        rowRenderer: rowRenderer
+        rowRenderer: defaultRowRenderer
     }
+
+    private scrollTop = 0
 
     constructor(props) {
         super(props)
@@ -30,7 +30,7 @@ export default class List extends React.PureComponent<any, any> {
 
         items.forEach((item, index) => {
             isRowVisible = this.isRowVisible(index)
-            flag = isRowVisible ? 'paddingBottom' : flag //switch from paddingTop to paddingBottom
+            flag = isRowVisible ? 'paddingBottom' : flag // switch from paddingTop to paddingBottom
 
             if (!isRowVisible && flag === 'paddingTop') {
                 paddingTop += rowHeight
@@ -55,7 +55,7 @@ export default class List extends React.PureComponent<any, any> {
             <Scrollbar className={className} height={height} onScroll={this.onScroll}>
                 <div className={classes}>
                     <div style={{ paddingBottom, paddingTop }}>
-                        <div className="sd-list-page">
+                        <div className='sd-list-page'>
                             {
                                 rows
                             }
@@ -91,12 +91,12 @@ export default class List extends React.PureComponent<any, any> {
     }
 }
 
-function rowRenderer(item) {
+function defaultRowRenderer(item) {
     return (
-        <div 
-            style={{padding:'0 13px', display:'flex', height:'100%'}}
+        <div
+            style={{padding: '0 13px', display: 'flex', height: '100%'}}
         >
-            <span style={{alignSelf:'center'}} title={item}>{item}</span>
+            <span style={{alignSelf: 'center'}} title={item}>{item}</span>
         </div>
-    ) 
+    )
 }

@@ -20,7 +20,12 @@ class Layer extends React.PureComponent<LayerProps, {}> {
             <div key={0} className='sd-dropdown-mask' onClick={onBlur}></div>,
             <div key={1}
                 className='sd-dropdown'
-                style={{ top: dropUp ? rect.top - height - 5 : rect.bottom, left: rect.left, width: rect.width, height }}
+                style={{
+                    height,
+                    left: rect.left,
+                    top: dropUp ? rect.top - height - 5 : rect.bottom,
+                    width: rect.width
+                }}
             >
                 {children}
             </div>
