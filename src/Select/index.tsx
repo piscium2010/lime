@@ -3,11 +3,13 @@ import * as React from 'react'
 import Dropdown from '../Dropdown/index'
 import './select.less'
 
+type Option = {key, text}
+
 type Props = {
     className?: string
     label?: string
     onChange?: (evt?) => void
-    options: Array<{label, value}>
+    options: Array<Option>
 }
 
 type State = {
@@ -68,7 +70,7 @@ export default class Select extends React.PureComponent<Props, State> {
         this.setState({value: evt.target.value})
     }
 
-    private onItemClick(item) {
-        this.setState({value: item.label, focus: false})
+    private onItemClick(item: Option) {
+        this.setState({value: item.text, focus: false})
     }
 }

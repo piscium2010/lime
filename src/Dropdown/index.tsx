@@ -11,20 +11,20 @@ type Props = {
     height?: number
     maxItems?: number
     onBlur?: (event) => void
-    onItemClick?: ({ label, value }) => void
-    items: Array<{ label, value }> | Promise<Array<{ label, value }>>
+    onItemClick?: ({ key, text }) => void
+    items: Array<{ key, text }> | Promise<Array<{ key, text }>>
     show: boolean
 }
 
 const Row = ({ item, height, onClick }) => (
     <Ripple display='block'>
         <div
-            key={item.label}
+            key={item.key}
             className='sd-dropdown-item'
             onClick={() => onClick(item)}
             style={{ height }}
         >
-            <span style={{ cursor: 'default', lineHeight: height + 'px' }} title={item.label}>{item.label}</span>
+            <span style={{ cursor: 'default', lineHeight: height + 'px' }} title={item.text}>{item.text}</span>
         </div>
     </Ripple>
 )
@@ -103,7 +103,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
                             </div>
                             :
                             items.map(item => (
-                                <Row key={item.label} item={item} onClick={onItemClick} height={itemHeight} />
+                                <Row key={item.key} item={item} onClick={onItemClick} height={itemHeight} />
                             ))
                     }
                 </Scrollbar>

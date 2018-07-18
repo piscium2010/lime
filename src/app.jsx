@@ -7,12 +7,13 @@ import Select from './Select'
 import Checkbox from './Checkbox'
 import Dialog from './Dialog'
 import List from './List'
+import ChoiceGroup from './ChoiceGroup'
 
 const options = []
 for(let i = 0; i < 20; i++) {
     options.push({
-        label: 'a' + i,
-        value: i
+        key: i,
+        text: 'a' + i
     })
 }
 
@@ -86,7 +87,10 @@ export default class App extends React.Component {
                     <Select label='Standard' options={options}/>
                 </div>
                 <div style={{margin:10}}>
-                    <List items={options.map(i => i.label)}/>
+                    <List items={options.map(i => i.text)}/>
+                </div>
+                <div style={{margin:10}}>
+                    <ChoiceGroup options={[{key:1,text:'屌丝'},{key:2,text:'女神'}]}/>
                 </div>
             </Card>
 
