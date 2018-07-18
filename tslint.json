@@ -11,7 +11,8 @@
         "no-empty": false,
         "quotemark": [true, "single", "avoid-escape"],
         "semicolon": [true, "never", "ignore-interfaces"],
-        "trailing-comma": false
+        "trailing-comma": false,
+        "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"]
 
     },
     "rulesDirectory": []

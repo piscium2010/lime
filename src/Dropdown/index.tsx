@@ -1,37 +1,10 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import Layer from '../Layer/index'
 import Ripple from '../Ripple/index'
 import Scrollbar from '../Scrollbar/index'
 import './dropdown.less'
-
-type LayerProps = {
-    boundingClientRect: { top, right, bottom, left, width, height }
-    height: number
-    onBlur: (evt?) => void
-}
-
-class Layer extends React.PureComponent<LayerProps, {}> {
-    public render() {
-        const { boundingClientRect: rect, children, height, onBlur } = this.props
-        const dropUp = window.innerHeight - rect.bottom > height ? false : true
-
-        return [
-            <div key={0} className='sd-dropdown-mask' onClick={onBlur}></div>,
-            <div key={1}
-                className='sd-dropdown'
-                style={{
-                    height,
-                    left: rect.left,
-                    top: dropUp ? rect.top - height - 5 : rect.bottom,
-                    width: rect.width
-                }}
-            >
-                {children}
-            </div>
-        ]
-    }
-}
 
 type Props = {
     itemHeight?: number
@@ -96,6 +69,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
 
         const Loading: any = () => (
             <Layer
+                className='sd-dropdown'
                 boundingClientRect={this.ref.getBoundingClientRect()}
                 height={itemHeight}
                 onBlur={onBlur}
@@ -112,10 +86,11 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
 
     private renderDropdown() {
         this.loading = false
-        const { items, itemHeight, maxItems, onBlur, onItemClick } = this.props
+        const { itemHeight, maxItems, onBlur, onItemClick } = this.props
 
         const Scrollable: any = ({ items }) => (
             <Layer
+                className='sd-dropdown'
                 boundingClientRect={this.ref.getBoundingClientRect()}
                 height={maxItems * itemHeight}
                 onBlur={onBlur}
@@ -135,7 +110,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
             </Layer>
         )
 
-        processArrayOrPromise(items, result => {
+        processArrayOrPromise(this.props.items, result => {
             ReactDOM.render(<Scrollable items={result} />, this.node)
         })
     }
