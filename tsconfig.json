@@ -2,6 +2,7 @@
     "compilerOptions": {
     "outDir": "./public/",
     "noImplicitAny": false,
+    "moduleResolution": "node",
     "module": "es6",
     "target": "es5",
     "jsx": "React",
