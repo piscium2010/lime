@@ -1,6 +1,5 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
-import './toggle.less'
 
 type Props = {
     className?: string

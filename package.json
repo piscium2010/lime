@@ -1,6 +1,6 @@
 {
-  "name": "s",
-  "version": "1.0.0",
+  "name": "@piscium2010/lime",
+  "version": "1.0.3",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,9 +10,9 @@
     "build": "rollup -c",
     "gulp": "gulp"
   },
-  "keywords": [],
+  "keywords": ["ui","react","light"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/classnames": "^2.2.4",
     "@types/react": "^16.4.7",
@@ -35,10 +35,6 @@
     "less-loader": "^4.1.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "rollup-plugin-babel": "^3.0.7",
-    "rollup-plugin-less": "^0.1.4",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-typescript": "^0.8.1",
     "style-loader": "^0.21.0",
     "ts-loader": "^4.4.2",
     "tslint": "^5.10.0",
@@ -49,11 +45,8 @@
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
-    "@material-ui/core": "^1.2.3",
-    "@material/react-ripple": "^0.2.0",
     "classnames": "^2.2.6",
-    "prop-types": "^15.6.2",
-    "react-ripples": "^1.1.2"
+    "prop-types": "^15.6.2"
   },
   "description": ""
 }

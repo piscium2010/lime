@@ -1,6 +1,5 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
-import './dialog.less'
 
 export default class Dialog extends React.PureComponent<any, any> {
     public static defaultProps = {

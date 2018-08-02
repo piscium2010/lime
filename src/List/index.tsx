@@ -1,7 +1,6 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
 import Scrollbar from '../Scrollbar/index'
-import './list.less'
 
 export default class List extends React.PureComponent<any, any> {
     public static defaultProps = {

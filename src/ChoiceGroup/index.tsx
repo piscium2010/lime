@@ -1,7 +1,6 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
 import Dropdown from '../Dropdown/index'
-import './choicegroup.less'
 
 type Option = {key, text}
 

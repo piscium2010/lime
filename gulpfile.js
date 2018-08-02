@@ -1,3 +1,4 @@
+const fs = require('fs')
 const gulp = require('gulp')
 const gulpLoadPlugins = require('gulp-load-plugins')
 const ts = require('gulp-typescript');
@@ -17,15 +18,23 @@ const isProduction = () => env === 'production'
 // })
 
 gulp.task('compile:tsx', function () {
-    return gulp.src(['src/**/*.tsx'])
+    return gulp.src(['src/**/*.tsx','src/index.js'])
         .pipe(tsProject())
         .js.pipe(gulp.dest('dist'));
 });
 
 gulp.task('compile:less', () => {
-    return gulp.src(['src/**/*.less'])
+    return gulp.src(['src/lime.less'])
       .pipe(less())
       .pipe(gulp.dest('dist'))
 })
 
-gulp.task('default', ['compile:tsx','compile:less'])
+gulp.task('copy:package', () => {
+    copyFile('package.json','dist/package.json')
+})
+
+gulp.task('default', ['compile:less','compile:tsx','copy:package'])
+
+function copyFile(source,target) {
+    fs.createReadStream(source).pipe(fs.createWriteStream(target));
+}

@@ -1,6 +1,5 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
-import './textField.less'
 
 export default class TextField extends React.PureComponent<any, any> {
     constructor(props) {

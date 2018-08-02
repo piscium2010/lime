@@ -4,7 +4,6 @@ import * as ReactDOM from 'react-dom'
 import Layer from '../Layer/index'
 import Ripple from '../Ripple/index'
 import Scrollbar from '../Scrollbar/index'
-import './dropdown.less'
 
 type Props = {
     itemHeight?: number

@@ -1,13 +1,15 @@
 import React from 'react';
-import Button from './Button'
-import Card from './Card'
-import Toggle from './Toggle'
-import TextField from './TextField'
-import Select from './Select'
-import Checkbox from './Checkbox'
-import Dialog from './Dialog'
-import List from './List'
-import ChoiceGroup from './ChoiceGroup'
+import ReactDOM from 'react-dom';
+import Button from './Button/index'
+import Card from './Card/index'
+import Toggle from './Toggle/index'
+import TextField from './TextField/index'
+import Select from './Select/index'
+import Checkbox from './Checkbox/index'
+import Dialog from './Dialog/index'
+import List from './List/index'
+import ChoiceGroup from './ChoiceGroup/index'
+import './lime.less'
 
 const options = []
 for(let i = 0; i < 20; i++) {
@@ -17,7 +19,7 @@ for(let i = 0; i < 20; i++) {
     })
 }
 
-export default class App extends React.Component {
+class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -98,3 +100,9 @@ export default class App extends React.Component {
         </div>
     }
 }
+
+let root = document.createElement('div');
+root.id = 'app';
+document.body.appendChild(root);
+
+ReactDOM.render(<App/>,root);

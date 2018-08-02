@@ -1,7 +1,6 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
 import Ripple from '../Ripple/index'
-import './button.less'
 
 type Props = {
     className?: string

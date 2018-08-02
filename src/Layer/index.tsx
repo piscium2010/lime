@@ -1,6 +1,5 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
-import './layer.less'
 
 type Props = {
     boundingClientRect: { top, right, bottom, left, width, height }
