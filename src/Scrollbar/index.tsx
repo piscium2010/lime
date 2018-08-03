@@ -61,18 +61,6 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         const classes = classnames('sd-scrollbar', {
             ['track-vertical']: trackVertical
         })
-        //const top = scrollTop / rect.height * height
-        const VerticalTrack = props => (
-            rect &&
-            <div
-                ref={ref => this.trackVerticalRef = ref}
-                className='track-vertical-button'
-                style={{ height: height / rect.height * height }}
-                onMouseDown={this.onMouseDown}
-            >
-            </div>
-        )
-        //console.log(`render`,)
 
         return (
             <div className={wrapperClasses} style={{ height }}>
@@ -82,7 +70,7 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
                         <div
                             ref={ref => this.trackVerticalRef = ref}
                             className='track-vertical-button'
-                            style={{ height: height / rect.height * height }}
+                            style={{ height: this.trackVerticalHeight }}
                             onMouseDown={this.onMouseDown}
                         >
                         </div>
@@ -108,13 +96,13 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
     }
 
     private onScroll(evt) {
-        //console.log(`scroll`,)
-        //this.setState({ scrollTop: this.scrollRef.scrollTop })
         const { rect } = this.state
         const { height } = this.props
-        const trackVerticalHeight = height - height / rect.height * height
-        //console.log(`this.trackVerticalRef.style`,this.trackVerticalRef.style)
-        this.trackVerticalRef.style.top = Math.min(this.scrollRef.scrollTop, trackVerticalHeight) + 'px'
+
+        let top 
+        top = Math.max(0, this.scrollRef.scrollTop / rect.height * height) // >= 0
+        top = Math.min(top, height - this.trackVerticalHeight) // <= height - trackVerticalHeight
+        this.trackVerticalRef.style.top = top + 'px'
         this.props.onScroll(evt)
     }
 
@@ -123,29 +111,26 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         this.tempPageX = pageX
         this.tempPageY = pageY
         this.tempScrollTop = this.scrollRef.scrollTop
-        //console.log(`pageY`,pageY)
         evt.preventDefault()
         evt.stopPropagation()
     }
 
     private onMouseMove(evt) {
         const { pageX, pageY } = evt
-        //console.log(`move`,)
-        //console.log(`this.tempPagey`,pageY - this.tempPageY, Number.isFinite(this.tempPageY))
-        setTimeout(() => {
+        requestAnimationFrame(() => {
             if(Number.isFinite(this.tempPageY)) {
                 evt.preventDefault()
                 evt.stopPropagation()
-                // this.setState({
-                //     scrollTop: pageY - this.tempPageY + this.tempScrollTop
-                // })
-                this.scrollRef.scrollTop = pageY - this.tempPageY + this.tempScrollTop
-                console.log(`mousemove:`,pageY - this.tempPageY, ' scroll:', pageY - this.tempPageY + this.tempScrollTop)
+
+                const { rect } = this.state
+                const { height } = this.props
+                let move = (pageY - this.tempPageY) / height * rect.height
+                let top
+                top = Math.max(0, move + this.tempScrollTop) // >= 0
+                top = Math.min(top, rect.height - height) // <= height - trackVerticalHeight
+                this.scrollRef.scrollTop = top
             }    
-        }, 17);
-        
-        //setTimeout()
-        
+        })
     }
 
     private onMouseUp(evt) {
@@ -153,6 +138,11 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         this.tempPageX = undefined
         this.tempPageY = undefined
         this.tempScrollTop = undefined
-        console.log(`pageY`,pageY)
+    }
+
+    get trackVerticalHeight() {
+        const { rect } = this.state
+        const { height } = this.props
+        return height / rect.height * height
     }
 }
