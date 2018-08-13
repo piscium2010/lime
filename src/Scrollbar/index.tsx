@@ -11,12 +11,11 @@ type Props = {
 
 type State = {
     rect: { height }
-    scrollTop: number
 }
 
 export default class Scrollbar extends React.PureComponent<Props, State> {
     public static defaultProps = {
-        onBlur: () => { },
+        onBlur: () => {},
         onScroll: () => {},
         trackVertical: true
     }
@@ -31,8 +30,7 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
     constructor(props) {
         super(props)
         this.state = {
-            rect: null,
-            scrollTop: 0
+            rect: null
         }
         this.onScroll = this.onScroll.bind(this)
         this.onWindowScroll = this.onWindowScroll.bind(this)
@@ -55,7 +53,7 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const { rect, scrollTop } = this.state
+        const { rect } = this.state
         const { className, height, trackVertical, children } = this.props
         const wrapperClasses = classnames('sd-scrollbar-wrapper', className)
         const classes = classnames('sd-scrollbar', {
@@ -100,15 +98,14 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         const { height } = this.props
 
         let top 
-        top = Math.max(0, this.scrollRef.scrollTop / rect.height * height) // >= 0
+        top = Math.max(this.scrollRef.scrollTop / rect.height * height, 0) // >= 0
         top = Math.min(top, height - this.trackVerticalHeight) // <= height - trackVerticalHeight
         this.trackVerticalRef.style.top = top + 'px'
         this.props.onScroll(evt)
     }
 
     private onMouseDown(evt) {
-        const { pageX, pageY } = evt
-        this.tempPageX = pageX
+        const { pageY } = evt
         this.tempPageY = pageY
         this.tempScrollTop = this.scrollRef.scrollTop
         evt.preventDefault()
@@ -116,7 +113,7 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
     }
 
     private onMouseMove(evt) {
-        const { pageX, pageY } = evt
+        const { pageY } = evt
         requestAnimationFrame(() => {
             if(Number.isFinite(this.tempPageY)) {
                 evt.preventDefault()
@@ -126,15 +123,14 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
                 const { height } = this.props
                 let move = (pageY - this.tempPageY) / height * rect.height
                 let top
-                top = Math.max(0, move + this.tempScrollTop) // >= 0
-                top = Math.min(top, rect.height - height) // <= height - trackVerticalHeight
+                top = Math.max(move + this.tempScrollTop, 0) // >= 0
+                top = Math.min(top, rect.height - height) // <= rect.height - height
                 this.scrollRef.scrollTop = top
             }    
         })
     }
 
-    private onMouseUp(evt) {
-        const { pageX, pageY } = evt
+    private onMouseUp() {
         this.tempPageX = undefined
         this.tempPageY = undefined
         this.tempScrollTop = undefined
