@@ -9,6 +9,7 @@ import Checkbox from './Checkbox/index'
 import Dialog from './Dialog/index'
 import List from './List/index'
 import ChoiceGroup from './ChoiceGroup/index'
+import Docker from './Docker/index'
 import './lime.less'
 
 const options = []
@@ -76,7 +77,7 @@ class App extends React.Component {
                     <Select label='Standard' options={options}/>
                 </div>
             </Card> */}
-            <Card style={{width:'80%', height:500, position:'absolute',bottom:100}}>
+            {/* <Card style={{width:'80%', height:500, position:'absolute',bottom:100}}>
                 <Button>开始使用</Button>
                 <Button>预览</Button>
                 <div style={{margin:10}}>
@@ -94,8 +95,8 @@ class App extends React.Component {
                 <div style={{margin:10}}>
                     <ChoiceGroup options={[{key:1,text:'屌丝'},{key:2,text:'女神'}]}/>
                 </div>
-            </Card>
-
+            </Card> */}
+            <Docker />
              
         </div>
     }
