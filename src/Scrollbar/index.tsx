@@ -2,8 +2,6 @@ import * as classnames from 'classnames'
 import * as React from 'react'
 import * as debounce from 'debounce'
 
-console.log(`debounce`,debounce)
-
 type Props = {
     className?: string
     onBlur?: (evt?) => void
@@ -40,7 +38,7 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         this.onMouseDown = this.onMouseDown.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
         this.onMouseMove = this.onMouseMove.bind(this)
-        this.debouncedHideTrackVerticalButton = debounce(this.hideTrackVerticalButton, 300)
+        //this.debouncedHideTrackVerticalButton = debounce(this.hideTrackVerticalButton, 300)
     }
 
     public componentDidMount() {

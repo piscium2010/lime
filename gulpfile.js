@@ -33,8 +33,7 @@ gulp.task('copy:package', () => {
     copyFile('package.json','dist/package.json')
 })
 
-gulp.watch('src/**/*.*', gulp.task('default', ['compile:less','compile:tsx','copy:package']))
-
+gulp.task('default', ['compile:less','compile:tsx','copy:package'])
 
 function copyFile(source,target) {
     fs.createReadStream(source).pipe(fs.createWriteStream(target));
