@@ -17,23 +17,24 @@ const isProduction = () => env === 'production'
 //       .pipe(gulp.dest('dist'))
 // })
 
-gulp.task('compile:tsx', function () {
-    return gulp.src(['src/**/*.tsx','src/index.js'])
-        .pipe(tsProject())
-        .js.pipe(gulp.dest('dist'));
-});
-
 gulp.task('compile:less', () => {
     return gulp.src(['src/lime.less'])
       .pipe(less())
       .pipe(gulp.dest('dist'))
 })
 
+gulp.task('compile:tsx', function () {
+    return gulp.src(['src/**/*.tsx','src/index.js','src/index.css'])
+        .pipe(tsProject())
+        .js.pipe(gulp.dest('dist'));
+})  
+
 gulp.task('copy:package', () => {
     copyFile('package.json','dist/package.json')
 })
 
-gulp.task('default', ['compile:less','compile:tsx','copy:package'])
+gulp.watch('src/**/*.*', gulp.task('default', ['compile:less','compile:tsx','copy:package']))
+
 
 function copyFile(source,target) {
     fs.createReadStream(source).pipe(fs.createWriteStream(target));

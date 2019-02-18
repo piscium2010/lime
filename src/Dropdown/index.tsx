@@ -18,7 +18,6 @@ type Props = {
 const Row = ({ item, height, onClick }) => (
     <Ripple display='block'>
         <div
-            key={item.key}
             className='sd-dropdown-item'
             onClick={() => onClick(item)}
             style={{ height }}
@@ -87,27 +86,30 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
         this.loading = false
         const { itemHeight, maxItems, onBlur, onItemClick } = this.props
 
-        const Scrollable: any = ({ items }) => (
-            <Layer
-                className='sd-dropdown'
-                boundingClientRect={this.ref.getBoundingClientRect()}
-                height={maxItems * itemHeight}
-                onBlur={onBlur}
-            >
-                <Scrollbar trackVertical height={maxItems * itemHeight} onBlur={onBlur}>
-                    {
-                        items.length === 0 ?
-                            <div className='sd-dropdown-item'>
-                                <span style={{ cursor: 'default' }}>No result found</span>
-                            </div>
-                            :
-                            items.map(item => (
-                                <Row key={item.key} item={item} onClick={onItemClick} height={itemHeight} />
-                            ))
-                    }
-                </Scrollbar>
-            </Layer>
-        )
+        const Scrollable: any = ({ items }) => {
+            let height = Math.min(maxItems, items.length ? items.length : 1) * itemHeight
+            return (
+                <Layer
+                    className='sd-dropdown'
+                    boundingClientRect={this.ref.getBoundingClientRect()}
+                    height={height}
+                    onBlur={onBlur}
+                >
+                    <Scrollbar trackVertical height={height} onBlur={onBlur}>
+                        {
+                            items.length === 0 ?
+                                <div className='sd-dropdown-item'>
+                                    <span style={{ cursor: 'default' }}>No result found</span>
+                                </div>
+                                :
+                                items.map((item, index) => (
+                                    <Row key={`${item.key} + ${index}`} item={item} onClick={onItemClick} height={itemHeight} />
+                                ))
+                        }
+                    </Scrollbar>
+                </Layer>
+            )
+        }
 
         processArrayOrPromise(this.props.items, result => {
             ReactDOM.render(<Scrollable items={result} />, this.node)

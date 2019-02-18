@@ -1,5 +1,8 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
+import * as debounce from 'debounce'
+
+console.log(`debounce`,debounce)
 
 type Props = {
     className?: string
@@ -37,6 +40,7 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         this.onMouseDown = this.onMouseDown.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
         this.onMouseMove = this.onMouseMove.bind(this)
+        this.debouncedHideTrackVerticalButton = debounce(this.hideTrackVerticalButton, 300)
     }
 
     public componentDidMount() {
@@ -101,6 +105,8 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         top = Math.max(this.scrollRef.scrollTop / rect.height * height, 0) // >= 0
         top = Math.min(top, height - this.trackVerticalHeight) // <= height - trackVerticalHeight
         this.trackVerticalRef.style.top = top + 'px'
+        this.trackVerticalRef.style.visibility = 'visible'
+        // this.debouncedHideTrackVerticalButton()
         this.props.onScroll(evt)
     }
 
@@ -134,6 +140,10 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         this.tempPageX = undefined
         this.tempPageY = undefined
         this.tempScrollTop = undefined
+    }
+
+    private hideTrackVerticalButton = () => {
+        this.trackVerticalRef.style.visibility = 'hidden'
     }
 
     get trackVerticalHeight() {
