@@ -88,6 +88,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
 
         const Scrollable: any = ({ items }) => {
             let height = Math.min(maxItems, items.length ? items.length : 1) * itemHeight
+            let trackVertical = items.length > maxItems
             return (
                 <Layer
                     className='sd-dropdown'
@@ -95,7 +96,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
                     height={height}
                     onBlur={onBlur}
                 >
-                    <Scrollbar trackVertical height={height} onBlur={onBlur}>
+                    <Scrollbar trackVertical={trackVertical} height={height} onBlur={onBlur}>
                         {
                             items.length === 0 ?
                                 <div className='sd-dropdown-item'>

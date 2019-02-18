@@ -16,17 +16,22 @@ type State = {
 
 export default class Scrollbar extends React.PureComponent<Props, State> {
     public static defaultProps = {
-        onBlur: () => {},
-        onScroll: () => {},
+        onBlur: () => { },
+        onScroll: () => { },
         trackVertical: true
     }
 
     private ref
     private scrollRef
     private trackVerticalRef
-    private tempPageX
-    private tempPageY
-    private tempScrollTop
+    private tempPageX: number
+    private tempPageY: number
+    private tempScrollTop: number
+    private debouncedHideTrackVerticalButton: Function
+    private mouseDownVerticalScrollBar: boolean
+    private mouseOverVerticalScrollBar: boolean
+    private mouseOverVerticalScrollBarArea: boolean
+
 
     constructor(props) {
         super(props)
@@ -35,16 +40,16 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         }
         this.onScroll = this.onScroll.bind(this)
         this.onWindowScroll = this.onWindowScroll.bind(this)
-        this.onMouseDown = this.onMouseDown.bind(this)
+        //this.onMouseDownOnVerticalScrollBar = this.onMouseDownOnVerticalScrollBar.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
         this.onMouseMove = this.onMouseMove.bind(this)
-        //this.debouncedHideTrackVerticalButton = debounce(this.hideTrackVerticalButton, 300)
+        this.debouncedHideTrackVerticalButton = debounce(this.hideTrackVerticalButton, 2500)
     }
 
     public componentDidMount() {
         window.addEventListener('scroll', this.onWindowScroll, true)
         window.addEventListener('mousemove', this.onMouseMove, true)
-        window.addEventListener('mouseup',this.onMouseUp, true)
+        window.addEventListener('mouseup', this.onMouseUp, true)
         this.setState({ rect: this.ref.getBoundingClientRect() })
     }
 
@@ -65,21 +70,30 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         return (
             <div className={wrapperClasses} style={{ height }}>
                 <div ref={ref => this.scrollRef = ref} className={classes} style={{ height }} onScroll={this.onScroll}>
-                    {
-                        rect &&
-                        <div
-                            ref={ref => this.trackVerticalRef = ref}
-                            className='track-vertical-button'
-                            style={{ height: this.trackVerticalHeight }}
-                            onMouseDown={this.onMouseDown}
-                        >
-                        </div>
-                    }
-                    <div ref={ref => this.ref = ref}>
+                    <div ref={ref => this.ref = ref} >
                         {
                             children
                         }
                     </div>
+                    {
+                        trackVertical && [
+                            <div key={0}
+                                className='track-vertical-area'
+                                onMouseOverCapture={this.onMouseOverVerticalScrollBarArea}
+                                onMouseLeave={this.onMouseLeaveVerticalScrollBarArea}
+                            ></div>,
+                            <div
+                                key={1}
+                                ref={ref => this.trackVerticalRef = ref}
+                                className='track-vertical-button'
+                                style={{ height: rect ? this.trackVerticalHeight : 0 }}
+                                onMouseDown={this.onMouseDownVerticalScrollBar}
+                                onMouseOver={this.onMouseOverVerticalScrollBar}
+                                onMouseLeave={this.onMouseLeaveVerticalScrollBar}
+                            >
+                            </div>
+                        ]
+                    }
                 </div>
             </div>
         )
@@ -96,30 +110,46 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
     }
 
     private onScroll(evt) {
-        const { rect } = this.state
-        const { height } = this.props
-
-        let top 
-        top = Math.max(this.scrollRef.scrollTop / rect.height * height, 0) // >= 0
-        top = Math.min(top, height - this.trackVerticalHeight) // <= height - trackVerticalHeight
-        this.trackVerticalRef.style.top = top + 'px'
-        this.trackVerticalRef.style.visibility = 'visible'
-        // this.debouncedHideTrackVerticalButton()
+        this.showVerticalTrackButton()
+        this.debouncedHideTrackVerticalButton()
         this.props.onScroll(evt)
     }
 
-    private onMouseDown(evt) {
+    private onMouseDownVerticalScrollBar = evt => {
         const { pageY } = evt
+        this.mouseDownVerticalScrollBar = true
         this.tempPageY = pageY
         this.tempScrollTop = this.scrollRef.scrollTop
+        this.ref.style.pointerEvents = 'none'
+        this.trackVerticalRef.style.width = '8px'
+        this.trackVerticalRef.style.borderRadius = '4px'
+        this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
         evt.preventDefault()
         evt.stopPropagation()
+    }
+
+    private onMouseOverVerticalScrollBar = evt => {
+        this.mouseOverVerticalScrollBar = true
+    }
+
+    private onMouseLeaveVerticalScrollBar = evt => {
+        this.mouseOverVerticalScrollBar = false
+    }
+
+    private onMouseOverVerticalScrollBarArea = evt => {
+        this.mouseOverVerticalScrollBarArea = true
+        this.showVerticalTrackButton()
+    }
+
+    private onMouseLeaveVerticalScrollBarArea = evt => {
+        this.mouseOverVerticalScrollBarArea = false
+        this.debouncedHideTrackVerticalButton()
     }
 
     private onMouseMove(evt) {
         const { pageY } = evt
         requestAnimationFrame(() => {
-            if(Number.isFinite(this.tempPageY)) {
+            if (Number.isFinite(this.tempPageY)) {
                 evt.preventDefault()
                 evt.stopPropagation()
 
@@ -130,7 +160,7 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
                 top = Math.max(move + this.tempScrollTop, 0) // >= 0
                 top = Math.min(top, rect.height - height) // <= rect.height - height
                 this.scrollRef.scrollTop = top
-            }    
+            }
         })
     }
 
@@ -138,10 +168,36 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         this.tempPageX = undefined
         this.tempPageY = undefined
         this.tempScrollTop = undefined
+        this.mouseDownVerticalScrollBar = false
+        if (this.ref) {
+            this.ref.style.pointerEvents = 'auto'
+        }
+        if (this.trackVerticalRef) {
+            this.trackVerticalRef.style.width = '6px'
+            this.trackVerticalRef.style.borderRadius = '3px'
+            this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
+        }
+        this.debouncedHideTrackVerticalButton()
+    }
+
+    private showVerticalTrackButton = () => {
+        const { rect } = this.state
+        const { height } = this.props
+
+        let top
+        top = Math.max(this.scrollRef.scrollTop / rect.height * height, 0) // >= 0
+        top = Math.min(top, height - this.trackVerticalHeight) // <= height - trackVerticalHeight
+        this.trackVerticalRef.style.top = top + 'px'
+        this.trackVerticalRef.style.visibility = 'visible'
     }
 
     private hideTrackVerticalButton = () => {
-        this.trackVerticalRef.style.visibility = 'hidden'
+        if (!this.mouseOverVerticalScrollBarArea
+            && !this.mouseOverVerticalScrollBar
+            && !this.mouseDownVerticalScrollBar
+            && this.trackVerticalRef) {
+            this.trackVerticalRef.style.visibility = 'hidden'
+        }
     }
 
     get trackVerticalHeight() {
