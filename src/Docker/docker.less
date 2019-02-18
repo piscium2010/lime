@@ -1,0 +1,61 @@
+.sd-docker-wrapper {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 12px;
+    width: 100vw;
+    height: 80px;
+    z-index: 10;
+    
+    .sd-docker-container {
+        .sd-box-shadow;
+        display: inline-block;
+        position: relative;
+        height: 100%;
+        border-radius: 4px;
+        margin: auto;
+        overflow: hidden;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            box-shadow: 0 0 10px 100px rgba(0,0,0,.05) inset;
+            z-index: -1;
+        }
+
+        ul {
+            height: inherit;
+            margin: 0;
+            padding: 0;
+            li {
+                display: flex;
+                height: inherit;
+                align-items: center;
+                list-style-type: none;
+                float: left;
+                padding: 0 15px;
+                cursor: pointer;
+                &:hover {
+                    background:white;
+                    cursor: pointer;
+                }
+                &:first-child {
+                    padding-left: 30px;
+                }
+                &:last-child {
+                    padding-right: 30px;
+                }
+                a {
+                    user-select: none;
+                    &:active {
+                        color: @primaryColor;
+                    }
+                }
+            }
+        }
+    }
+}

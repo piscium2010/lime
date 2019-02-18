@@ -10,7 +10,11 @@
     "build": "rollup -c",
     "gulp": "gulp"
   },
-  "keywords": ["ui","react","light"],
+  "keywords": [
+    "ui",
+    "react",
+    "light"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
