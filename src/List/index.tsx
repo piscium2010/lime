@@ -1,6 +1,6 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
-import Scrollbar from '../Scrollbar/index'
+import Scroll from '../Scroll/index'
 
 export default class List extends React.PureComponent<any, any> {
     public static defaultProps = {
@@ -51,7 +51,7 @@ export default class List extends React.PureComponent<any, any> {
         })
 
         return (
-            <Scrollbar className={className} height={height} onScroll={this.onScroll}>
+            <Scroll className={className} height={height} onScroll={this.onScroll}>
                 <div className={classes}>
                     <div style={{ paddingBottom, paddingTop }}>
                         <div className='sd-list-page'>
@@ -61,7 +61,7 @@ export default class List extends React.PureComponent<any, any> {
                         </div>
                     </div>
                 </div>
-            </Scrollbar>
+            </Scroll>
         )
     }
 

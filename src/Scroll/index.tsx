@@ -14,7 +14,7 @@ type State = {
     rect: { height }
 }
 
-export default class Scrollbar extends React.PureComponent<Props, State> {
+export default class Scroll extends React.PureComponent<Props, State> {
     public static defaultProps = {
         onBlur: () => { },
         onScroll: () => { },
