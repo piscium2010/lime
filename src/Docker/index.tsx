@@ -3,7 +3,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import Layer from '../Layer/index'
 import Ripple from '../Ripple/index'
-import Scrollbar from '../Scrollbar/index'
+import Scroll from '../Scroll/index'
 
 type Props = {
     itemHeight?: number

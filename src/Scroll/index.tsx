@@ -125,6 +125,7 @@ export default class Scroll extends React.PureComponent<Props, State> {
     }
 
     private onMouseOverVerticalScrollBar = evt => {
+        console.log(`over`,)
         this.mouseOverVerticalScrollBar = true
         this.setTrackVerticalButtonHoverStyle()
     }

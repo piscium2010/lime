@@ -3,7 +3,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import Layer from '../Layer/index'
 import Ripple from '../Ripple/index'
-import Scrollbar from '../Scroll/index'
+import Scroll from '../Scroll/index'
 
 type Props = {
     itemHeight?: number
@@ -92,11 +92,12 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
             return (
                 <Layer
                     className='sd-dropdown'
+                    show
                     boundingClientRect={this.ref.getBoundingClientRect()}
                     height={height}
                     onBlur={onBlur}
                 >
-                    <Scrollbar trackVertical={trackVertical} height={height} onBlur={onBlur}>
+                    <Scroll trackVertical={trackVertical} height={height} onBlur={onBlur}>
                         {
                             items.length === 0 ?
                                 <div className='sd-dropdown-item'>
@@ -107,7 +108,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
                                     <Row key={`${item.key} + ${index}`} item={item} onClick={onItemClick} height={itemHeight} />
                                 ))
                         }
-                    </Scrollbar>
+                    </Scroll>
                 </Layer>
             )
         }

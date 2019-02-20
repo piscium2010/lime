@@ -18,7 +18,7 @@ export default class List extends React.PureComponent<any, any> {
     }
 
     public render() {
-        const { className, items, height, rowHeight, rowRenderer } = this.props
+        const { className, items, height, rowHeight, pageSize, rowRenderer } = this.props
         const classes = classnames('sd-list-wrapper', className)
         const rows = []
 
@@ -51,7 +51,7 @@ export default class List extends React.PureComponent<any, any> {
         })
 
         return (
-            <Scroll className={className} height={height} onScroll={this.onScroll}>
+            <Scroll className={className} height={pageSize * rowHeight} onScroll={this.onScroll}>
                 <div className={classes}>
                     <div style={{ paddingBottom, paddingTop }}>
                         <div className='sd-list-page'>
