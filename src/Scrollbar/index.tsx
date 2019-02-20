@@ -40,7 +40,6 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         }
         this.onScroll = this.onScroll.bind(this)
         this.onWindowScroll = this.onWindowScroll.bind(this)
-        //this.onMouseDownOnVerticalScrollBar = this.onMouseDownOnVerticalScrollBar.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
         this.onMouseMove = this.onMouseMove.bind(this)
         this.debouncedHideTrackVerticalButton = debounce(this.hideTrackVerticalButton, 2500)
@@ -120,20 +119,21 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         this.mouseDownVerticalScrollBar = true
         this.tempPageY = pageY
         this.tempScrollTop = this.scrollRef.scrollTop
-        this.ref.style.pointerEvents = 'none'
-        this.trackVerticalRef.style.width = '8px'
-        this.trackVerticalRef.style.borderRadius = '4px'
-        this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
+        this.setTrackVerticalButtonHoverStyle()
         evt.preventDefault()
         evt.stopPropagation()
     }
 
     private onMouseOverVerticalScrollBar = evt => {
         this.mouseOverVerticalScrollBar = true
+        this.setTrackVerticalButtonHoverStyle()
     }
 
     private onMouseLeaveVerticalScrollBar = evt => {
         this.mouseOverVerticalScrollBar = false
+        if (!this.isHoveringOnTrackVerticalButton) {
+            this.setTrackVerticalButtonStyle()
+        }
     }
 
     private onMouseOverVerticalScrollBarArea = evt => {
@@ -152,9 +152,8 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
             if (Number.isFinite(this.tempPageY)) {
                 evt.preventDefault()
                 evt.stopPropagation()
-
-                const { rect } = this.state
-                const { height } = this.props
+                let { rect } = this.state
+                let { height } = this.props
                 let move = (pageY - this.tempPageY) / height * rect.height
                 let top
                 top = Math.max(move + this.tempScrollTop, 0) // >= 0
@@ -169,22 +168,17 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
         this.tempPageY = undefined
         this.tempScrollTop = undefined
         this.mouseDownVerticalScrollBar = false
-        if (this.ref) {
-            this.ref.style.pointerEvents = 'auto'
-        }
-        if (this.trackVerticalRef) {
-            this.trackVerticalRef.style.width = '6px'
-            this.trackVerticalRef.style.borderRadius = '3px'
-            this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
+        if (!this.isHoveringOnTrackVerticalButton
+            && this.trackVerticalRef) {
+            this.setTrackVerticalButtonStyle()
         }
         this.debouncedHideTrackVerticalButton()
     }
 
     private showVerticalTrackButton = () => {
-        const { rect } = this.state
-        const { height } = this.props
-
         let top
+        let { rect } = this.state
+        let { height } = this.props
         top = Math.max(this.scrollRef.scrollTop / rect.height * height, 0) // >= 0
         top = Math.min(top, height - this.trackVerticalHeight) // <= height - trackVerticalHeight
         this.trackVerticalRef.style.top = top + 'px'
@@ -192,12 +186,31 @@ export default class Scrollbar extends React.PureComponent<Props, State> {
     }
 
     private hideTrackVerticalButton = () => {
-        if (!this.mouseOverVerticalScrollBarArea
-            && !this.mouseOverVerticalScrollBar
-            && !this.mouseDownVerticalScrollBar
+        if (!this.isHoveringOnTrackVerticalButton
             && this.trackVerticalRef) {
             this.trackVerticalRef.style.visibility = 'hidden'
+            this.setTrackVerticalButtonStyle()
         }
+    }
+
+    private setTrackVerticalButtonStyle = () => {
+        this.ref.style.pointerEvents = 'auto'
+        this.trackVerticalRef.style.width = '6px'
+        this.trackVerticalRef.style.borderRadius = '3px'
+        this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
+    }
+
+    private setTrackVerticalButtonHoverStyle = () => {
+        this.ref.style.pointerEvents = 'none'
+        this.trackVerticalRef.style.width = '8px'
+        this.trackVerticalRef.style.borderRadius = '4px'
+        this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
+    }
+
+    get isHoveringOnTrackVerticalButton() {
+        return this.mouseOverVerticalScrollBarArea
+            || this.mouseOverVerticalScrollBar
+            || this.mouseDownVerticalScrollBar
     }
 
     get trackVerticalHeight() {
