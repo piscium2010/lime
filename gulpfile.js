@@ -22,15 +22,15 @@ gulp.task('clean', cb => {
 })
 
 gulp.task('compile:less', () => {
-    return gulp.src(['src/lime.less'])
+    return gulp.src('src/lime.less')
         .pipe(less())
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('dist', { overwrite: true }))
 })
 
 gulp.task('compile:tsx', () => {
-    return gulp.src(['src/**/*.tsx', 'src/index.js', 'src/index.css'])
+    return gulp.src(['src/**/*.tsx', 'src/index.js'])
         .pipe(tsProject())
-        .js.pipe(gulp.dest('dist'));
+        .js.pipe(gulp.dest('dist', { overwrite: true }));
 })
 
 gulp.task('copy:package', cb => {
@@ -38,9 +38,11 @@ gulp.task('copy:package', cb => {
     cb()
 })
 
-gulp.task('default', ['clean','compile:less', 'compile:tsx', 'copy:package'])
+gulp.task('default', ['clean', 'compile:less', 'compile:tsx', 'copy:package'])
 
-gulp.watch(['src/**/*.js', 'src/**/*.less', 'src/**/*.tsx', 'src/**/*.ts'], ['clean','compile:less', 'compile:tsx', 'copy:package'])
+// gulp.watch(['src/**/*.js', 'src/**/*.less', 'src/**/*.tsx', 'src/**/*.ts'], () => {
+//     gulp.start('default')
+// })
 
 function copyFile(source, target) {
     fs.createReadStream(source).pipe(fs.createWriteStream(target));

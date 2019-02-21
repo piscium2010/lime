@@ -6,8 +6,8 @@ export default class List extends React.PureComponent<any, any> {
     public static defaultProps = {
         height: 200,
         pageSize: 10,
-        rowHeight: 30,
-        rowRenderer: defaultRowRenderer
+        itemHeight: 30,
+        renderItem: defaultRowRenderer
     }
 
     private scrollTop = 0
@@ -18,7 +18,7 @@ export default class List extends React.PureComponent<any, any> {
     }
 
     public render() {
-        const { className, items, height, rowHeight, pageSize, rowRenderer } = this.props
+        const { className, items, height, itemHeight, pageSize, renderItem } = this.props
         const classes = classnames('sd-list-wrapper', className)
         const rows = []
 
@@ -32,26 +32,26 @@ export default class List extends React.PureComponent<any, any> {
             flag = isRowVisible ? 'paddingBottom' : flag // switch from paddingTop to paddingBottom
 
             if (!isRowVisible && flag === 'paddingTop') {
-                paddingTop += rowHeight
+                paddingTop += itemHeight
             } else if (!isRowVisible && flag === 'paddingBottom') {
-                paddingBottom += rowHeight
+                paddingBottom += itemHeight
             } else {
                 rows.push(
                     <div
                         className='sd-list-item'
                         key={index}
                         style={{
-                            height: rowHeight
+                            height: itemHeight
                         }}
                     >
-                        {rowRenderer(item)}
+                        {renderItem(item)}
                     </div>
                 )
             }
         })
 
         return (
-            <Scroll className={className} height={pageSize * rowHeight} onScroll={this.onScroll}>
+            <Scroll className={className} height={pageSize * itemHeight} onScroll={this.onScroll}>
                 <div className={classes}>
                     <div style={{ paddingBottom, paddingTop }}>
                         <div className='sd-list-page'>
@@ -78,9 +78,9 @@ export default class List extends React.PureComponent<any, any> {
 
     private isRowVisible(index) {
         const { scrollTop } = this
-        const { pageSize, rowHeight } = this.props
-        const min = (index - pageSize + 1) * rowHeight
-        const max = (index + 1) * rowHeight
+        const { pageSize, itemHeight } = this.props
+        const min = (index - pageSize + 1) * itemHeight
+        const max = (index + 1) * itemHeight
 
         if (min <= scrollTop && scrollTop < max) {
             return true
