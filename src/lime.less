@@ -4,7 +4,8 @@ body, button {
     font-family: monospace !important;
 }
 
-@sdBorderColor: #d9d9d9;
+@adBorderHoverColor: rgba(34,36,38,.35);
+@sdBorderColor: rgba(34,36,38,.15);
 @sdBorderRadius: 2px;
 
 @sdBoxShadow: 
@@ -28,10 +29,8 @@ body, button {
     border-radius: @sdBorderRadius;
     border: 1px solid @sdBorderColor;
     height: 32px;
-
-    &:active, &:focus, &:hover {
-        outline: none;
-        border: 1px solid lighten(@primaryColor, 10%);
+    &:hover {
+        border: 1px solid @adBorderHoverColor;
     }
 }
 

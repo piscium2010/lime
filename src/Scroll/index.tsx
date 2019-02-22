@@ -11,7 +11,7 @@ type Props = {
 }
 
 type State = {
-    rect: { height }
+    rect: { width?, height?}
 }
 
 export default class Scroll extends React.PureComponent<Props, State> {
@@ -36,7 +36,7 @@ export default class Scroll extends React.PureComponent<Props, State> {
     constructor(props) {
         super(props)
         this.state = {
-            rect: null
+            rect: {}
         }
         this.onScroll = this.onScroll.bind(this)
         this.onWindowScroll = this.onWindowScroll.bind(this)
@@ -45,20 +45,32 @@ export default class Scroll extends React.PureComponent<Props, State> {
         this.debouncedHideTrackVerticalButton = debounce(this.hideTrackVerticalButton, 2500)
     }
 
-    public componentDidMount() {
+    updateRect = () => {
+        let { rect } = this.state
+        let { width, height } = this.ref.getBoundingClientRect()
+        if (width != rect.width || height != rect.height) {
+            this.setState({ rect: { width, height } })
+        }
+    }
+
+    componentDidUpdate() {
+        this.updateRect()
+    }
+
+    componentDidMount() {
         window.addEventListener('scroll', this.onWindowScroll, true)
         window.addEventListener('mousemove', this.onMouseMove, true)
         window.addEventListener('mouseup', this.onMouseUp, true)
-        this.setState({ rect: this.ref.getBoundingClientRect() })
+        this.updateRect()
     }
 
-    public componentWillUnmount() {
+    componentWillUnmount() {
         window.removeEventListener('scroll', this.onWindowScroll)
         window.removeEventListener('mousemove', this.onMouseMove)
         window.removeEventListener('mouseup', this.onMouseUp)
     }
 
-    public render() {
+    render() {
         const { rect } = this.state
         const { className, height, trackVertical, children } = this.props
         const extraHeightToHideBrowserScroll = 20
@@ -181,7 +193,7 @@ export default class Scroll extends React.PureComponent<Props, State> {
         let { rect } = this.state
         let { height } = this.props
         top = Math.max(this.scrollRef.scrollTop / rect.height * height, 0) // >= 0
-        top = Math.min(top, height - this.trackVerticalHeight) // <= height - trackVerticalHeight
+        top = Math.min(top, height - this.trackVerticalHeight) // less or equal to height - trackVerticalHeight
         this.trackVerticalRef.style.top = top + 'px'
         this.trackVerticalRef.style.visibility = 'visible'
     }

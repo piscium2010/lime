@@ -7,8 +7,15 @@
     "start": "webpack && webpack-dev-server --open",
     "lint:init": "tslint --init",
     "lint": "tslint -c tslint.json ./src/**/*.tsx",
-    "build": "rollup -c",
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "watch": "npm-watch gulp"
+  },
+  "watch": {
+    "gulp": {
+      "patterns": ["src"],
+      "extensions": "less,js,jsx,tsx",
+      "quiet": false
+    }
   },
   "keywords": [
     "ui",
@@ -38,6 +45,7 @@
     "html-webpack-plugin": "^3.2.0",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
+    "npm-watch": "^0.6.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "style-loader": "^0.21.0",
