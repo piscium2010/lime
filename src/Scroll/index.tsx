@@ -61,6 +61,7 @@ export default class Scroll extends React.PureComponent<Props, State> {
     public render() {
         const { rect } = this.state
         const { className, height, trackVertical, children } = this.props
+        const extraHeightToHideBrowserScroll = 20
         const wrapperClasses = classnames('sd-scrollbar-wrapper', className)
         const classes = classnames('sd-scrollbar', {
             ['track-vertical']: trackVertical
@@ -68,7 +69,7 @@ export default class Scroll extends React.PureComponent<Props, State> {
 
         return (
             <div className={wrapperClasses} style={{ height }}>
-                <div ref={ref => this.scrollRef = ref} className={classes} style={{ height }} onScroll={this.onScroll}>
+                <div ref={ref => this.scrollRef = ref} className={classes} style={{ height: height + extraHeightToHideBrowserScroll }} onScroll={this.onScroll}>
                     <div ref={ref => this.ref = ref} >
                         {
                             children

@@ -41,7 +41,8 @@ export default class List extends React.PureComponent<any, any> {
                         className='sd-list-item'
                         key={index}
                         style={{
-                            height: itemHeight
+                            height: itemHeight,
+                            lineHeight: `${itemHeight}px`
                         }}
                     >
                         {renderItem(item)}
