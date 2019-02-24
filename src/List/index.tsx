@@ -18,14 +18,17 @@ export default class List extends React.PureComponent<any, any> {
     }
 
     public render() {
-        const { className, items, height, itemHeight, pageSize, renderItem } = this.props
+        const { className, items, itemHeight, pageSize, renderItem } = this.props
         const classes = classnames('sd-list-wrapper', className)
         const rows = []
+        if(!items) return null
 
         let flag = 'paddingTop'
         let paddingTop = 0
         let paddingBottom = 0
         let isRowVisible
+        let scrollHeight = Math.min(pageSize, items.length || 0) * itemHeight
+        console.log(`scrollHeight`,scrollHeight)
 
         items.forEach((item, index) => {
             isRowVisible = this.isRowVisible(index)
@@ -52,7 +55,7 @@ export default class List extends React.PureComponent<any, any> {
         })
 
         return (
-            <Scroll className={className} height={pageSize * itemHeight} onScroll={this.onScroll}>
+            <Scroll className={className} height={scrollHeight} onScroll={this.onScroll}>
                 <div className={classes}>
                     <div style={{ paddingBottom, paddingTop }}>
                         <div className='sd-list-page'>

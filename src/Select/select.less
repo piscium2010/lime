@@ -1,9 +1,12 @@
 .sd-select-input {
+    display: flex;
+    justify-content: flex-end;
     position: relative;
     .input;
 
     input {
         .field;
+        position: absolute;
         box-sizing: border-box;
         width: 100%;
         height: 100%;
@@ -26,6 +29,15 @@
         width: 8px;
         height: 8px;
         transform: rotate(45deg) translateY(-100%);
+    }
+
+    .sd-spin {
+        align-self: center;
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        background-color: #fff;
+        z-index: 1;
     }
 
     .sd-select-input-label {

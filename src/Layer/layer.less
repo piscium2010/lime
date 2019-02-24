@@ -1,17 +1,20 @@
-.sd-layer-mask {
-    position: fixed;
-    background: transparent;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
+.@{prefix} {
+    &-layer-mask {
+        position: fixed;
+        background: transparent;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+    }
+    
+    &-layer {
+        position: fixed;
+        background: #fff;
+        overflow: hidden;
+        .sd-box-shadow;
+        z-index: 1;
+    }
 }
-
-.sd-layer {
-    position: fixed;
-    background: #fff;
-    overflow: hidden;
-    .sd-box-shadow;
-    z-index: 1;
-}   
+   

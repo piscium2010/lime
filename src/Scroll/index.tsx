@@ -2,7 +2,7 @@ import * as classnames from 'classnames'
 import * as React from 'react'
 import * as debounce from 'debounce'
 
-type Props = {
+export interface IScrollProps{
     className?: string
     onBlur?: (evt?) => void
     onScroll?: (evt?) => void
@@ -10,11 +10,11 @@ type Props = {
     trackVertical?: boolean
 }
 
-type State = {
+export interface IScrollState {
     rect: { width?, height?}
 }
 
-export default class Scroll extends React.PureComponent<Props, State> {
+export default class Scroll extends React.PureComponent<IScrollProps, IScrollState> {
     public static defaultProps = {
         onBlur: () => { },
         onScroll: () => { },
@@ -32,7 +32,6 @@ export default class Scroll extends React.PureComponent<Props, State> {
     private mouseOverVerticalScrollBar: boolean
     private mouseOverVerticalScrollBarArea: boolean
 
-
     constructor(props) {
         super(props)
         this.state = {
@@ -45,7 +44,7 @@ export default class Scroll extends React.PureComponent<Props, State> {
         this.debouncedHideTrackVerticalButton = debounce(this.hideTrackVerticalButton, 2500)
     }
 
-    updateRect = () => {
+    private updateRect = () => {
         let { rect } = this.state
         let { width, height } = this.ref.getBoundingClientRect()
         if (width != rect.width || height != rect.height) {
@@ -78,7 +77,6 @@ export default class Scroll extends React.PureComponent<Props, State> {
         const classes = classnames('sd-scrollbar', {
             ['track-vertical']: trackVertical
         })
-
         return (
             <div className={wrapperClasses} style={{ height }}>
                 <div ref={ref => this.scrollRef = ref} className={classes} style={{ height: height + extraHeightToHideBrowserScroll }} onScroll={this.onScroll}>
@@ -98,7 +96,7 @@ export default class Scroll extends React.PureComponent<Props, State> {
                                 key={1}
                                 ref={ref => this.trackVerticalRef = ref}
                                 className='track-vertical-button'
-                                style={{ height: rect ? this.trackVerticalHeight : 0 }}
+                                style={{ height: rect.height ? this.trackVerticalHeight : 0 }}
                                 onMouseDown={this.onMouseDownVerticalScrollBar}
                                 onMouseOver={this.onMouseOverVerticalScrollBar}
                                 onMouseLeave={this.onMouseLeaveVerticalScrollBar}
