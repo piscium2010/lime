@@ -1,32 +1,35 @@
-.sd-scrollbar-wrapper {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-    .sd-scrollbar {
-        width: calc(100% + 20px);
-        &.track-vertical {
-            overflow-y: scroll;
+.@{prefix} {
+    &-scroll-wrapper {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        &-scroll {
+            width: calc(100% + 20px);
+            &.track-vertical {
+                overflow-y: scroll;
+            }
+        }
+    
+        .track-vertical-area {
+            position: absolute;
+            width:10px;
+            top: 0;
+            right: 1px;
+            bottom: 0;
+            background: transparent;
+        }
+    
+        .track-vertical-button {
+            cursor: pointer;
+            position: absolute;
+            width:6px;
+            right:1px;
+            border-radius: 3px;
+            background-color: rgba(0, 0, 0, .3);
+            visibility: hidden;
+            transition: background-color 1s;
+            z-index: 1;
         }
     }
-
-    .track-vertical-area {
-        position: absolute;
-        width:10px;
-        top: 0;
-        right: 1px;
-        bottom: 0;
-        background: transparent;
-    }
-
-    .track-vertical-button {
-        cursor: pointer;
-        position: absolute;
-        width:6px;
-        right:1px;
-        border-radius: 3px;
-        background-color: rgba(0, 0, 0, .3);
-        visibility: hidden;
-        transition: background-color 1s;
-        z-index: 1;
-    }
 }
+

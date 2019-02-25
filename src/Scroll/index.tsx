@@ -73,14 +73,14 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         const { rect } = this.state
         const { className, height, trackVertical, children } = this.props
         const extraHeightToHideBrowserScroll = 20
-        const wrapperClasses = classnames('sd-scrollbar-wrapper', className)
-        const classes = classnames('sd-scrollbar', {
+        const wrapperClasses = classnames('sd-scroll-wrapper', className)
+        const classes = classnames('sd-scroll', {
             ['track-vertical']: trackVertical
         })
         return (
             <div className={wrapperClasses} style={{ height }}>
                 <div ref={ref => this.scrollRef = ref} className={classes} style={{ height: height + extraHeightToHideBrowserScroll }} onScroll={this.onScroll}>
-                    <div ref={ref => this.ref = ref} >
+                    <div className={'sd-scroll-content'} ref={ref => this.ref = ref} >
                         {
                             children
                         }
@@ -112,7 +112,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     private onWindowScroll(evt) {
         const target = evt.target
         const classes = target.getAttribute ? target.getAttribute('class') : ''
-        if (classes.indexOf('sd-scrollbar') >= 0) {
+        if (classes.indexOf('sd-scroll') >= 0) {
             // do nothing
         } else {
             this.props.onBlur()
@@ -227,6 +227,8 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     get trackVerticalHeight() {
         const { rect } = this.state
         const { height } = this.props
-        return height / rect.height * height
+        const percentage = Math.min(height / rect.height, 1)
+        //console.log(`height`,height, rect.height)
+        return  percentage * height
     }
 }

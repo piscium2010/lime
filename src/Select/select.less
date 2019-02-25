@@ -1,63 +1,66 @@
-.sd-select-input {
-    display: flex;
-    justify-content: flex-end;
-    position: relative;
-    .input;
-
-    > input {
-        .field;
-        position: absolute;
-        box-sizing: border-box;
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        border: none;
-        &:active, &:focus {
-            outline: none;
+.@{prefix} {
+    &-select-input {
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+        .input;
+    
+        > input {   
+            .field;
+            position: absolute;
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            border: none;
+            text-overflow: ellipsis;
+            &:active, &:focus {
+                outline: none;
+            }
         }
-    }
-
-    &::after {
-        content: "";
-        display: block;
-        position: absolute;
-        border: inherit;
-        border-left: 0;
-        border-top: 0;
-        top: 50%;
-        right: 16px;
-        width: 8px;
-        height: 8px;
-        transform: rotate(45deg) translateY(-100%);
-    }
-
-    .sd-spin {
-        align-self: center;
-        width: 15px;
-        height: 15px;
-        margin-right: 5px;
-        background-color: #fff;
-        z-index: 1;
-    }
-
-    .sd-select-input-label {
-        color: rgba(0, 0, 0, .6);
-        position: absolute;
-        pointer-events: none;
-        left: 16px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    &.filled {
-        .sd-select-input-label {
-            left: 10px;
-            top: 0;
+    
+        &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            border: inherit;
+            border-left: 0;
+            border-top: 0;
+            top: 50%;
+            right: 16px;
+            width: 8px;
+            height: 8px;
+            transform: rotate(45deg) translateY(-100%);
+        }
+    
+        &-spin {
+            align-self: center;
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            background-color: #fff;
+            z-index: 1;
+        }
+    
+        &-select-input-label {
+            color: rgba(0, 0, 0, .6);
+            position: absolute;
+            pointer-events: none;
+            left: 16px;
+            top: 50%;
             transform: translateY(-50%);
-            padding: 0 3px;
-            font-size: 12px;
-            transition: all .1s ease-out;
-            background: #fff; 
+        }
+    
+        &.filled {
+            &-select-input-label {
+                left: 10px;
+                top: 0;
+                transform: translateY(-50%);
+                padding: 0 3px;
+                font-size: 12px;
+                transition: all .1s ease-out;
+                background: #fff; 
+            }
         }
     }
 }

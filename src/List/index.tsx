@@ -28,7 +28,6 @@ export default class List extends React.PureComponent<any, any> {
         let paddingBottom = 0
         let isRowVisible
         let scrollHeight = Math.min(pageSize, items.length || 0) * itemHeight
-        console.log(`scrollHeight`,scrollHeight)
 
         items.forEach((item, index) => {
             isRowVisible = this.isRowVisible(index)
