@@ -1,7 +1,7 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
 
-type Props = {
+export interface ILayerProps {
     boundingClientRect?: { top, right, bottom, left, width, height }
     left?: number,
     top?: number,
@@ -12,7 +12,7 @@ type Props = {
     show?: boolean
 }
 
-export default class Layer extends React.PureComponent<Props, {}> {
+export default class Layer extends React.PureComponent<ILayerProps, {}> {
     get style() {
         let {
             boundingClientRect: rect,
@@ -27,7 +27,8 @@ export default class Layer extends React.PureComponent<Props, {}> {
         }, width && { width }, height && { height })
         return style
     }
-    public render() {
+
+    render() {
         let {
             boundingClientRect: rect,
             children,

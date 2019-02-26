@@ -229,7 +229,6 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         const { rect } = this.state
         const { height } = this.props
         const percentage = Math.min(height / rect.height, 1)
-        //console.log(`height`,height, rect.height)
         return  percentage * height
     }
 }
