@@ -28,7 +28,7 @@ gulp.task('compile:less', () => {
 })
 
 gulp.task('compile:tsx', () => {
-    return gulp.src(['src/**/*.tsx', 'src/index.js'])
+    return gulp.src(['src/**/*.tsx', 'src/**/*.ts', 'src/index.js'])
         .pipe(tsProject())
         .js.pipe(gulp.dest('dist', { overwrite: true }));
 })

@@ -1,6 +1,7 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
 import * as debounce from 'debounce'
+import { prefixCls } from '../common/index'
 
 export interface IScrollProps{
     className?: string
@@ -73,14 +74,14 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         const { rect } = this.state
         const { className, height, trackVertical, children } = this.props
         const extraHeightToHideBrowserScroll = 20
-        const wrapperClasses = classnames('sd-scroll-wrapper', className)
-        const classes = classnames('sd-scroll', {
+        const wrapperClasses = classnames(`${prefixCls}-scroll-wrapper`, className)
+        const classes = classnames(`${prefixCls}-scroll`, {
             ['track-vertical']: trackVertical
         })
         return (
             <div className={wrapperClasses} style={{ height }}>
                 <div ref={ref => this.scrollRef = ref} className={classes} style={{ height: height + extraHeightToHideBrowserScroll }} onScroll={this.onScroll}>
-                    <div className={'sd-scroll-content'} ref={ref => this.ref = ref} >
+                    <div className={`${prefixCls}-scroll-content`} ref={ref => this.ref = ref} >
                         {
                             children
                         }
@@ -88,14 +89,14 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
                     {
                         trackVertical && [
                             <div key={0}
-                                className='track-vertical-area'
+                                className={`${prefixCls}-track-vertical-area`}
                                 onMouseOverCapture={this.onMouseOverVerticalScrollBarArea}
                                 onMouseLeave={this.onMouseLeaveVerticalScrollBarArea}
                             ></div>,
                             <div
                                 key={1}
                                 ref={ref => this.trackVerticalRef = ref}
-                                className='track-vertical-button'
+                                className={`${prefixCls}-track-vertical-button`}
                                 style={{ height: rect.height ? this.trackVerticalHeight : 0 }}
                                 onMouseDown={this.onMouseDownVerticalScrollBar}
                                 onMouseOver={this.onMouseOverVerticalScrollBar}
@@ -112,7 +113,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     private onWindowScroll(evt) {
         const target = evt.target
         const classes = target.getAttribute ? target.getAttribute('class') : ''
-        if (classes.indexOf('sd-scroll') >= 0) {
+        if (classes.indexOf(`${prefixCls}-scroll`) >= 0) {
             // do nothing
         } else {
             this.props.onBlur()
