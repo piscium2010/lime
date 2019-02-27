@@ -75,14 +75,13 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     render() {
         const { rect } = this.state
         const { className, height, trackVertical, children } = this.props
-        const extraHeightToHideBrowserScroll = 20
         const wrapperClasses = classnames(`${prefixCls}-scroll-wrapper`, className)
         const classes = classnames(`${prefixCls}-scroll`, {
             ['track-vertical']: trackVertical
         })
         return (
             <div className={wrapperClasses} style={{ height }}>
-                <div ref={ref => this.scrollRef = ref} className={classes} style={{ height: height + extraHeightToHideBrowserScroll }} onScroll={this.onScroll}>
+                <div ref={ref => this.scrollRef = ref} className={classes} style={{ height }} onScroll={this.onScroll}>
                     <div className={`${prefixCls}-scroll-content`} ref={ref => this.ref = ref} >
                         {
                             children
@@ -123,9 +122,11 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     }
 
     private onScroll(evt) {
+        evt.stopPropagation()
         this.showVerticalTrackButton()
         this.debouncedHideTrackVerticalButton()
         this.props.onScroll(evt)
+        
     }
 
     private onMouseDownVerticalScrollBar = evt => {
@@ -224,20 +225,22 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     }
 
     private setStyle = (option: number) => {
-        switch (option) {
-            case 1:
-                this.ref.style.pointerEvents = 'auto'
-                this.trackVerticalRef.style.width = '6px'
-                this.trackVerticalRef.style.borderRadius = '3px'
-                this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
-                break
-            case 2:
-                this.ref.style.pointerEvents = 'none'
-                this.trackVerticalRef.style.width = '8px'
-                this.trackVerticalRef.style.borderRadius = '4px'
-                this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
-                break;
-            default:
+        if(this.ref && this.trackVerticalRef) {
+            switch (option) {
+                case 1:
+                    this.ref.style.pointerEvents = 'auto'
+                    this.trackVerticalRef.style.width = '6px'
+                    this.trackVerticalRef.style.borderRadius = '3px'
+                    this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
+                    break
+                case 2:
+                    this.ref.style.pointerEvents = 'none'
+                    this.trackVerticalRef.style.width = '8px'
+                    this.trackVerticalRef.style.borderRadius = '4px'
+                    this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
+                    break;
+                default:
+            }
         }
     }
 

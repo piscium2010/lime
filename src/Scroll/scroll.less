@@ -4,17 +4,39 @@
         width: 100%;
         overflow: hidden;
         position: relative;
+
+        ::-webkit-scrollbar {
+            width: 0;
+            background:transparent;
+        }
+        
+        ::-webkit-scrollbar-track {
+            width: 0;
+            background:transparent; 
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            width: 0;
+            background:transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background:transparent;
+        }
     }
 
     &-scroll {
-        width: calc(100% + 20px) !important;
+        box-sizing: content-box;
+        padding-right: 20px;
+        width: 100%;
+        //width: calc(100% + 20px) !important;
         &.track-vertical {
             overflow-y: scroll;
         }
     }
 
     &-scroll-content {
-        padding-right: 5px !important;
+        //padding-right: 5px !important;
     }
 
     &-track-vertical-area {
