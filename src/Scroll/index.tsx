@@ -3,7 +3,7 @@ import * as React from 'react'
 import * as debounce from 'debounce'
 import { prefixCls } from '../common/index'
 
-export interface IScrollProps{
+export interface IScrollProps {
     className?: string
     onBlur?: (evt?) => void
     onScroll?: (evt?) => void
@@ -29,6 +29,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     private tempPageY: number
     private tempScrollTop: number
     private debouncedHideTrackVerticalButton: Function
+    private debouncedSetStyle: Function
     private mouseDownVerticalScrollBar: boolean
     private mouseOverVerticalScrollBar: boolean
     private mouseOverVerticalScrollBarArea: boolean
@@ -43,6 +44,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         this.onMouseUp = this.onMouseUp.bind(this)
         this.onMouseMove = this.onMouseMove.bind(this)
         this.debouncedHideTrackVerticalButton = debounce(this.hideTrackVerticalButton, 2500)
+        this.debouncedSetStyle = debounce(this.setStyle, 200)
     }
 
     private updateRect = () => {
@@ -206,17 +208,37 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     }
 
     private setTrackVerticalButtonStyle = () => {
-        this.ref.style.pointerEvents = 'auto'
-        this.trackVerticalRef.style.width = '6px'
-        this.trackVerticalRef.style.borderRadius = '3px'
-        this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
+        // this.ref.style.pointerEvents = 'auto'
+        // this.trackVerticalRef.style.width = '6px'
+        // this.trackVerticalRef.style.borderRadius = '3px'
+        // this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
+        this.debouncedSetStyle(1)
     }
 
     private setTrackVerticalButtonHoverStyle = () => {
-        this.ref.style.pointerEvents = 'none'
-        this.trackVerticalRef.style.width = '8px'
-        this.trackVerticalRef.style.borderRadius = '4px'
-        this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
+        // this.ref.style.pointerEvents = 'none'
+        // this.trackVerticalRef.style.width = '8px'
+        // this.trackVerticalRef.style.borderRadius = '4px'
+        // this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
+        this.debouncedSetStyle(2)
+    }
+
+    private setStyle = (option: number) => {
+        switch (option) {
+            case 1:
+                this.ref.style.pointerEvents = 'auto'
+                this.trackVerticalRef.style.width = '6px'
+                this.trackVerticalRef.style.borderRadius = '3px'
+                this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
+                break
+            case 2:
+                this.ref.style.pointerEvents = 'none'
+                this.trackVerticalRef.style.width = '8px'
+                this.trackVerticalRef.style.borderRadius = '4px'
+                this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
+                break;
+            default:
+        }
     }
 
     get isHoveringOnTrackVerticalButton() {
@@ -229,6 +251,6 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         const { rect } = this.state
         const { height } = this.props
         const percentage = Math.min(height / rect.height, 1)
-        return  percentage * height
+        return percentage * height
     }
 }
