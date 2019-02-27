@@ -28,11 +28,11 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     private tempPageX: number
     private tempPageY: number
     private tempScrollTop: number
-    private debouncedHideTrackVerticalButton: Function
+    private debouncedHideScrollVerticalThumb: Function
     private debouncedSetStyle: Function
     private mouseDownVerticalScrollBar: boolean
     private mouseOverVerticalScrollBar: boolean
-    private mouseOverVerticalScrollBarArea: boolean
+    private mouseOverVerticalTrack: boolean
 
     constructor(props) {
         super(props)
@@ -43,7 +43,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         this.onWindowScroll = this.onWindowScroll.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
         this.onMouseMove = this.onMouseMove.bind(this)
-        this.debouncedHideTrackVerticalButton = debounce(this.hideTrackVerticalButton, 2500)
+        this.debouncedHideScrollVerticalThumb = debounce(this.hideScrollVerticalThumb, 2500)
         this.debouncedSetStyle = debounce(this.setStyle, 200)
     }
 
@@ -90,14 +90,14 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
                     {
                         trackVertical && [
                             <div key={0}
-                                className={`${prefixCls}-track-vertical-area`}
+                                className={`${prefixCls}-scroll-vertical-track`}
                                 onMouseOverCapture={this.onMouseOverVerticalScrollBarArea}
                                 onMouseLeave={this.onMouseLeaveVerticalScrollBarArea}
                             ></div>,
                             <div
                                 key={1}
                                 ref={ref => this.trackVerticalRef = ref}
-                                className={`${prefixCls}-track-vertical-button`}
+                                className={`${prefixCls}-scroll-vertical-thumb`}
                                 style={{ height: rect.height ? this.trackVerticalHeight : 0 }}
                                 onMouseDown={this.onMouseDownVerticalScrollBar}
                                 onMouseOver={this.onMouseOverVerticalScrollBar}
@@ -124,7 +124,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     private onScroll(evt) {
         evt.stopPropagation()
         this.showVerticalTrackButton()
-        this.debouncedHideTrackVerticalButton()
+        this.debouncedHideScrollVerticalThumb()
         this.props.onScroll(evt)
         
     }
@@ -152,13 +152,13 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     }
 
     private onMouseOverVerticalScrollBarArea = evt => {
-        this.mouseOverVerticalScrollBarArea = true
+        this.mouseOverVerticalTrack = true
         this.showVerticalTrackButton()
     }
 
     private onMouseLeaveVerticalScrollBarArea = evt => {
-        this.mouseOverVerticalScrollBarArea = false
-        this.debouncedHideTrackVerticalButton()
+        this.mouseOverVerticalTrack = false
+        this.debouncedHideScrollVerticalThumb()
     }
 
     private onMouseMove(evt) {
@@ -187,7 +187,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
             && this.trackVerticalRef) {
             this.setTrackVerticalButtonStyle()
         }
-        this.debouncedHideTrackVerticalButton()
+        this.debouncedHideScrollVerticalThumb()
     }
 
     private showVerticalTrackButton = () => {
@@ -200,7 +200,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         this.trackVerticalRef.style.visibility = 'visible'
     }
 
-    private hideTrackVerticalButton = () => {
+    private hideScrollVerticalThumb = () => {
         if (!this.isHoveringOnTrackVerticalButton
             && this.trackVerticalRef) {
             this.trackVerticalRef.style.visibility = 'hidden'
@@ -245,7 +245,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     }
 
     get isHoveringOnTrackVerticalButton() {
-        return this.mouseOverVerticalScrollBarArea
+        return this.mouseOverVerticalTrack
             || this.mouseOverVerticalScrollBar
             || this.mouseDownVerticalScrollBar
     }
