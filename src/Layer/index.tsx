@@ -9,6 +9,7 @@ export interface ILayerProps {
     left?: number,
     mask?: boolean,
     onBlur: (evt?) => void,
+    onDismiss?: (evt?) => void,
     show?: boolean
     top?: number,
     width?: number,
@@ -43,9 +44,10 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
 
     private onWindowMouseDown = evt => {
         let { target } = evt
-        let { onBlur = () => {} } = this.props
+        let { onBlur = () => {}, onDismiss = () => {} } = this.props
         if(this.ref.current && !this.ref.current.contains(target)) {
             //console.log(`blur`,)
+            onDismiss(evt)
             onBlur(evt)
         }
     }

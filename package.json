@@ -4,11 +4,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack && webpack-dev-server --open",
+    "server": "webpack && webpack-dev-server --open",
     "lint:init": "tslint --init",
     "lint": "tslint -c tslint.json ./src/**/*.tsx",
     "gulp": "gulp",
-    "watch": "npm-watch gulp"
+    "start": "npm-watch gulp"
   },
   "watch": {
     "gulp": {
