@@ -10,9 +10,10 @@ export interface ILayerProps {
     mask?: boolean,
     onBlur: (evt?) => void,
     onDismiss?: (evt?) => void,
+    style?: object,
     show?: boolean
     top?: number,
-    width?: number,
+    width?: number
 }
 
 export default class Layer extends React.PureComponent<ILayerProps, {}> {
@@ -30,22 +31,24 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
     get style() {
         let {
             boundingClientRect: rect,
-            left,
-            top,
+            left = rect.left,
+            top = rect.top,
             width,
-            height
+            height,
+            style: _style,
         } = this.props
-        let style = Object.assign({
-            left: left || rect.left,
-            top: top || rect.top
-        }, width && { width }, height && { height })
+        let style = Object.assign({},
+            _style,
+            { left, top },
+            width && { width },
+            height && { height })
         return style
     }
 
     private onWindowMouseDown = evt => {
         let { target } = evt
-        let { onBlur = () => {}, onDismiss = () => {} } = this.props
-        if(this.ref.current && !this.ref.current.contains(target)) {
+        let { onBlur = () => { }, onDismiss = () => { } } = this.props
+        if (this.ref.current && !this.ref.current.contains(target)) {
             //console.log(`blur`,)
             onDismiss(evt)
             onBlur(evt)
@@ -71,7 +74,9 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
             width,
             height,
             onBlur,
-            show } = this.props
+            style,
+            show,
+            ...rest } = this.props
         let classes = classnames(`${prefixCls}-layer`, className)
 
         return show ? [
@@ -80,6 +85,7 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
                 ref={this.ref}
                 className={classes}
                 style={this.style}
+                {...rest}
             >
                 {children}
             </div>
