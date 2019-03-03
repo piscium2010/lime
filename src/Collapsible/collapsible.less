@@ -1,0 +1,23 @@
+.@{prefixCls} {
+    &-collapsible-content {
+        overflow: hidden;
+        transition: all .3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        // animation-name: c;
+        // animation-duration: .3s;
+        // animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+        // animation-iteration-count: 1;
+        //transform-origin: left top;
+        //animation: c .3s cubic-bezier(0.645, 0.045, 0.355, 1)
+    }
+}
+
+@keyframes c {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
