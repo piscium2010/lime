@@ -29,14 +29,11 @@
         box-sizing: content-box;
         padding-right: 20px;
         width: 100%;
+        height: inherit;
         //width: calc(100% + 20px) !important;
         &.track-vertical {
             overflow-y: scroll;
         }
-    }
-
-    &-scroll-content {
-        //padding-right: 5px !important;
     }
 
     &-scroll-vertical-track {
@@ -52,12 +49,12 @@
         cursor: pointer;
         position: absolute;
         width:6px;
+        top:0;
         right:1px;
         border-radius: 3px;
         background-color: rgba(0, 0, 0, .3);
         visibility: hidden;
         transition: background-color 1s;
-        //z-index: 1;
     }
 }
     

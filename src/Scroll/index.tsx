@@ -8,6 +8,7 @@ export interface IScrollProps {
     onBlur?: (evt?) => void
     onScroll?: (evt?) => void
     height: number
+    style: object,
     trackVertical?: boolean
 }
 
@@ -22,7 +23,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         trackVertical: true
     }
 
-    private ref
+    private contentRef
     private scrollRef
     private trackVerticalRef
     private tempPageX: number
@@ -39,6 +40,8 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         this.state = {
             rect: {}
         }
+        this.contentRef = React.createRef()
+        this.scrollRef = React.createRef()
         this.onScroll = this.onScroll.bind(this)
         this.onWindowScroll = this.onWindowScroll.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
@@ -47,9 +50,17 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         this.debouncedSetStyle = debounce(this.setStyle, 200)
     }
 
+    private get contentHeight() {
+        return this.contentRef.current.offsetHeight
+    }
+
+    private get scrollHeight() {
+        return this.scrollRef.current.offsetHeight
+    }
+
     private updateRect = () => {
         let { rect } = this.state
-        let { width, height } = this.ref.getBoundingClientRect()
+        let { width, height } = this.contentRef.current.getBoundingClientRect()
         if (width != rect.width || height != rect.height) {
             this.setState({ rect: { width, height } })
         }
@@ -64,6 +75,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         window.addEventListener('mousemove', this.onMouseMove, true)
         window.addEventListener('mouseup', this.onMouseUp, true)
         this.updateRect()
+        this.contentRef.current.addEventListener('resize', ()=>{console.log(`resize`,)})
     }
 
     componentWillUnmount() {
@@ -74,18 +86,18 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
 
     render() {
         const { rect } = this.state
-        const { className, height, trackVertical, children } = this.props
+        const { className, height, trackVertical, children, style: _style } = this.props
         const wrapperClasses = classnames(`${prefixCls}-scroll-wrapper`, className)
+        const style = Object.assign({ height }, _style)
         const classes = classnames(`${prefixCls}-scroll`, {
             ['track-vertical']: trackVertical
         })
+
         return (
-            <div className={wrapperClasses} style={{ height }}>
-                <div ref={ref => this.scrollRef = ref} className={classes} style={{ height }} onScroll={this.onScroll}>
-                    <div className={`${prefixCls}-scroll-content`} ref={ref => this.ref = ref} >
-                        {
-                            children
-                        }
+            <div className={wrapperClasses} style={style}>
+                <div ref={this.scrollRef} className={classes} onScroll={this.onScroll}>
+                    <div className={`${prefixCls}-scroll-content`} ref={this.contentRef} >
+                        {children}
                     </div>
                     {
                         trackVertical && [
@@ -126,14 +138,13 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         this.showVerticalTrackButton()
         this.debouncedHideScrollVerticalThumb()
         this.props.onScroll(evt)
-        
     }
 
     private onMouseDownVerticalScrollBar = evt => {
         const { pageY } = evt
         this.mouseDownVerticalScrollBar = true
         this.tempPageY = pageY
-        this.tempScrollTop = this.scrollRef.scrollTop
+        this.tempScrollTop = this.scrollRef.current.scrollTop
         this.setTrackVerticalButtonHoverStyle()
         evt.preventDefault()
         evt.stopPropagation()
@@ -173,7 +184,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
                 let top
                 top = Math.max(move + this.tempScrollTop, 0) // >= 0
                 top = Math.min(top, rect.height - height) // <= rect.height - height
-                this.scrollRef.scrollTop = top
+                this.scrollRef.current.scrollTop = top
             }
         })
     }
@@ -193,8 +204,9 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     private showVerticalTrackButton = () => {
         let top
         let { rect } = this.state
+        const contentHeight = this.contentRef.current.offsetHeight
         let { height } = this.props
-        top = Math.max(this.scrollRef.scrollTop / rect.height * height, 0) // >= 0
+        top = Math.max(this.scrollRef.current.scrollTop / rect.height * height, 0) // >= 0
         top = Math.min(top, height - this.trackVerticalHeight) // less or equal to height - trackVerticalHeight
         this.trackVerticalRef.style.top = top + 'px'
         this.trackVerticalRef.style.visibility = 'visible'
@@ -209,32 +221,24 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     }
 
     private setTrackVerticalButtonStyle = () => {
-        // this.ref.style.pointerEvents = 'auto'
-        // this.trackVerticalRef.style.width = '6px'
-        // this.trackVerticalRef.style.borderRadius = '3px'
-        // this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
         this.debouncedSetStyle(1)
     }
 
     private setTrackVerticalButtonHoverStyle = () => {
-        // this.ref.style.pointerEvents = 'none'
-        // this.trackVerticalRef.style.width = '8px'
-        // this.trackVerticalRef.style.borderRadius = '4px'
-        // this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
         this.debouncedSetStyle(2)
     }
 
     private setStyle = (option: number) => {
-        if(this.ref && this.trackVerticalRef) {
+        if (this.contentRef.current && this.trackVerticalRef) {
             switch (option) {
                 case 1:
-                    this.ref.style.pointerEvents = 'auto'
+                    this.contentRef.current.style.pointerEvents = 'auto'
                     this.trackVerticalRef.style.width = '6px'
                     this.trackVerticalRef.style.borderRadius = '3px'
                     this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
                     break
                 case 2:
-                    this.ref.style.pointerEvents = 'none'
+                    this.contentRef.current.style.pointerEvents = 'none'
                     this.trackVerticalRef.style.width = '8px'
                     this.trackVerticalRef.style.borderRadius = '4px'
                     this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
@@ -251,9 +255,9 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     }
 
     get trackVerticalHeight() {
-        const { rect } = this.state
-        const { height } = this.props
-        const percentage = Math.min(height / rect.height, 1)
-        return percentage * height
+        const contentHeight = this.contentHeight
+        const scrollHeight = this.scrollHeight
+        const percentage = Math.min(scrollHeight / contentHeight, 1)
+        return percentage * scrollHeight
     }
 }
