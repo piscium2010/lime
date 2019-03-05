@@ -38,10 +38,6 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
         this.contentRef = React.createRef()
         this.scrollRef = React.createRef()
         this.verticalThumbRef = React.createRef()
-        this.onScroll = this.onScroll.bind(this)
-        this.onWindowScroll = this.onWindowScroll.bind(this)
-        this.onMouseUp = this.onMouseUp.bind(this)
-        this.onMouseMove = this.onMouseMove.bind(this)
         this.debouncedHideScrollVerticalThumb = debounce(this.hideScrollVerticalThumb, 1000)
         this.debouncedSetStyle = debounce(this.setStyle, 300)
     }
@@ -67,7 +63,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
         return percentage * scrollHeight
     }
 
-    private onWindowScroll(evt) {
+    private onWindowScroll = evt => {
         const target = evt.target
         const classes = target.getAttribute ? target.getAttribute('class') : ''
         if (classes.indexOf(`${prefixCls}-scroll`) >= 0) {
@@ -77,7 +73,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
         }
     }
 
-    private onScroll(evt) {
+    private onScroll = evt => {
         evt.stopPropagation()
         this.showVerticalTrackButton()
         this.debouncedHideScrollVerticalThumb()
@@ -116,7 +112,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
         this.debouncedHideScrollVerticalThumb()
     }
 
-    private onMouseMove(evt) {
+    private onMouseMove = evt => {
         const { pageY } = evt
         if (Number.isFinite(this.tempPageY)) {
             requestAnimationFrame(() => {
@@ -133,7 +129,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
         }
     }
 
-    private onMouseUp() {
+    private onMouseUp = evt => {
         this.tempPageX = undefined
         this.tempPageY = undefined
         this.tempScrollTop = undefined
