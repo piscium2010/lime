@@ -12,11 +12,9 @@ export interface IScrollProps {
     trackVertical?: boolean
 }
 
-export interface IScrollState {
-    rect: { width?, height?}
-}
+export interface IScrollState {}
 
-export default class Scroll extends React.PureComponent<IScrollProps, IScrollState> {
+export default class Scroll extends React.PureComponent<IScrollProps, {}> {
     public static defaultProps = {
         onBlur: () => { },
         onScroll: () => { },
@@ -25,7 +23,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
 
     private contentRef
     private scrollRef
-    private trackVerticalRef
+    private verticalThumbRef
     private tempPageX: number
     private tempPageY: number
     private tempScrollTop: number
@@ -37,17 +35,15 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
 
     constructor(props) {
         super(props)
-        this.state = {
-            rect: {}
-        }
         this.contentRef = React.createRef()
         this.scrollRef = React.createRef()
+        this.verticalThumbRef = React.createRef()
         this.onScroll = this.onScroll.bind(this)
         this.onWindowScroll = this.onWindowScroll.bind(this)
         this.onMouseUp = this.onMouseUp.bind(this)
         this.onMouseMove = this.onMouseMove.bind(this)
-        this.debouncedHideScrollVerticalThumb = debounce(this.hideScrollVerticalThumb, 2500)
-        this.debouncedSetStyle = debounce(this.setStyle, 200)
+        this.debouncedHideScrollVerticalThumb = debounce(this.hideScrollVerticalThumb, 1000)
+        this.debouncedSetStyle = debounce(this.setStyle, 300)
     }
 
     private get contentHeight() {
@@ -58,69 +54,17 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         return this.scrollRef.current.offsetHeight
     }
 
-    private updateRect = () => {
-        let { rect } = this.state
-        let { width, height } = this.contentRef.current.getBoundingClientRect()
-        if (width != rect.width || height != rect.height) {
-            this.setState({ rect: { width, height } })
-        }
+    private get isHoveringOnTrackVerticalButton() {
+        return this.mouseOverVerticalTrack
+            || this.mouseOverVerticalScrollBar
+            || this.mouseDownVerticalScrollBar
     }
 
-    componentDidUpdate() {
-        this.updateRect()
-    }
-
-    componentDidMount() {
-        window.addEventListener('scroll', this.onWindowScroll, true)
-        window.addEventListener('mousemove', this.onMouseMove, true)
-        window.addEventListener('mouseup', this.onMouseUp, true)
-        this.updateRect()
-        this.contentRef.current.addEventListener('resize', ()=>{console.log(`resize`,)})
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.onWindowScroll)
-        window.removeEventListener('mousemove', this.onMouseMove)
-        window.removeEventListener('mouseup', this.onMouseUp)
-    }
-
-    render() {
-        const { rect } = this.state
-        const { className, height, trackVertical, children, style: _style } = this.props
-        const wrapperClasses = classnames(`${prefixCls}-scroll-wrapper`, className)
-        const style = Object.assign({ height }, _style)
-        const classes = classnames(`${prefixCls}-scroll`, {
-            ['track-vertical']: trackVertical
-        })
-
-        return (
-            <div className={wrapperClasses} style={style}>
-                <div ref={this.scrollRef} className={classes} onScroll={this.onScroll}>
-                    <div className={`${prefixCls}-scroll-content`} ref={this.contentRef} >
-                        {children}
-                    </div>
-                    {
-                        trackVertical && [
-                            <div key={0}
-                                className={`${prefixCls}-scroll-vertical-track`}
-                                onMouseOverCapture={this.onMouseOverVerticalScrollBarArea}
-                                onMouseLeave={this.onMouseLeaveVerticalScrollBarArea}
-                            ></div>,
-                            <div
-                                key={1}
-                                ref={ref => this.trackVerticalRef = ref}
-                                className={`${prefixCls}-scroll-vertical-thumb`}
-                                style={{ height: rect.height ? this.trackVerticalHeight : 0 }}
-                                onMouseDown={this.onMouseDownVerticalScrollBar}
-                                onMouseOver={this.onMouseOverVerticalScrollBar}
-                                onMouseLeave={this.onMouseLeaveVerticalScrollBar}
-                            >
-                            </div>
-                        ]
-                    }
-                </div>
-            </div>
-        )
+    private get trackVerticalHeight() {
+        const contentHeight = this.contentHeight
+        const scrollHeight = this.scrollHeight
+        const percentage = Math.min(scrollHeight / contentHeight, 1)
+        return percentage * scrollHeight
     }
 
     private onWindowScroll(evt) {
@@ -158,7 +102,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     private onMouseLeaveVerticalScrollBar = evt => {
         this.mouseOverVerticalScrollBar = false
         if (!this.isHoveringOnTrackVerticalButton) {
-            this.setTrackVerticalButtonStyle()
+            this.setTrackVerticalThumbStyle()
         }
     }
 
@@ -174,19 +118,19 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
 
     private onMouseMove(evt) {
         const { pageY } = evt
-        requestAnimationFrame(() => {
-            if (Number.isFinite(this.tempPageY)) {
+        if (Number.isFinite(this.tempPageY)) {
+            requestAnimationFrame(() => {
                 evt.preventDefault()
                 evt.stopPropagation()
-                let { rect } = this.state
-                let { height } = this.props
-                let move = (pageY - this.tempPageY) / height * rect.height
+                let contentHeight = this.contentHeight
+                let scrollHeight = this.scrollHeight
+                let move = (pageY - this.tempPageY) / this.scrollHeight * this.contentHeight
                 let top
                 top = Math.max(move + this.tempScrollTop, 0) // >= 0
-                top = Math.min(top, rect.height - height) // <= rect.height - height
+                top = Math.min(top, contentHeight - scrollHeight) // <= rect.height - height
                 this.scrollRef.current.scrollTop = top
-            }
-        })
+            })
+        }
     }
 
     private onMouseUp() {
@@ -195,32 +139,33 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
         this.tempScrollTop = undefined
         this.mouseDownVerticalScrollBar = false
         if (!this.isHoveringOnTrackVerticalButton
-            && this.trackVerticalRef) {
-            this.setTrackVerticalButtonStyle()
+            && this.verticalThumbRef.current) {
+            this.setTrackVerticalThumbStyle()
         }
         this.debouncedHideScrollVerticalThumb()
     }
 
     private showVerticalTrackButton = () => {
-        let top
-        let { rect } = this.state
-        const contentHeight = this.contentRef.current.offsetHeight
-        let { height } = this.props
-        top = Math.max(this.scrollRef.current.scrollTop / rect.height * height, 0) // >= 0
-        top = Math.min(top, height - this.trackVerticalHeight) // less or equal to height - trackVerticalHeight
-        this.trackVerticalRef.style.top = top + 'px'
-        this.trackVerticalRef.style.visibility = 'visible'
+        let top: number
+        let contentHeight = this.contentHeight
+        let scrollHeight = this.scrollHeight
+        let trackVerticalHeight = this.trackVerticalHeight
+        top = Math.max(this.scrollRef.current.scrollTop / contentHeight * scrollHeight, 0) // >= 0
+        top = Math.min(top, scrollHeight - trackVerticalHeight) // less or equal to height - trackVerticalHeight
+        this.verticalThumbRef.current.style.height = trackVerticalHeight + 'px'
+        this.verticalThumbRef.current.style.top = top + 'px'
+        this.verticalThumbRef.current.style.visibility = 'visible'
     }
 
     private hideScrollVerticalThumb = () => {
         if (!this.isHoveringOnTrackVerticalButton
-            && this.trackVerticalRef) {
-            this.trackVerticalRef.style.visibility = 'hidden'
-            this.setTrackVerticalButtonStyle()
+            && this.verticalThumbRef.current) {
+            this.verticalThumbRef.current.style.visibility = 'hidden'
+            this.setTrackVerticalThumbStyle()
         }
     }
 
-    private setTrackVerticalButtonStyle = () => {
+    private setTrackVerticalThumbStyle = () => {
         this.debouncedSetStyle(1)
     }
 
@@ -229,35 +174,77 @@ export default class Scroll extends React.PureComponent<IScrollProps, IScrollSta
     }
 
     private setStyle = (option: number) => {
-        if (this.contentRef.current && this.trackVerticalRef) {
+        if (this.contentRef.current && this.verticalThumbRef.current) {
             switch (option) {
                 case 1:
                     this.contentRef.current.style.pointerEvents = 'auto'
-                    this.trackVerticalRef.style.width = '6px'
-                    this.trackVerticalRef.style.borderRadius = '3px'
-                    this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .3)'
+                    this.verticalThumbRef.current.style.width = '6px'
+                    this.verticalThumbRef.current.style.borderRadius = '3px'
+                    this.verticalThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, .3)'
                     break
                 case 2:
                     this.contentRef.current.style.pointerEvents = 'none'
-                    this.trackVerticalRef.style.width = '8px'
-                    this.trackVerticalRef.style.borderRadius = '4px'
-                    this.trackVerticalRef.style.backgroundColor = 'rgba(0, 0, 0, .5)'
+                    this.verticalThumbRef.current.style.width = '8px'
+                    this.verticalThumbRef.current.style.borderRadius = '4px'
+                    this.verticalThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, .5)'
                     break;
                 default:
             }
         }
     }
 
-    get isHoveringOnTrackVerticalButton() {
-        return this.mouseOverVerticalTrack
-            || this.mouseOverVerticalScrollBar
-            || this.mouseDownVerticalScrollBar
+    componentDidUpdate() {
+        //this.updateRect()
     }
 
-    get trackVerticalHeight() {
-        const contentHeight = this.contentHeight
-        const scrollHeight = this.scrollHeight
-        const percentage = Math.min(scrollHeight / contentHeight, 1)
-        return percentage * scrollHeight
+    componentDidMount() {
+        window.addEventListener('scroll', this.onWindowScroll, true)
+        window.addEventListener('mousemove', this.onMouseMove, true)
+        window.addEventListener('mouseup', this.onMouseUp, true)
+        //this.updateRect()
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.onWindowScroll)
+        window.removeEventListener('mousemove', this.onMouseMove)
+        window.removeEventListener('mouseup', this.onMouseUp)
+    }
+
+    render() {
+        const { className, height, trackVertical, children, style: _style } = this.props
+        const wrapperClasses = classnames(`${prefixCls}-scroll-wrapper`, className)
+        const style = Object.assign({ height }, _style)
+        const classes = classnames(`${prefixCls}-scroll`, {
+            ['track-vertical']: trackVertical
+        })
+
+        return (
+            <div className={wrapperClasses} style={style}>
+                <div ref={this.scrollRef} className={classes} onScroll={this.onScroll}>
+                    <div className={`${prefixCls}-scroll-content`} ref={this.contentRef} >
+                        {children}
+                    </div>
+                    {
+                        trackVertical && [
+                            <div key={0}
+                                className={`${prefixCls}-scroll-vertical-track`}
+                                onMouseOverCapture={this.onMouseOverVerticalScrollBarArea}
+                                onMouseLeave={this.onMouseLeaveVerticalScrollBarArea}
+                            >
+                            </div>,
+                            <div
+                                key={1}
+                                ref={this.verticalThumbRef}
+                                className={`${prefixCls}-scroll-vertical-thumb`}
+                                onMouseDown={this.onMouseDownVerticalScrollBar}
+                                onMouseOver={this.onMouseOverVerticalScrollBar}
+                                onMouseLeave={this.onMouseLeaveVerticalScrollBar}
+                            >
+                            </div>
+                        ]
+                    }
+                </div>
+            </div>
+        )
     }
 }
