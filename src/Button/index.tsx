@@ -45,10 +45,10 @@ export default class Button extends React.Component<Props, State> {
     }
 
     private onMouseDown() {
-        this.setState({ active: true })
+        //this.setState({ active: true })
     }
 
     private onMouseUp() {
-        this.setState({ active: false })
+        //this.setState({ active: false })
     }
 }
