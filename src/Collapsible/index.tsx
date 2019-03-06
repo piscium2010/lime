@@ -60,7 +60,7 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     componentDidUpdate() {
         if (this.expand && this.node.childElementCount && this.node.style.display == 'none') {
             this.performEnterAnimation()
-        } else if (this.node.childElementCount) {
+        } else if (!this.expand && this.node.childElementCount && this.node.style.display == 'block') {
             this.performLeaveAnimation()
         }
     }
