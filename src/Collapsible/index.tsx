@@ -17,12 +17,12 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
         super(props)
         this.ref = React.createRef()
         this.state = {
-            expand: props.expand || props.defaultExpand || false
+            expand: props.defaultExpand || false
         }
     }
 
     private get expand(): boolean {
-        return this.props.expand || this.state.expand
+        return 'expand' in this.props ? this.props.expand : this.state.expand
     }
 
     private get node(): HTMLElement {
@@ -54,7 +54,7 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     }
 
     componentDidMount() {
-        this.node.style.display =  this.expand ? 'block' : 'none'
+        this.node.style.display = this.expand ? 'block' : 'none'
     }
 
     componentDidUpdate() {
