@@ -31,7 +31,6 @@ export default class Button extends React.Component<Props, State> {
             active: this.state.active
         })
         return (
-            <Ripple>
                 <button
                     className={classes}
                     {...props}
@@ -40,7 +39,6 @@ export default class Button extends React.Component<Props, State> {
                 >
                     {children}
                 </button>
-            </Ripple>
         )
     }
 
