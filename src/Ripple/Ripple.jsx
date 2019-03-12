@@ -1,11 +1,10 @@
 import * as React from 'react'
-import { prefixCls } from '../common';
 
-interface IRippleState {
-    rippleStyle: object
-}
+export default class Ripple extends React.Component<any, any> {
+    public static defaultProps = {
+        display: 'inline-block'
+    }
 
-export default class Ripple extends React.Component<any, IRippleState> {
     private ref
 
     constructor(props) {
@@ -13,17 +12,41 @@ export default class Ripple extends React.Component<any, IRippleState> {
         this.state = {
             rippleStyle: {}
         }
-        this.ref = React.createRef()
+        this.onMouseDown = this.onMouseDown.bind(this)
     }
 
-    private onMouseDown = evt => {
+    public render() {
+        const { children, display, ...props } = this.props
+        return (
+            <div ref={ref => this.ref = ref}
+                onMouseDown={this.onMouseDown}
+                style={{ position: 'relative', display }}>
+                {children}
+                <div
+                    style={{
+                        height: '100%',
+                        left: 0,
+                        overflow: 'hidden',
+                        pointerEvents: 'none',
+                        position: 'absolute',
+                        top: 0,
+                        width: '100%'
+                    }}
+                >
+                    <div style={this.state.rippleStyle}></div>
+                </div>
+            </div>
+        )
+    }
+
+    private onMouseDown(evt) {
         const {
             clientX,
             clientY,
             currentTarget: { offsetWidth, offsetHeight }
         } = evt
 
-        const rect = this.ref.current.getBoundingClientRect()
+        const rect = this.ref.getBoundingClientRect()
         const max = Math.max(offsetWidth, offsetHeight)
 
         this.setState({
@@ -54,28 +77,5 @@ export default class Ripple extends React.Component<any, IRippleState> {
                 }
             })
         })
-    }
-
-    private handleTransitionEnd = evt => {
-        if(this.ref.current) {
-            this.setState({rippleStyle:{}})
-            console.log(`end`,)
-        }
-    }
-
-    componentDidMount() {
-        this.ref.current.parentNode.addEventListener('mousedown', this.onMouseDown)
-    }
-
-    componentWillUnmount() {
-        this.ref.current.parentNode.addEventListener('mousedown', this.onMouseDown)
-    }
-
-    public render() {
-        return (
-            <div ref={this.ref} className={`${prefixCls}-ripple`}>
-                <div style={this.state.rippleStyle} onTransitionEnd={this.handleTransitionEnd}></div>
-            </div>
-        )
     }
 }
