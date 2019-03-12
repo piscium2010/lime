@@ -21,8 +21,6 @@ export default class Button extends React.Component<Props, State> {
         this.state = {
             active: false
         }
-        this.onMouseDown = this.onMouseDown.bind(this)
-        this.onMouseUp = this.onMouseUp.bind(this)
     }
 
     public render() {
@@ -34,19 +32,9 @@ export default class Button extends React.Component<Props, State> {
                 <button
                     className={classes}
                     {...props}
-                    onMouseDown={this.onMouseDown}
-                    onMouseUp={this.onMouseUp}
                 >
                     {children}
                 </button>
         )
-    }
-
-    private onMouseDown() {
-        //this.setState({ active: true })
-    }
-
-    private onMouseUp() {
-        //this.setState({ active: false })
     }
 }
