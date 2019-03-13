@@ -18,7 +18,7 @@ type Props = {
 const Row = ({ item, height, onClick }) => (
     <Ripple display='block'>
         <div
-            className='sd-dropdown-item'
+            className='lime-dropdown-item'
             onClick={() => onClick(item)}
             style={{ height }}
         >
@@ -58,7 +58,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
 
     public render() {
         return (
-            <div ref={ref => this.ref = ref} className='sd-dropdown-anchor'></div>
+            <div ref={ref => this.ref = ref} className='lime-dropdown-anchor'></div>
         )
     }
 
@@ -67,12 +67,12 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
 
         const Loading: any = () => (
             <Layer
-                className='sd-dropdown'
+                className='lime-dropdown'
                 boundingClientRect={this.ref.getBoundingClientRect()}
                 height={itemHeight}
                 onBlur={onBlur}
             >
-                <div className='sd-dropdown-loading'></div>
+                <div className='lime-dropdown-loading'></div>
             </Layer>
         )
 
@@ -91,7 +91,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
             let trackVertical = items.length > maxItems
             return (
                 <Layer
-                    className='sd-dropdown'
+                    className='lime-dropdown'
                     show
                     boundingClientRect={this.ref.getBoundingClientRect()}
                     height={height}
@@ -100,7 +100,7 @@ export default class Dropdown extends React.PureComponent<Props, {}> {
                     <Scroll trackVertical={trackVertical} height={height} onBlur={onBlur}>
                         {
                             items.length === 0 ?
-                                <div className='sd-dropdown-item'>
+                                <div className='lime-dropdown-item'>
                                     <span style={{ cursor: 'default' }}>No result found</span>
                                 </div>
                                 :

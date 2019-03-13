@@ -21,8 +21,8 @@ export default class Docker extends React.PureComponent<Props, {}> {
 
     public render() {
         return (
-            <div className='sd-docker-wrapper'>
-            <div className="sd-docker-container">
+            <div className='lime-docker-wrapper'>
+            <div className="lime-docker-container">
                 <ul>
                     <li><a>Home</a></li>
                     <li><a>Andorid</a></li>

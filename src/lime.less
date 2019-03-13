@@ -1,25 +1,25 @@
-@prefix: sd;
-@prefixCls: sd;
+@prefix: ~"lime";
+@prefixCls: ~"lime";
 @primaryColor: #a0d911;
-@sdBorderHoverColor: rgba(34,36,38,.35);
-@sdBorderColor: rgba(34,36,38,.15);
-@sdBorderRadius: 2px;
-@sdDisabledColor: rgba(0,0,0,.26);
-@sdDiabledBackgroundColor: rgba(0,0,0,.12);
+@limeBorderHoverColor: rgba(34,36,38,.35);
+@limeBorderColor: rgba(34,36,38,.15);
+@limeBorderRadius: 2px;
+@limeDisabledColor: rgba(0,0,0,.26);
+@limeDiabledBackgroundColor: rgba(0,0,0,.12);
 
-@sdBoxShadow: 
+@limeBoxShadow: 
 0 3px 1px -2px rgba(0, 0, 0, .2), 
 0 2px 2px 0 rgba(0, 0, 0, .14), 
 0 1px 5px 0 rgba(0, 0, 0, .12);
 
-.sd-box-shadow {
-    -moz-box-shadow: @sdBoxShadow;
-    -webkit-box-shadow: @sdBoxShadow;
-    box-shadow: @sdBoxShadow;
+.box-shadow {
+    -moz-box-shadow: @limeBoxShadow;
+    -webkit-box-shadow: @limeBoxShadow;
+    box-shadow: @limeBoxShadow;
 }
 
-.sd-raised {
-    .sd-box-shadow;
+.lime-raised {
+    .box-shadow;
 }
 
 .field {
@@ -29,11 +29,11 @@
 .input {
     box-sizing: border-box;
     width: 100%;
-    border-radius: @sdBorderRadius;
-    border: 1px solid @sdBorderColor;
+    border-radius: @limeBorderRadius;
+    border: 1px solid @limeBorderColor;
     height: 32px;
     &:hover {
-        border: 1px solid @sdBorderHoverColor;
+        border: 1px solid @limeBorderHoverColor;
     }
 }
 

@@ -8,10 +8,10 @@ export default class Dialog extends React.PureComponent<any, any> {
 
     public render() {
         const { className, children, show } = this.props
-        const classes = classnames('sd-dialog', className)
+        const classes = classnames('lime-dialog', className)
 
         return show ?
-            <div key={0} className='sd-dialog-mask'>
+            <div key={0} className='lime-dialog-mask'>
                 <div className={classes}>
                     {children}
                 </div>

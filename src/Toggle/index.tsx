@@ -21,8 +21,8 @@ export default class Toggle extends React.PureComponent<Props, State> {
 
     public render() {
         const { children, className, onClick, ...props } = this.props
-        const classes = classnames('sd-toggle', className)
-        const pegClasses = classnames('sd-toggle-peg', {
+        const classes = classnames('lime-toggle', className)
+        const pegClasses = classnames('lime-toggle-peg', {
             on: this.state.value
         })
 

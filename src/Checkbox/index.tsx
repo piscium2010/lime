@@ -22,19 +22,19 @@ export default class Checkbox extends React.PureComponent<Props, State> {
     public render() {
         const { checked } = this.state
         const { className, label, ...restProps } = this.props
-        const classes = classnames('sd-checkbox-wrapper', className)
-        const boxClasses = classnames('sd-checkbox', {
+        const classes = classnames('lime-checkbox-wrapper', className)
+        const boxClasses = classnames('lime-checkbox', {
             checked
         })
 
         return(
             <div className={classes} onClick={this.onClick}>
                 <div className={boxClasses}>
-                    <input className='sd-checkbox-input' type='checkbox' {...restProps}/>
+                    <input className='lime-checkbox-input' type='checkbox' {...restProps}/>
                 </div>
                 {
                     label &&
-                    <label className='sd-checkbox-label'>{label}</label>
+                    <label className='lime-checkbox-label'>{label}</label>
                 }
             </div>
         )

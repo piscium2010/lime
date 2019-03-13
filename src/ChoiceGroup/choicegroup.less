@@ -15,28 +15,28 @@
     }
 }
 
-.sd-choice-group {
+.lime-choice-group {
     display: flex;
 
-    .sd-choice {
+    .lime-choice {
         align-items: center;
         cursor: pointer;
         display: inline-flex;
 
-        .sd-choice-radio {
+        .lime-choice-radio {
             width: 14px;
             height: 14px;
             border-radius: 50%;
-            border: 1px solid @sdBorderColor;
+            border: 1px solid @limeBorderColor;
             position: relative;
         }
 
-        .sd-choice-text {
+        .lime-choice-text {
             padding: 0 5px;
         }
 
         &.selected {
-            .sd-choice-radio {
+            .lime-choice-radio {
                 border-color: @primaryColor;
                 &::before{
                     content: ' ';
@@ -54,7 +54,7 @@
         }
 
         &:hover {
-            .sd-choice-radio {
+            .lime-choice-radio {
                 border-color: lighten(@primaryColor,20%);
             }
         }

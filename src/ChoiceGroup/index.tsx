@@ -30,13 +30,13 @@ export default class ChoiceGroup extends React.PureComponent<Props, State> {
 
     public render() {
         const { className, options, ...props } = this.props
-        const classes = classnames('sd-choice-group', className)
+        const classes = classnames('lime-choice-group', className)
 
         return (
             <div className={classes}>
                 {
                     options.map(option => {
-                        const choiceClasses = classnames('sd-choice', {
+                        const choiceClasses = classnames('lime-choice', {
                             selected: option.key == this.selectedKey
                         })
                         return (
@@ -44,8 +44,8 @@ export default class ChoiceGroup extends React.PureComponent<Props, State> {
                                 className={choiceClasses}
                                 onClick={evt => this.onClickChoice(option)}
                             >
-                                <div className='sd-choice-radio'></div>
-                                <div className='sd-choice-text'>{option.text}</div>
+                                <div className='lime-choice-radio'></div>
+                                <div className='lime-choice-text'>{option.text}</div>
                             </div>
                         )
                     })

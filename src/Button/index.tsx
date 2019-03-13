@@ -25,7 +25,7 @@ export default class Button extends React.Component<Props, State> {
 
     public render() {
         const { children, className, type, ...props } = this.props
-        const classes = classnames('sd-button', className, type, {
+        const classes = classnames('lime-button', className, type, {
             active: this.state.active
         })
         return (

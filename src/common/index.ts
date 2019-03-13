@@ -1,1 +1,1 @@
-export const prefixCls = 'sd'
+export const prefixCls = 'lime'

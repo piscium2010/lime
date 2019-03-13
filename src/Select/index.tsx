@@ -33,13 +33,13 @@ export default class Select extends React.PureComponent<Props, State> {
     public render() {
         const { focus } = this.state
         const { children, className, label, onChange, options, ...props } = this.props
-        const classes = classnames('sd-select-input', className, {
+        const classes = classnames('lime-select-input', className, {
             filled: this.state.value ? true : false
         })
 
         return (
             <div className={classes}>
-                {label && <label className='sd-select-input-label'>{label}</label>}
+                {label && <label className='lime-select-input-label'>{label}</label>}
                 <input
                     type='text'
                     onChange={this.onTextChange}

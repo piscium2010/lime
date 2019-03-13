@@ -1,4 +1,4 @@
-@keyframes sd-loading-spin {
+@keyframes lime-loading-spin {
     from { transform: rotate(0deg)}
     to { transform: rotate(360deg)}
 }
@@ -7,7 +7,7 @@
     overflow: hidden !important;
 }
 
-.sd-dropdown-anchor {
+.lime-dropdown-anchor {
     position: absolute;
     left: 0;
     top: 0;
@@ -17,8 +17,8 @@
     height: 100%;
 }
 
-.sd-dropdown {
-    .sd-dropdown-item {
+.lime-dropdown {
+    .lime-dropdown-item {
         box-sizing: border-box;
         padding: 0 10px;
         &:hover {
@@ -26,11 +26,11 @@
         }
     }
 
-    border-radius: @sdBorderRadius;
-    .sd-box-shadow;
+    border-radius: @limeBorderRadius;
+    .box-shadow;
     z-index: 1;
 
-    .sd-dropdown-loading {
+    .lime-dropdown-loading {
         position: relative;
         top: 50%;
         transform: translateY(-50%);
@@ -42,6 +42,6 @@
         border-right: 1px solid lighten(@primaryColor, 35%);
         border-bottom: 1px solid lighten(@primaryColor, 35%);
         border-left: 1px solid @primaryColor;
-        animation: sd-loading-spin .5 ease-out 0 infinite forwards;
+        animation: lime-loading-spin .5 ease-out 0 infinite forwards;
     }
 }
