@@ -41,7 +41,7 @@ export default class List extends React.PureComponent<any, any> {
                 rows.push(
                     <div
                         className='lime-list-item'
-                        key={index}
+                        key={item.key || index}
                         style={{
                             height: itemHeight,
                             lineHeight: `${itemHeight}px`
