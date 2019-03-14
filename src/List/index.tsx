@@ -1,6 +1,7 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
 import Scroll from '../Scroll/index'
+import { prefixCls } from '../common/index'
 
 export default class List extends React.PureComponent<any, any> {
     public static defaultProps = {
@@ -19,7 +20,7 @@ export default class List extends React.PureComponent<any, any> {
 
     public render() {
         const { className, items, itemHeight, pageSize, renderItem } = this.props
-        const classes = classnames('lime-list-wrapper', className)
+        const classes = classnames(`${prefixCls}-list-wrapper`, className)
         const rows = []
         if(!items) return null
 
@@ -40,7 +41,7 @@ export default class List extends React.PureComponent<any, any> {
             } else {
                 rows.push(
                     <div
-                        className='lime-list-item'
+                        className={`${prefixCls}-list-row`}
                         key={item.key || index}
                         style={{
                             height: itemHeight,
