@@ -18,6 +18,24 @@
     box-shadow: @limeBoxShadow;
 }
 
+.@{prefixCls} {
+    &-active {
+        background-color: lighten(@primaryColor, 50%);
+    }
+
+    &-active-text {
+        color: @primaryColor;
+    }
+
+    &-ribbon-right {
+        border-right: 2px solid @primaryColor;
+    }
+
+    &-ribbon-left {
+        border-left: 2px solid @primaryColor;
+    }
+}
+
 .lime-raised {
     .box-shadow;
 }

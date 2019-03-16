@@ -17,6 +17,16 @@
             &:active, &:focus {
                 outline: none;
             }
+            &:-moz-read-only {
+                cursor: pointer;   
+            }
+            &:read-only {
+                cursor: pointer;
+            }
+        }
+
+        input[type='checkbox'] {
+            background-color: @primaryColor;
         }
     
         &::after {
