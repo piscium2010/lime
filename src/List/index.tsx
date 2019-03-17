@@ -5,8 +5,7 @@ import { prefixCls } from '../common/index'
 
 export default class List extends React.PureComponent<any, any> {
     public static defaultProps = {
-        height: 200,
-        pageSize: 10,
+        pageSize: 20,
         itemHeight: 30,
         renderItem: defaultRowRenderer
     }
@@ -45,10 +44,10 @@ export default class List extends React.PureComponent<any, any> {
                         key={item.key || index}
                         style={{
                             height: itemHeight,
-                            lineHeight: `${itemHeight}px`
+                            // lineHeight: `${itemHeight}px`
                         }}
                     >
-                        {renderItem(item)}
+                        {renderItem(item, index)}
                     </div>
                 )
             }
@@ -99,7 +98,7 @@ function defaultRowRenderer(item) {
         <div
             style={{padding: '0 13px', display: 'flex', height: '100%'}}
         >
-            <span style={{alignSelf: 'center'}} title={item}>{item}</span>
+            <span style={{alignSelf: 'center'}} title={item.value}>{item.value}</span>
         </div>
     )
 }
