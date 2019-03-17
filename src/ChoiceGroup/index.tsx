@@ -2,7 +2,7 @@ import * as classnames from 'classnames'
 import * as React from 'react'
 import Dropdown from '../Dropdown/index'
 
-type Option = {key, text}
+type Option = {key, value}
 
 type Props = {
     className?: string
@@ -45,7 +45,7 @@ export default class ChoiceGroup extends React.PureComponent<Props, State> {
                                 onClick={evt => this.onClickChoice(option)}
                             >
                                 <div className='lime-choice-radio'></div>
-                                <div className='lime-choice-text'>{option.text}</div>
+                                <div className='lime-choice-text'>{option.value}</div>
                             </div>
                         )
                     })
