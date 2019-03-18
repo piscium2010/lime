@@ -48,7 +48,7 @@ export default class Ripple extends React.Component<any, IRippleState> {
                     ...this.state.rippleStyle,
                     height: max * 2,
                     opacity: 0,
-                    transition: 'all .6s',
+                    transition: 'all .5s',
                     transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
                     width: max * 2
                 }
