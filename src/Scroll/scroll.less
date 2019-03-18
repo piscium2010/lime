@@ -30,7 +30,12 @@
         padding-right: 20px;
         width: 100%;
         height: inherit;
+        scrollbar-width: none; // firefox scroll bar with
         //width: calc(100% + 20px) !important;
+        &-content {
+            margin: 0;
+        }
+
         &.track-vertical {
             overflow-y: scroll;
         }
