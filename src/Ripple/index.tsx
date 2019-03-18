@@ -46,11 +46,11 @@ export default class Ripple extends React.Component<any, IRippleState> {
             this.setState({
                 rippleStyle: {
                     ...this.state.rippleStyle,
-                    height: max * 2,
+                    height: max * 2.3,
                     opacity: 0,
                     transition: 'all .5s',
                     transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
-                    width: max * 2
+                    width: max * 2.3
                 }
             })
         })
@@ -59,7 +59,6 @@ export default class Ripple extends React.Component<any, IRippleState> {
     private handleTransitionEnd = evt => {
         if(this.ref.current) {
             this.setState({rippleStyle:{}})
-            console.log(`end`,)
         }
     }
 

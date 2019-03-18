@@ -1,20 +1,20 @@
 .@{prefixCls} {
     &-button {
         border-radius: @limeBorderRadius;
-        border: 1px solid transparent;
+        border: 1px solid @limeBorderColor;
         background-color: inherit;
         cursor: pointer;
-        color: @primaryColor;
-        padding: 10px 16px;
+        color: currentColor;
+        padding: 10px 10px;
         position: relative;
+        transition: border-color .2s ease, color .2s ease;
 
         &:active, &:focus {
             outline: none;
         }
 
         &:hover {
-            background-color: lighten(@primaryColor, 50%);
-            border: 1px solid lighten(@primaryColor, 50%);
+            border: 1px solid lighten(@primaryColor, 20%);
             color: @primaryColor;
         }
 
@@ -22,6 +22,8 @@
             cursor: default;
             box-shadow: none;
             color: @limeDisabledColor;
+            background: none;
+            border-color: @limeDisabledColor;
         }
     
         &.primary {
@@ -62,6 +64,12 @@
             color: currentColor;
             border: 1px solid transparent;
             background-color: inherit;
+
+            &:not(:disabled):hover {
+                border: 1px solid lighten(@primaryColor, 50%);
+                background-color: lighten(@primaryColor, 50%);
+                color: @primaryColor;
+            }
 
             &:disabled {
                 color: @limeDisabledColor;

@@ -19,25 +19,30 @@
 }
 
 .@{prefixCls} {
+    // util
     &-active {
-        background-color: lighten(@primaryColor, 50%);
+        background-color: lighten(@primaryColor, 50%) !important;
     }
 
     &-active-text {
-        color: @primaryColor;
+        color: @primaryColor !important;
     }
 
     &-flex-center {
-        display: flex;
-        justify-content: center;
+        display: flex !important;
+        justify-content: center !important;
     }
 
     &-ribbon-right {
-        border-right: 2px solid @primaryColor;
+        border-right: 2px solid @primaryColor !important;
     }
 
     &-ribbon-left {
-        border-left: 2px solid @primaryColor;
+        border-left: 2px solid @primaryColor !important;
+    }
+
+    &-round {
+        border-radius: 50% !important;
     }
 }
 
