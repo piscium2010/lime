@@ -3,7 +3,11 @@
         &-text {
             margin-left: 10px;
             margin-right: auto;
+            padding-right: 22px;
             pointer-events: none;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         &-input {
             display: flex;
@@ -13,13 +17,13 @@
         
             > input {   
                 .field;
-                position: absolute;
                 box-sizing: border-box;
-                width: 100%;
-                height: 100%;
                 background-color: transparent;
                 border: none;
+                height: 100%;
+                position: absolute;
                 text-overflow: ellipsis;
+                width: 100%;
                 &:active, &:focus {
                     outline: none;
                 }
