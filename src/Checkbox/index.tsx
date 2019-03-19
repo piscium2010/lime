@@ -1,48 +1,59 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
+import { prefixCls } from '../common/index'
 
-type Props = {
+export interface ICheckboxProps extends React.AllHTMLAttributes<HTMLDivElement> {
+    boxStyle?: React.CSSProperties
     className?: string
+    defaultChecked?: boolean
     label?: string
+    name?: string
+    onChange?: Function
 }
 
-type State = {
+export interface ICheckboxState {
     checked: boolean
 }
 
-export default class Checkbox extends React.PureComponent<Props, State> {
+export default class Checkbox extends React.PureComponent<ICheckboxProps, ICheckboxState> {
+    static defaultProps = {
+        onchange: () => { },
+        onClick: () => { }
+    }
+
     constructor(props) {
         super(props)
         this.state = {
-            checked: false
+            checked: 'defaultChecked' in props ? props.defaultChecked : false
         }
-        this.onClick = this.onClick.bind(this)
+    }
+
+    get checked() {
+        return 'checked' in this.props ? this.props.checked : this.state.checked
+    }
+
+    private onClick = evt => {
+        const { checked } = this.state
+        this.setState({ checked: !checked })
+        this.props.onChange({ name: this.props.name, checked: !checked })
+        this.props.onClick(evt)
     }
 
     public render() {
         const { checked } = this.state
-        const { className, label, ...restProps } = this.props
-        const classes = classnames('lime-checkbox-wrapper', className)
-        const boxClasses = classnames('lime-checkbox', {
-            checked
-        })
+        const { boxStyle, className, label, name = '', onChange, onClick, ...rest } = this.props
+        const classes = classnames(`${prefixCls}-checkbox-wrapper`, className)
+        const boxClasses = classnames(`${prefixCls}-checkbox`, { checked })
 
-        return(
-            <div className={classes} onClick={this.onClick}>
-                <div className={boxClasses}>
-                    <input className='lime-checkbox-input' type='checkbox' {...restProps}/>
-                </div>
+        return (
+            <div className={classes} onClickCapture={this.onClick} {...rest}>
+                <span className={boxClasses} style={boxStyle}>
+                    <input className={`${prefixCls}-checkbox-input`} type='checkbox' name={name} checked={this.checked} />
+                </span>
                 {
-                    label &&
-                    <label className='lime-checkbox-label'>{label}</label>
+                    label && <label className={`${prefixCls}-checkbox-label`} for={name} >{label}</label>
                 }
             </div>
         )
-    }
-
-    private onClick(evt) {
-        this.setState(preState => ({
-            checked: !preState.checked
-        }))
     }
 }
