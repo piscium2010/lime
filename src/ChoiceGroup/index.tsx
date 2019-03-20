@@ -57,7 +57,7 @@ export default class ChoiceGroup extends React.PureComponent<IChoiceGroupProps, 
                                 onClick={evt => this.onClickChoice(option)}
                             >
                                 <div className={`${prefixCls}-choice-radio`}></div>
-                                <div className={`${prefixCls}-choice-text`}>{option.value}</div>
+                                <div className={`${prefixCls}-choice-text`}>{option.text}</div>
                                 <input type="radio" name={name} value={option.value}></input>
                             </div>
                         )
