@@ -12,7 +12,7 @@ export interface IScrollProps {
     trackVertical?: boolean
 }
 
-export interface IScrollState {}
+export interface IScrollState { }
 
 export default class Scroll extends React.PureComponent<IScrollProps, {}> {
     public static defaultProps = {
@@ -209,7 +209,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
     render() {
         const { className, height, trackVertical, children, style: _style } = this.props
         const wrapperClasses = classnames(`${prefixCls}-scroll-wrapper`, className)
-        const style = Object.assign({ height }, _style)
+        const style = Object.assign({ height }, _style, { padding: 0 })
         const classes = classnames(`${prefixCls}-scroll`, {
             ['track-vertical']: trackVertical
         })
