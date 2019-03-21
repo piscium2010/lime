@@ -15,8 +15,8 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     private ref: React.RefObject<HTMLDivElement>
     private animating: string
     private _collapsibleHeight: number
-    private handlTransitionEnd: Function
-    private debouncedhandlTransitionEnd: Function
+    private handleTransitionEnd: any
+    private debouncedhandleTransitionEnd: any
 
     constructor(props) {
         super(props)
@@ -24,7 +24,7 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
         this.state = {
             expand: props.defaultExpand || false
         }
-        this.debouncedhandlTransitionEnd = debounce(this.handlTransitionEnd, 500)
+        this.debouncedhandleTransitionEnd = debounce(this.handleTransitionEnd, 10)
     }
 
     private get collapsibleHeight() {
@@ -48,7 +48,9 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
                 this.node.style.height = ``
                 break
             case 'end_of_leave':
-                this.node.style.display = 'none'
+            console.log(`leave`,)
+                this.node.classList.add('lime-hidden')
+                //this.node.style.display = 'none'
                 this.node.style.height = ``
                 break
             default:
@@ -58,19 +60,21 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     }
 
     private performEnterAnimation = () => {
-        this.node.style.height = ``
-        this.node.style.display = 'block'
+        console.log(`remeove`,)
+        this.node.classList.remove('lime-hidden')
+        // this.node.style.display = 'block'
+        // this.node.style.height = ``
         const height = this.collapsibleHeight // 1st
         this.animating = 'enter' // 2nd
         const handleTransitionEnd = () => {
             if (this.animating === 'enter') {
-                this.debouncedhandlTransitionEnd('end_of_enter')
+                this.handleTransitionEnd('end_of_enter')
             }
             this.node.removeEventListener('transitionend', handleTransitionEnd)
         }
         this.node.addEventListener('transitionend', handleTransitionEnd)
         this.node.style.height = '0px'
-        setTimeout(() => { this.node.style.height = `${height}px` }, 17)
+        setTimeout(() => { this.node.style.height = `${height}px` }, 5)
     }
 
     private performLeaveAnimation = () => {
@@ -78,17 +82,23 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
         this.animating = 'leave' // 2nd
         const handleTransitionEnd = () => {
             if (this.animating === 'leave') {
-                this.debouncedhandlTransitionEnd('end_of_leave')
+                this.handleTransitionEnd('end_of_leave')
             }
             this.node.removeEventListener('transitionend', handleTransitionEnd)
         }
         this.node.addEventListener('transitionend', handleTransitionEnd)
         this.node.style.height = `${height}px`
-        setTimeout(() => { this.node.style.height = `0px` }, 17)
+        setTimeout(() => { this.node.style.height = `0px` }, 5)
     }
 
     componentDidMount() {
-        this.node.style.display = this.expand ? 'block' : 'none'
+        if(!this.expand) {
+            console.log(`add`,)
+            this.node.classList.add('lime-hidden')
+        } else {
+            console.log(`not add`,)
+        }
+        // this.node.style.display = this.expand ? 'block' : 'none'
     }
 
     componentDidUpdate() {
