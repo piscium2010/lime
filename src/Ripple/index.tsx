@@ -1,11 +1,15 @@
 import * as React from 'react'
 import { prefixCls } from '../common';
 
+export interface IRippleProps {
+    color?: string
+}
+
 interface IRippleState {
     rippleStyle: object
 }
 
-export default class Ripple extends React.Component<any, IRippleState> {
+export default class Ripple extends React.Component<IRippleProps, IRippleState> {
     private ref
 
     constructor(props) {
@@ -22,13 +26,13 @@ export default class Ripple extends React.Component<any, IRippleState> {
             clientY,
             currentTarget: { offsetWidth, offsetHeight }
         } = evt
-
+        const { color = 'white' } = this.props
         const rect = this.ref.current.getBoundingClientRect()
         const max = Math.max(offsetWidth, offsetHeight)
 
         this.setState({
             rippleStyle: {
-                backgroundColor: 'white',
+                backgroundColor: color,
                 borderRadius: '50%',
                 height: max * .6,
                 left: clientX - rect.left,
