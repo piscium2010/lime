@@ -10,6 +10,9 @@ export interface IChoiceOptionProps extends React.AllHTMLAttributes<HTMLDivEleme
 }
 
 export default class Option extends React.PureComponent<IChoiceOptionProps, {}> {
+    static defaultProps = {
+        onClick: () => { }
+    }
     
     onClick = evt => {
         this.props.onClickChoice({ value: this.props.value })
