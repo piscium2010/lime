@@ -1,47 +1,50 @@
 .@{prefixCls} {
-    
-}
-.lime-textField-input {
-    position: relative;
-    .input;
-    > input {
-        .field;
-        box-sizing: border-box;
-        background-color: transparent;
-        border: none;
-        height: 100%;
-        position: absolute;
-        text-overflow: ellipsis;
-        width: 100%;
-        &:active, &:focus {
-            outline: none;
-        }
-        &:-moz-read-only {
-            cursor: pointer;   
-        }
-        &:read-only {
-            cursor: pointer;
-        }
-    }
-
-    .lime-textField-input-label {
-        color: rgba(0, 0, 0, .6);
-        position: absolute;
-        pointer-events: none;
-        left: 13px;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    &.filled {
-        .lime-textField-input-label {
-            left: 10px;
-            top: 0;
-            transform: translateY(-50%);
-            padding: 0 3px;
-            font-size: 12px;
-            transition: all .1s ease-out;
-            background: #fff; 
+    &-textField {
+        &-input {
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+            .input;
+            > input {
+                .field;
+                box-sizing: border-box;
+                background-color: transparent;
+                border: none;
+                height: 100%;
+                position: absolute;
+                text-overflow: ellipsis;
+                width: 100%;
+                &:active, &:focus {
+                    outline: none;
+                }
+                &:-moz-read-only {
+                    cursor: pointer;   
+                }
+                &:read-only {
+                    cursor: pointer;
+                }
+            }
         }
     }
 }
+
+// .lime-textField-input-label {
+//     color: rgba(0, 0, 0, .6);
+//     position: absolute;
+//     pointer-events: none;
+//     left: 13px;
+//     top: 50%;
+//     transform: translateY(-50%);
+// }
+
+// &.filled {
+//     .lime-textField-input-label {
+//         left: 10px;
+//         top: 0;
+//         transform: translateY(-50%);
+//         padding: 0 3px;
+//         font-size: 12px;
+//         transition: all .1s ease-out;
+//         background: #fff; 
+//     }
+// }

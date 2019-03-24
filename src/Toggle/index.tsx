@@ -1,39 +1,49 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
+import { prefixCls } from '../common/index'
 
-type Props = {
+export interface IToggleProps {
     className?: string
-    onClick?: (event) => void
+    name: string
+    checked: boolean
+    onChange?: (event) => void
 }
 
-type State = {
-    value: boolean
+interface IToggleState {
+    checked: boolean
 }
 
-export default class Toggle extends React.PureComponent<Props, State> {
+export default class Toggle extends React.PureComponent<IToggleProps, IToggleState> {
     constructor(props) {
         super(props)
         this.state = {
-            value: false
+            checked: props.defaultChecked || false
         }
-        this.onToggle = this.onToggle.bind(this)
     }
 
-    public render() {
-        const { children, className, onClick, ...props } = this.props
-        const classes = classnames('lime-toggle', className)
-        const pegClasses = classnames('lime-toggle-peg', {
-            on: this.state.value
+    get checked() {
+        return 'checked' in this.props ? this.props.checked : this.state.checked
+    }
+
+    private onToggle = evt => {
+        const checked = !this.state.checked
+        const { name } = this.props
+        this.setState({ checked })
+        this.props.onChange && this.props.onChange({name, checked})
+    }
+
+    render() {
+        const { children, className, name = '', ...rest } = this.props
+        const classes = classnames(`${prefixCls}-toggle`, className)
+        const pegClasses = classnames(`${prefixCls}-toggle-peg`, {
+            on: this.checked
         })
 
-        return(
-            <div className={classes} onClick={this.onToggle} {...props}>
+        return (
+            <div className={classes} onClick={this.onToggle} {...rest}>
                 <div className={pegClasses}></div>
+                <input name={name} type='checkbox' checked={this.checked} style={{ position: 'absolute', visibility: 'hidden' }} />
             </div>
         )
-    }
-
-    private onToggle() {
-        this.setState(state => ({ value: !state.value }))
     }
 }
