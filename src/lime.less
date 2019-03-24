@@ -68,7 +68,18 @@
     border: 1px solid @limeBorderColor;
     height: 32px;
     &:hover {
-        border: 1px solid @limeBorderHoverColor;
+        box-shadow: 0 0 5px -1px @primaryColor;
+        > input {
+            &:focus, &:active {
+                box-shadow: none !important;
+            }
+        }
+    }
+
+    > input {
+        &:focus, &:active {
+            box-shadow: 0 0 5px -1px @primaryColor;
+        }
     }
 }
 

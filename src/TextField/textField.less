@@ -1,7 +1,27 @@
+.@{prefixCls} {
+    
+}
 .lime-textField-input {
     position: relative;
-    input {
-        .input;
+    .input;
+    > input {
+        .field;
+        box-sizing: border-box;
+        background-color: transparent;
+        border: none;
+        height: 100%;
+        position: absolute;
+        text-overflow: ellipsis;
+        width: 100%;
+        &:active, &:focus {
+            outline: none;
+        }
+        &:-moz-read-only {
+            cursor: pointer;   
+        }
+        &:read-only {
+            cursor: pointer;
+        }
     }
 
     .lime-textField-input-label {
