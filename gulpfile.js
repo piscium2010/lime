@@ -5,6 +5,8 @@ const less = require('gulp-less');
 const tsProject = ts.createProject('tsconfig.json');
 const path = require('path')
 
+if (!fs.existsSync('dist')) { fs.mkdirSync('dist'); }
+
 gulp.task('clean', cb => {
     rmDir('dist')
     cb()
@@ -39,7 +41,7 @@ function rmDir(dirPath, removeSelf = false) {
         files = fs.readdirSync(dirPath)
     }
     catch (e) {
-        console.exception(e)
+        console.error(e)
         return;
     }
 
