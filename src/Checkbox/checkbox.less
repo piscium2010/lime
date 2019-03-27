@@ -1,20 +1,21 @@
 @tickHeight: "@{prefixCls}-checkbox-tickHeight";
 @tickWidth: "@{prefixCls}-checkbox-tickWidth";
 
+.@{prefixCls} {
+    &-checkbox-wrapper {
+        align-items: center;
+        cursor: pointer;
+        display: inline-flex;
+        position: relative;
 
-.@{prefixCls}-checkbox-wrapper {
-    align-items: center;
-    cursor: pointer;
-    display: inline-flex;
-    position: relative;
-
-    &:hover {
-        .@{prefixCls}-checkbox {
-            border: 1px solid @primaryColor;;
+        &:hover {
+            .@{prefixCls}-checkbox {
+                border: 1px solid @primaryColor;
+            }
         }
     }
 
-    .@{prefixCls}-checkbox {
+    &-checkbox {
         border: 1px solid @limeBorderColor;
         border-radius: @limeBorderRadius;
         box-sizing: border-box;
@@ -22,20 +23,12 @@
         height: 15px;
         width: 15px;
         position: relative;
-        .@{prefixCls}-checkbox-input {
-            cursor: inherit;
-            width: 100%;
-            margin: 0;
-            opacity: 0;
-            padding: 0;
-            height: 100%;
-        }
-    
+
         &.checked {
             border: 1px solid @primaryColor;
             background: @primaryColor;
         }
-    
+
         &.checked::before {
             content: " ";
             border-left: 2px solid currentColor;
@@ -47,13 +40,25 @@
             position: absolute;
             transform: rotate(-45deg);
             width: 0;
-            .keyframes(@tickHeight; {
-                from { height: 0; }
-                to { height: 40%; }
+            .keyframes(@tickHeight;
+            {
+                from {
+                    height: 0;
+                }
+
+                to {
+                    height: 40%;
+                }
             });
-            .keyframes(@tickWidth; {
-                from { width: 0; }
-                to { width: 70%; }
+            .keyframes(@tickWidth;
+            {
+                from {
+                    width: 0;
+                }
+
+                to {
+                    width: 70%;
+                }
             });
             .animation(~"@{tickHeight} .1s ease-in forwards, @{tickWidth} .1s .1s ease-in forwards");
         }
@@ -76,12 +81,18 @@
         }
     }
 
-    .@{prefixCls}-checkbox-label {
+    &-checkbox-input {
+        cursor: inherit;
+        width: 100%;
+        margin: 0;
+        opacity: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    &-checkbox-label {
         cursor: inherit;
         line-height: inherit;
         margin-left: 6px;
     }
 }
-
-
-

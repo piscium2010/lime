@@ -8,10 +8,9 @@ export interface IDialog extends React.AllHTMLAttributes<HTMLDivElement> {
 }
 
 export default class Dialog extends React.PureComponent<any, {}> {
+    private contentRef: React.RefObject<HTMLDivElement>
 
-    private contentRef: React.RefObject
-
-    public static defaultProps = {
+    static defaultProps = {
         show: false,
         onBlurDialog: () => { }
     }
@@ -21,17 +20,17 @@ export default class Dialog extends React.PureComponent<any, {}> {
         this.contentRef = React.createRef()
     }
 
-    get contentNode() {
+    private get contentNode() {
         return this.contentRef.current
     }
 
-    onBlurDialog = evt => {
+    private onBlurDialog = evt => {
         if (this.contentNode && !this.contentNode.contains(evt.target)) {
             this.props.onBlurDialog()
         }
     }
 
-    public render() {
+    render() {
         const { className, children, show, onBlurDialog, ...rest } = this.props
         const classes = classnames(`${prefixCls}-dialog`, className)
 

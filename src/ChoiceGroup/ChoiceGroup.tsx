@@ -2,7 +2,6 @@ import * as classnames from 'classnames'
 import * as React from 'react'
 import ChoiceOption from './Option'
 import { prefixCls } from '../common/index'
-import { any } from 'prop-types';
 
 export type Option = { value }
 
@@ -15,7 +14,7 @@ export interface IChoiceGroupProps {
     value?: string | number
 }
 
-export interface IChoiceGroupState {
+interface IChoiceGroupState {
     value: string | number
 }
 
@@ -29,7 +28,7 @@ export default class ChoiceGroup extends React.PureComponent<IChoiceGroupProps, 
     constructor(props) {
         super(props)
         this.state = {
-            value: props.defaultValue
+            value: 'defaultValue' in props ? props.defaultValue : ''
         }
     }
 
@@ -42,8 +41,8 @@ export default class ChoiceGroup extends React.PureComponent<IChoiceGroupProps, 
         this.props.onChange(option)
     }
 
-    public render() {
-        const { className, children, name = '', options, onChange, ...rest } = this.props
+    render() {
+        const { className, children, defaultValue, name = '', options, onChange, ...rest } = this.props
         const classes = classnames(`${prefixCls}-choice-group`, className)
 
         return (
