@@ -11,7 +11,9 @@
   },
   "watch": {
     "gulp": {
-      "patterns": ["src"],
+      "patterns": [
+        "src"
+      ],
       "extensions": "less,js,jsx,tsx",
       "quiet": false
     }
@@ -58,8 +60,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "debounce": "^1.2.0",
-    "prop-types": "^15.6.2"
+    "debounce": "^1.2.0"
   },
   "description": ""
 }
