@@ -1,6 +1,6 @@
 import * as classnames from 'classnames'
-import * as React from 'react'
 import * as debounce from 'debounce'
+import * as React from 'react'
 import { prefixCls } from '../common/index'
 
 export interface IScrollProps {
@@ -189,15 +189,10 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
         }
     }
 
-    componentDidUpdate() {
-        //this.updateRect()
-    }
-
     componentDidMount() {
         window.addEventListener('scroll', this.onWindowScroll, true)
         window.addEventListener('mousemove', this.onMouseMove, true)
         window.addEventListener('mouseup', this.onMouseUp, true)
-        //this.updateRect()
     }
 
     componentWillUnmount() {

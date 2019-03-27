@@ -9,7 +9,7 @@ export interface ICheckboxProps {
     defaultChecked?: boolean
     label?: string
     name?: string
-    onChange?: ({ name: string, checked: boolean }) => void
+    onChange?: ({ name, checked }) => void
 }
 
 interface ICheckboxState {
@@ -18,7 +18,7 @@ interface ICheckboxState {
 
 export default class Checkbox extends React.PureComponent<ICheckboxProps, ICheckboxState> {
     static defaultProps = {
-        onchange: () => { },
+        onChange: () => { },
         onClick: () => { }
     }
 

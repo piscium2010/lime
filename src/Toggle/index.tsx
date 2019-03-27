@@ -17,11 +17,11 @@ export default class Toggle extends React.PureComponent<IToggleProps, IToggleSta
     constructor(props) {
         super(props)
         this.state = {
-            checked: props.defaultChecked || false
+            checked: 'defaultChecked' in props ? props.defaultChecked : false
         }
     }
 
-    get checked() {
+    private get checked() {
         return 'checked' in this.props ? this.props.checked : this.state.checked
     }
 
@@ -29,7 +29,7 @@ export default class Toggle extends React.PureComponent<IToggleProps, IToggleSta
         const checked = !this.state.checked
         const { name } = this.props
         this.setState({ checked })
-        this.props.onChange && this.props.onChange({name, checked})
+        this.props.onChange && this.props.onChange({ name, checked })
     }
 
     render() {
