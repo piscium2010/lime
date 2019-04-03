@@ -28,6 +28,7 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
     private tempPageY: number
     private tempScrollTop: number
     private debouncedHideScrollVerticalThumb: Function
+    private debouncedShowOrHideVerticalThumb: Function
     private debouncedSetStyle: Function
     private mouseDownVerticalScrollBar: boolean
     private mouseOverVerticalScrollBar: boolean
@@ -38,7 +39,8 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
         this.contentRef = React.createRef()
         this.scrollRef = React.createRef()
         this.verticalThumbRef = React.createRef()
-        this.debouncedHideScrollVerticalThumb = debounce(this.hideScrollVerticalThumb, 1000)
+        this.debouncedHideScrollVerticalThumb = debounce(this.hideScrollVerticalThumb, 500)
+        this.debouncedShowOrHideVerticalThumb = debounce(this.showOrHideVerticalThumb, 500)
         this.debouncedSetStyle = debounce(this.setStyle, 300)
     }
 
@@ -75,8 +77,9 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
 
     private onScroll = evt => {
         evt.stopPropagation()
-        this.showVerticalTrackButton()
-        this.debouncedHideScrollVerticalThumb()
+        this.showVerticalTrackThumb()
+        // this.debouncedHideScrollVerticalThumb()
+        this.debouncedShowOrHideVerticalThumb(/*show=*/false)
         this.props.onScroll(evt)
     }
 
@@ -85,14 +88,15 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
         this.mouseDownVerticalScrollBar = true
         this.tempPageY = pageY
         this.tempScrollTop = this.scrollRef.current.scrollTop
-        this.setTrackVerticalButtonHoverStyle()
+        this.setTrackVerticalThumbHoverStyle()
         evt.preventDefault()
         evt.stopPropagation()
     }
 
     private onMouseOverVerticalScrollBar = evt => {
         this.mouseOverVerticalScrollBar = true
-        this.setTrackVerticalButtonHoverStyle()
+        this.setTrackVerticalThumbHoverStyle()
+        this.debouncedShowOrHideVerticalThumb(/*show=*/true)
     }
 
     private onMouseLeaveVerticalScrollBar = evt => {
@@ -100,16 +104,19 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
         if (!this.isHoveringOnTrackVerticalButton) {
             this.setTrackVerticalThumbStyle()
         }
+        this.debouncedShowOrHideVerticalThumb(/*show=*/false)
     }
 
     private onMouseOverVerticalScrollBarArea = evt => {
         this.mouseOverVerticalTrack = true
-        this.showVerticalTrackButton()
+        // this.showVerticalTrackThumb()
+        this.debouncedShowOrHideVerticalThumb(/*show=*/true)
     }
 
     private onMouseLeaveVerticalScrollBarArea = evt => {
         this.mouseOverVerticalTrack = false
-        this.debouncedHideScrollVerticalThumb()
+        this.debouncedShowOrHideVerticalThumb(/*show=*/false)
+        // this.debouncedHideScrollVerticalThumb()
     }
 
     private onMouseMove = evt => {
@@ -138,10 +145,11 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
             && this.verticalThumbRef.current) {
             this.setTrackVerticalThumbStyle()
         }
-        this.debouncedHideScrollVerticalThumb()
+        // this.debouncedHideScrollVerticalThumb()
+        this.debouncedShowOrHideVerticalThumb(false)
     }
 
-    private showVerticalTrackButton = () => {
+    private showVerticalTrackThumb = () => {
         let top: number
         let contentHeight = this.contentHeight
         let scrollHeight = this.scrollHeight
@@ -161,24 +169,32 @@ export default class Scroll extends React.PureComponent<IScrollProps, {}> {
         }
     }
 
+    private showOrHideVerticalThumb = show => {
+        if (show) {
+            this.showVerticalTrackThumb()
+        } else {
+            this.hideScrollVerticalThumb()
+        }
+    }
+
     private setTrackVerticalThumbStyle = () => {
         this.debouncedSetStyle(1)
     }
 
-    private setTrackVerticalButtonHoverStyle = () => {
+    private setTrackVerticalThumbHoverStyle = () => {
         this.debouncedSetStyle(2)
     }
 
     private setStyle = (option: number) => {
         if (this.contentRef.current && this.verticalThumbRef.current) {
             switch (option) {
-                case 1:
+                case 1: // normal
                     this.contentRef.current.style.pointerEvents = 'auto'
                     this.verticalThumbRef.current.style.width = '6px'
                     this.verticalThumbRef.current.style.borderRadius = '3px'
                     this.verticalThumbRef.current.style.backgroundColor = 'rgba(0, 0, 0, .3)'
                     break
-                case 2:
+                case 2: // hover
                     this.contentRef.current.style.pointerEvents = 'none'
                     this.verticalThumbRef.current.style.width = '8px'
                     this.verticalThumbRef.current.style.borderRadius = '4px'
