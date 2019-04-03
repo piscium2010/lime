@@ -40,19 +40,21 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
 
     private handleTransitionEnd = (transitionEndType: string, animatingId: number) => {
         if (animatingId !== this.animating) { return }
-        const style = this.node.style
-        switch (transitionEndType) {
-            case 'end_of_enter':
-                style.height = ``
-                break
-            case 'end_of_leave':
-                style.display = 'none'
-                style.height = ``
-                break
-            default:
-                console.error('collapsible - invalid param of handletransitionEnd')
-        }
-        this.animating = 0
+        requestAnimationFrame(() => {
+            const style = this.node.style
+            switch (transitionEndType) {
+                case 'end_of_enter':
+                    style.height = ``
+                    break
+                case 'end_of_leave':
+                    style.display = 'none'
+                    style.height = ``
+                    break
+                default:
+                    console.error('collapsible - invalid param of handletransitionEnd')
+            }
+            this.animating = 0
+        })
     }
 
     private performEnterAnimation = () => {
