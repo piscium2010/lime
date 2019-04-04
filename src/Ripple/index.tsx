@@ -11,6 +11,7 @@ interface IRippleState {
 
 export default class Ripple extends React.Component<IRippleProps, IRippleState> {
     private ref
+    private animation: number
 
     constructor(props) {
         super(props)
@@ -26,7 +27,7 @@ export default class Ripple extends React.Component<IRippleProps, IRippleState> 
             clientY,
             currentTarget: { offsetWidth, offsetHeight }
         } = evt
-        const { color = 'white' } = this.props
+        const { color = 'rgba(255,255,255,.1)' } = this.props
         const rect = this.ref.current.getBoundingClientRect()
         const max = Math.max(offsetWidth, offsetHeight)
 
@@ -36,7 +37,6 @@ export default class Ripple extends React.Component<IRippleProps, IRippleState> 
                 borderRadius: '50%',
                 height: max * .6,
                 left: clientX - rect.left,
-                opacity: .3,
                 pointerEvents: 'none',
                 position: 'absolute',
                 top: clientY - rect.top,
@@ -50,20 +50,19 @@ export default class Ripple extends React.Component<IRippleProps, IRippleState> 
             this.setState({
                 rippleStyle: {
                     ...this.state.rippleStyle,
-                    height: max * 2.3,
-                    opacity: 0,
-                    transition: 'all .5s',
+                    height: max * 10,
+                    transition: 'all 1.5s',
                     transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
-                    width: max * 2.3
+                    width: max * 10
                 }
             })
         })
     }
 
     private handleTransitionEnd = evt => {
-        if(this.ref.current) {
-            this.setState({rippleStyle:{}})
-        }
+        this.animation = requestAnimationFrame(() => {
+            this.setState({ rippleStyle: {} })
+        })
     }
 
     componentDidMount() {
@@ -71,6 +70,7 @@ export default class Ripple extends React.Component<IRippleProps, IRippleState> 
     }
 
     componentWillUnmount() {
+        window.cancelAnimationFrame(this.animation)
         this.ref.current.parentNode.addEventListener('mousedown', this.onMouseDown)
     }
 
