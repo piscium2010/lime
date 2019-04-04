@@ -36,7 +36,7 @@ export default class Ripple extends React.Component<IRippleProps, IRippleState> 
                 borderRadius: '50%',
                 height: max * .6,
                 left: clientX - rect.left,
-                opacity: .6,
+                opacity: .3,
                 pointerEvents: 'none',
                 position: 'absolute',
                 top: clientY - rect.top,

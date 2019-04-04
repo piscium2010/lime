@@ -1,6 +1,7 @@
 @prefix: ~"lime";
 @prefixCls: ~"lime";
-@primaryColor: #a0d911;
+@primaryColor: #9dd411;
+@activeTextColor: #8cbd0f;
 @limeBorderHoverColor: rgba(34,36,38,.35);
 @limeBorderColor: rgba(34,36,38,.15);
 @limeBorderRadius: 2px;
@@ -26,7 +27,7 @@
     }
 
     &-active-text {
-        color: @primaryColor !important;
+        color: darken(@primaryColor, 6%) !important;
     }
 
     &-flex-center {
@@ -35,11 +36,11 @@
     }
 
     &-ribbon-right {
-        border-right: 2px solid @primaryColor !important;
+        border-right: 2px solid darken(@primaryColor, 6%) !important;
     }
 
     &-ribbon-left {
-        border-left: 2px solid @primaryColor !important;
+        border-left: 2px solid darken(@primaryColor, 6%) !important;
     }
 
     &-round {
