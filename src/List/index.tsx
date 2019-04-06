@@ -18,7 +18,7 @@ export default class List extends React.PureComponent<any, any> {
     }
 
     public render() {
-        const { className, items, itemHeight, pageSize, renderItem } = this.props
+        const { className, items, itemHeight, pageSize, renderItem, ...rest } = this.props
         const classes = classnames(`${prefixCls}-list-wrapper`, className)
         const rows = []
         if(!items) return null
@@ -55,7 +55,7 @@ export default class List extends React.PureComponent<any, any> {
 
         return (
             <Scroll className={className} height={scrollHeight} onScroll={this.onScroll}>
-                <div className={classes}>
+                <div id='test' {...rest} className={classes}>
                     <div style={{ paddingBottom, paddingTop }}>
                         <div className='lime-list-page'>
                             {
