@@ -55,7 +55,7 @@ export default class List extends React.PureComponent<any, any> {
 
         return (
             <Scroll className={className} height={scrollHeight} onScroll={this.onScroll}>
-                <div id='test' {...rest} className={classes}>
+                <div {...rest} className={classes}>
                     <div style={{ paddingBottom, paddingTop }}>
                         <div className='lime-list-page'>
                             {

@@ -1,14 +1,5 @@
 .@{prefix} {
     &-select {
-        &-text {
-            margin-left: 10px;
-            margin-right: auto;
-            padding-right: 22px;
-            pointer-events: none;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
         &-input {
             display: flex;
             justify-content: flex-end;
@@ -75,14 +66,24 @@
                 }
             }
 
-            .@{prefix}-spin {
-                align-self: center;
-                width: 15px;
-                height: 15px;
-                margin-right: 5px;
-                background-color: #fff;
-                z-index: 1;
-            }
+            // .@{prefix}-spin {
+            //     align-self: center;
+            //     width: 15px;
+            //     height: 15px;
+            //     margin-right: 5px;
+            //     background-color: #fff;
+            //     z-index: 1;
+            // }
+        }
+
+        &-text {
+            margin-left: 10px;
+            margin-right: auto;
+            padding-right: 22px;
+            pointer-events: none;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
     }
 }
