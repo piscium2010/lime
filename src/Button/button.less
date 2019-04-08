@@ -20,7 +20,7 @@
         }
 
         &:hover {
-            color: darken(@primaryColor, 5%);
+            color: @primaryColor;
         }
 
         &:disabled {
@@ -65,13 +65,13 @@
             background-color: inherit;
 
             &:active {
-                color: darken(@primaryColor, 5%);
+                color: @primaryColor;
             }
 
             &:not(:disabled):hover {
                 background-color: #fff;
                 border: 1px solid lighten(@primaryColor, 52%);
-                color: darken(@primaryColor, 5%);
+                color: @primaryColor;
             }
 
             &:disabled {
