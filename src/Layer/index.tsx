@@ -49,7 +49,6 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
         let { target } = evt
         let { onBlur = () => { }, onDismiss = () => { } } = this.props
         if (this.ref.current && !this.ref.current.contains(target)) {
-            //console.log(`blur`,)
             onDismiss(evt)
             onBlur(evt)
         }
@@ -64,7 +63,7 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
     }
 
     render() {
-        let {
+        const {
             boundingClientRect: rect,
             children,
             className,
@@ -77,7 +76,7 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
             style,
             show,
             ...rest } = this.props
-        let classes = classnames(`${prefixCls}-layer`, className)
+        const classes = classnames(`${prefixCls}-layer`, className)
 
         return show ? [
             mask && <div key={0} className={`${prefixCls}-layer-mask`} ></div>,
