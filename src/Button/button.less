@@ -7,7 +7,7 @@
         color: currentColor;
         padding: 10px 10px;
         position: relative;
-        transition: border-color .2s cubic-bezier(0.445, 0.05, 0.55, 0.95), color .2s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        transition: border-color .1s cubic-bezier(0.445, 0.05, 0.55, 0.95), color .2s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 
         &:focus {
             outline: none;
@@ -20,7 +20,7 @@
         }
 
         &:hover {
-            color: @primaryColor;
+            color: @activeTextColor;
         }
 
         &:disabled {

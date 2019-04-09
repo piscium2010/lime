@@ -14,10 +14,12 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     private ref: React.RefObject<HTMLDivElement>
     private animating: number = 0
     private _collapsibleHeight: number
+    private id: string
 
     constructor(props) {
         super(props)
         this.ref = React.createRef()
+        this.id = `collapsible-${Date.now()}-${Math.round(Math.random()*1000)}`
         this.state = {
             expand: props.defaultExpand || false
         }
@@ -35,7 +37,8 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     }
 
     private get node(): HTMLElement {
-        return this.ref.current
+        // return this.ref.current
+        return document.getElementById(this.id)
     }
 
     private handleTransitionEnd = (transitionEndType: string, animatingId: number) => {
@@ -45,10 +48,12 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
             switch (transitionEndType) {
                 case 'end_of_enter':
                     style.height = ``
+                    // console.log(`end of enter`,)
                     break
                 case 'end_of_leave':
                     style.display = 'none'
                     style.height = ``
+                    // console.log(`end of leave`,)
                     break
                 default:
                     console.error('collapsible - invalid param of handletransitionEnd')
@@ -58,8 +63,10 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     }
 
     private performEnterAnimation = () => {
-        const style = this.node.style
-        style.display = 'block' // 1st
+        // const style = this.node.style
+        console.log(`enter`, this.node.style.height)
+        this.node.style.height = ''
+        this.node.style.display = 'block' // 1st
         const height = this.collapsibleHeight // 2nd
         const animatingId = ++this.animating
         const handleTransitionEnd = () => {
@@ -67,8 +74,8 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
             this.node.removeEventListener('transitionend', handleTransitionEnd)
         }
         this.node.addEventListener('transitionend', handleTransitionEnd)
-        style.height = '0px'
-        requestAnimationFrame(() => { style.height = `${height}px` })
+        this.node.style.height = '0px'
+        requestAnimationFrame(() => { this.node.style.height = `${height}px` })
     }
 
     private performLeaveAnimation = () => {
@@ -103,7 +110,7 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     render() {
         const { className = '', ...rest } = this.props
         return (
-            <div {...rest} ref={this.ref} className={`${prefixCls}-collapsible ${className}`} aria-expanded={this.expand}>
+            <div {...rest} id={this.id} ref={this.ref} className={`${prefixCls}-collapsible ${className}`} aria-expanded={this.expand}>
                 {this.props.children}
             </div>
         )
