@@ -9,7 +9,7 @@ U probably have seen a lot of UI libraries that is fully featured, API rich and 
 
 The fully featured component is also fully complex, hard to understand and customize. Well, good news is that Lime is stupid and dead simple. Instead of providing component we provide stories built with Lime to show you how to build a component yourself.
 
-## For more information...
+## For more information
 
 There is none. But we do have **a live demo at [codeburnt.com](http://www.codeburnt.com)**.
 
