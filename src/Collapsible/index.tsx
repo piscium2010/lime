@@ -15,20 +15,17 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     private ref: React.RefObject<HTMLDivElement>
     private animating: number = 0
     private _collapsibleHeight: number
-    private id: string
-    private ENTERING: number
-    private LEAVING: number
+    private entering: number
+    private leaving: number
 
     constructor(props) {
         super(props)
         this.ref = React.createRef()
-        this.id = `collapsible-${Date.now()}-${Math.round(Math.random()*1000)}`
         this.state = {
             expand: props.defaultExpand || false
         }
-        this.ENTERING = 2
-        this.LEAVING = 3
-        
+        this.entering = 2
+        this.leaving = 3
     }
 
     private get collapsibleHeight() {
@@ -44,84 +41,60 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
 
     private get node(): HTMLElement {
         return this.ref.current
-        // return document.getElementById(this.id)
     }
 
-    private handleTransitionEnd = (transitionEndType: string, animatingId: number) => {
-        // requestAnimationFrame(() => {
-            // return
+    private handleTransitionEnd = (animatingId: number) => {
             if (animatingId !== this.animating) { return }
             const style = this.node.style
             
-            // switch (transitionEndType) {
-            //     case 'end_of_enter':
-            //         style.height = ``
-            //         // console.log(`end of enter`,)
-            //         console.log(`3`, animatingId)
-            //         break
-            //     case 'end_of_leave':
-            //         style.display = 'none'
-            //         style.height = ``
-            //         console.log(`7`, animatingId)
-            //         // console.log(`end of leave`,)
-            //         break
-            //     default:
-            //         console.error('collapsible - invalid param of handletransitionEnd')
-            // }
-            if(animatingId % 2 == 0) {
+            if(animatingId % 2 == 0) { // end of enter
                 style.height = ``
-                // console.log(`end of enter`,)
-                console.log(`3`, animatingId)
-            } else if(animatingId % 2 == 1) {
+                // console.log(`3`, animatingId)
+            } else { // end of leave
                 style.display = 'none'
                     style.height = ``
-                    console.log(`7`, animatingId)
-            } else {
-                console.error('collapsible - invalid param of handletransitionEnd')
-            }
+                // console.log(`7`, animatingId)
+            } 
             this.animating = 0
-        // })
     }
 
     private performEnterAnimation = () => {
-        // if(this.animating && this.animating % 2 == 0) { console.log(`return`,); return }
-        // const style = this.node.style
-        // console.log(`enter`, this.node.style.height)
-        // this.node.style.height = ''
-        this.node.style.display = 'block' // 1st
+        const style = this.node.style
+        style.display = 'block' // 1st
         const height = this.collapsibleHeight // 2nd
-        this.ENTERING += 2
-        this.animating = this.ENTERING
-        const animatingId = this.animating
+        this.entering += 2
+        this.animating = this.entering
+        const animatingId = this.entering
         const handleTransitionEnd = () => {
-            this.handleTransitionEnd('end_of_enter', animatingId)
+            this.handleTransitionEnd(animatingId)
             this.node.removeEventListener('transitionend', handleTransitionEnd)
         }
         
-        this.node.style.height = '0px'
-        console.log(`1`, animatingId)
+        style.height = '0px'
+        // console.log(`1`, animatingId)
         requestAnimationFrame(() => { 
-            this.node.style.height = `${height}px`; console.log(`2`, animatingId)
+            style.height = `${height}px`
+            // console.log(`2`, animatingId)
             this.node.addEventListener('transitionend', handleTransitionEnd)
         })
     }
 
     private performLeaveAnimation = () => {
-        // if(this.animating && this.animating % 3 == 0) { console.log(`return leave`,);return }
         const style = this.node.style
         const height = this.collapsibleHeight
-        this.LEAVING += 2
-        this.animating = this.LEAVING
-        const animatingId = this.animating
+        this.leaving += 2
+        this.animating = this.leaving
+        const animatingId = this.leaving
         const handleTransitionEnd = () => {
-            this.handleTransitionEnd('end_of_leave', animatingId)
+            this.handleTransitionEnd(animatingId)
             this.node.removeEventListener('transitionend', handleTransitionEnd)
         }
         
         style.height = `${height}px`
-        console.log(`5`, animatingId)
+        // console.log(`5`, animatingId)
         requestAnimationFrame(() => { 
-            style.height = `0px`; console.log(`6`, animatingId)
+            style.height = `0px`
+            // console.log(`6`, animatingId)
             this.node.addEventListener('transitionend', handleTransitionEnd)
         })
     }
@@ -133,12 +106,10 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     componentDidUpdate() {
         if (this.expand && this.node.childElementCount && (this.node.style.display == 'none' || this.animating)) {
             requestAnimationFrame(() => {
-                // console.log(`p en`,this.animating)
                 this.performEnterAnimation()
             })
         } else if (!this.expand && this.node.childElementCount && (this.node.style.display == 'block' || this.animating)) {
             requestAnimationFrame(() => {
-                // console.log(`p leav`,this.animating)
                 this.performLeaveAnimation()
             })
         }
