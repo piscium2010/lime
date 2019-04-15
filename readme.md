@@ -1,6 +1,6 @@
 # Lime - React UI parts
 
-Lime is an extremly lightweight react-based UI parts for building UI components. It consists of a few essential thing like Collapsible, Layer, List, Ripple and Scroll, with which you can build your own UI component from scratch.
+Lime is an extremly lightweight react-based UI kit for building UI components. It consists of a few essential thing like Collapsible, Layer, List, Ripple and Scroll, with which you can build your own UI component from scratch.
 
 
 ## Why lime?
