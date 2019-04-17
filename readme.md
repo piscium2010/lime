@@ -11,7 +11,7 @@ The fully featured component is also fully complex, hard to understand and custo
 
 ## For more information
 
-There is none. But we do have **a live demo at [codeburnt.com](http://115.159.157.195)**.
+There is none. But we do have **a live demo at [codeburnt.com](http://www.codeburnt.com)**.
 
 ## Licenses
 
