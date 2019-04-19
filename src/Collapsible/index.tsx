@@ -116,7 +116,7 @@ export default class Collapsible extends React.PureComponent<ICollapsibleProps, 
     }
 
     render() {
-        const { className = '', ...rest } = this.props
+        const { className = '', expand, ...rest } = this.props
         return (
             <div {...rest} ref={this.ref} className={`${prefixCls}-collapsible ${className}`} aria-expanded={this.expand}>
                 {this.props.children}
