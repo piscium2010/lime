@@ -13,6 +13,7 @@ interface IRippleState {
 export default class Ripple extends React.Component<IRippleProps, IRippleState> {
     private ref: React.RefObject<HTMLDivElement> = React.createRef()
     private transitionId: number = 0
+    private willUnmount: boolean = false
 
     state = { waves: [] }
 
@@ -37,7 +38,7 @@ export default class Ripple extends React.Component<IRippleProps, IRippleState> 
     }
 
     private handleTransitionEnd = id => {
-        if (id === this.transitionId) {
+        if (id === this.transitionId && !this.willUnmount) {
             this.setState({ waves: [] })
         }
     }
@@ -47,7 +48,8 @@ export default class Ripple extends React.Component<IRippleProps, IRippleState> 
     }
 
     componentWillUnmount() {
-        this.ref.current.parentNode.addEventListener('mousedown', this.onMouseDown)
+        this.willUnmount = true
+        this.ref.current.parentNode.removeEventListener('mousedown', this.onMouseDown)
     }
 
     public render() {
