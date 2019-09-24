@@ -26,6 +26,7 @@ gulp.task('compile:tsx', () => {
 
 gulp.task('copy:package', cb => {
     copyFile('package.json', 'dist/package.json')
+    copyFile('readme.md', 'dist/readme.md')
     cb()
 })
 
