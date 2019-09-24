@@ -1,6 +1,6 @@
 {
   "name": "@piscium2010/lime",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "main": "index.js",
   "scripts": {
     "test": "jest",
