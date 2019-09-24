@@ -1,8 +1,9 @@
 const fs = require('fs')
 const gulp = require('gulp')
-const ts = require('gulp-typescript');
-const less = require('gulp-less');
-const tsProject = ts.createProject('tsconfig.json');
+const ts = require('gulp-typescript')
+const less = require('gulp-less')
+const tsProject = ts.createProject('tsconfig.json')
+const merge = require('merge-stream')
 const path = require('path')
 
 if (!fs.existsSync('dist')) { fs.mkdirSync('dist'); }
@@ -19,9 +20,12 @@ gulp.task('compile:less', () => {
 })
 
 gulp.task('compile:tsx', () => {
-    return gulp.src(['src/**/*.tsx', 'src/**/*.ts', 'src/index.js'])
+    const tsOutput = gulp.src(['src/**/*.tsx', 'src/**/*.ts', 'src/index.js'])
         .pipe(tsProject())
-        .js.pipe(gulp.dest('dist', { overwrite: true }));
+    return merge(tsOutput, tsOutput.js).pipe(gulp.dest('dist', { overwrite: true }))
+    // return gulp.src(['src/**/*.tsx', 'src/**/*.ts', 'src/index.js'])
+    //     .pipe(tsProject())
+    //     .js.pipe(gulp.dest('dist', { overwrite: true }));
 })
 
 gulp.task('copy:package', cb => {
