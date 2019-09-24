@@ -30,8 +30,8 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
 
     get style() {
         let {
-            boundingClientRect: rect = {},
-            left = rect.left || 0, 
+            boundingClientRect: rect = {} as { left?, top?},
+            left = rect.left || 0,
             top = rect.top || 0,
             width,
             height,

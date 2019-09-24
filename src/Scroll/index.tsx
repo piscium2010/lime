@@ -3,12 +3,10 @@ import * as debounce from 'debounce'
 import * as React from 'react'
 import { prefixCls } from '../common/index'
 
-export interface IScrollProps {
-    className?: string
+export interface IScrollProps extends React.HTMLAttributes<Element> {
     onBlur?: (evt?) => void
     onScroll?: (evt?) => void
     height: number
-    style: object,
     trackVertical?: boolean
 }
 
