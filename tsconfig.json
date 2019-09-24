@@ -1,17 +1,17 @@
 {
     "compilerOptions": {
-    "outDir": "./public/",
-    "noImplicitAny": false,
-    "moduleResolution": "node",
-    "module": "es6",
-    "target": "es5",
-    "jsx": "React",
-    "allowJs": true,
-    "lib": [
-        "ES5",
-        "ES6",
-        "DOM"
-    ]
+        "declaration": true,
+        "outDir": "./public/",
+        "noImplicitAny": false,
+        "moduleResolution": "node",
+        "module": "es6",
+        "target": "es5",
+        "jsx": "react",
+        "lib": [
+            "es5",
+            "es6",
+            "dom"
+        ]
     },
     "include": [
         "src/**/*"
