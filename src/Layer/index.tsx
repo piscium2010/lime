@@ -1,48 +1,52 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
-import { prefixCls } from '../common';
+import { prefixCls } from '../common'
 
 export interface ILayerProps {
+    bottom?: string | number
     boundingClientRect?: { top, right, bottom, left, width, height }
     className?: string
-    height?: number
-    left?: number,
-    mask?: boolean,
-    onBlur: (evt?) => void,
-    onDismiss?: (evt?) => void,
-    style?: object,
+    height?: string | number
+    left?: string | number
+    mask?: boolean
+    onBlur: (evt?) => void
+    onDismiss?: (evt?) => void
+    right?: string | number
+    style?: object
     show?: boolean
-    top?: number,
-    width?: number
+    top?: string | number
+    width?: string | number
 }
 
 export default class Layer extends React.PureComponent<ILayerProps, {}> {
-    private ref: React.RefObject<HTMLDivElement>
+    private ref: React.RefObject<HTMLDivElement> = React.createRef()
 
     static defaultProps = {
         mask: false
     }
 
-    constructor(props) {
-        super(props)
-        this.ref = React.createRef()
-    }
-
     get style() {
-        let {
+        const isNotNull = v =>  v !== undefined &&  v !== null ? true : undefined
+        const {
             boundingClientRect: rect = {} as { left?, top?},
-            left = rect.left || 0,
-            top = rect.top || 0,
+            left,
+            top,
+            right,
+            bottom,
             width,
             height,
-            style: _style,
+            style,
         } = this.props
-        let style = Object.assign({},
-            _style,
-            { left, top },
-            width && { width },
-            height && { height })
-        return style
+        
+        const locationStyle = Object.assign({},
+            isNotNull(left) && { left },
+            isNotNull(right) && { right },
+            isNotNull(bottom) && { bottom },
+            isNotNull(top) && { top },
+            isNotNull(width) && { width },
+            isNotNull(height) && { height })
+        
+        return { ...locationStyle, ...style }
     }
 
     private onWindowMouseDown = evt => {
@@ -75,6 +79,8 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
             onBlur,
             style,
             show,
+            right,
+            bottom,
             ...rest } = this.props
         const classes = classnames(`${prefixCls}-layer`, className)
 

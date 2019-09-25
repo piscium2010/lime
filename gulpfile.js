@@ -23,9 +23,6 @@ gulp.task('compile:tsx', () => {
     const tsOutput = gulp.src(['src/**/*.tsx', 'src/**/*.ts', 'src/index.js'])
         .pipe(tsProject())
     return merge(tsOutput, tsOutput.js).pipe(gulp.dest('dist', { overwrite: true }))
-    // return gulp.src(['src/**/*.tsx', 'src/**/*.ts', 'src/index.js'])
-    //     .pipe(tsProject())
-    //     .js.pipe(gulp.dest('dist', { overwrite: true }));
 })
 
 gulp.task('copy:package', cb => {
