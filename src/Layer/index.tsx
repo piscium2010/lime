@@ -2,20 +2,18 @@ import * as classnames from 'classnames'
 import * as React from 'react'
 import { prefixCls } from '../common'
 
-export interface ILayerProps {
+export interface ILayerProps extends React.HTMLAttributes<HTMLDivElement> {
+    animation?: 'slide-down'
     bottom?: string | number
     boundingClientRect?: { top, right, bottom, left, width, height }
     className?: string
-    height?: string | number
     left?: string | number
     mask?: boolean
     onBlur: (evt?) => void
     onDismiss?: (evt?) => void
     right?: string | number
-    style?: object
     show?: boolean
     top?: string | number
-    width?: string | number
 }
 
 export default class Layer extends React.PureComponent<ILayerProps, {}> {
@@ -26,27 +24,26 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
     }
 
     get style() {
-        const isNotNull = v =>  v !== undefined &&  v !== null ? true : undefined
+        const isNotNull = v => v !== undefined && v !== null ? true : undefined
         const {
             boundingClientRect: rect = {} as { left?, top?},
             left,
             top,
             right,
             bottom,
-            width,
-            height,
-            style,
+            style = {},
         } = this.props
-        
+        const { transform, ...restStyle } = style
         const locationStyle = Object.assign({},
             isNotNull(left) && { left },
             isNotNull(right) && { right },
             isNotNull(bottom) && { bottom },
             isNotNull(top) && { top },
-            isNotNull(width) && { width },
-            isNotNull(height) && { height })
-        
-        return { ...locationStyle, ...style }
+            isNotNull(transform) && { transform }
+        )
+
+        return [locationStyle, restStyle]
+        // return { ...locationStyle, ...style }
     }
 
     private onWindowMouseDown = evt => {
@@ -68,32 +65,51 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
 
     render() {
         const {
+            animation,
             boundingClientRect: rect,
             children,
             className,
             left,
             mask,
             top,
-            width,
-            height,
             onBlur,
             style,
             show,
             right,
             bottom,
             ...rest } = this.props
-        const classes = classnames(`${prefixCls}-layer`, className)
+        const classes = classnames(
+            `${prefixCls}-layer`,
+            {
+                [`${prefixCls}-layer-inactive`]: !show
+            }
+        )
 
-        return show ? [
+        const animationClasses = classnames(
+            className,
+            `${prefixCls}-shadow`,
+            {
+                [`${prefixCls}-animate-slide-down-in`]: animation === 'slide-down' && show,
+                [`${prefixCls}-animate-slide-up-out`]: animation === 'slide-down' && !show,
+                [`${prefixCls}-layer-out`]: !animation && !show,
+                [`${prefixCls}-layer-active`]: show
+            }
+        )
+
+        const [locationStyle, restStyle] = this.style
+
+        return [
             mask && <div key={0} className={`${prefixCls}-layer-mask`} ></div>,
             <div key={1}
                 ref={this.ref}
                 className={classes}
-                style={this.style}
+                style={locationStyle}
                 {...rest}
             >
-                {children}
+                <div className={animationClasses} style={restStyle}>
+                    {children}
+                </div>
             </div>
-        ] : null
+        ]
     }
 }
