@@ -92,7 +92,7 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
 
         const [locationStyle, restStyle] = this.style
 
-        return [
+        return (
             <div
                 ref={this.ref}
                 className={classes}
@@ -103,6 +103,6 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
                     {children}
                 </div>
             </div>
-        ]
+        )
     }
 }
