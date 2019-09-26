@@ -38,7 +38,6 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
         )
 
         return [locationStyle, restStyle]
-        // return { ...locationStyle, ...style }
     }
 
     private onWindowMouseDown = evt => {
