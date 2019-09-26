@@ -8,7 +8,6 @@ export interface ILayerProps extends React.HTMLAttributes<HTMLDivElement> {
     boundingClientRect?: { top, right, bottom, left, width, height }
     className?: string
     left?: string | number
-    mask?: boolean
     onBlur: (evt?) => void
     onDismiss?: (evt?) => void
     right?: string | number
@@ -18,10 +17,6 @@ export interface ILayerProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export default class Layer extends React.PureComponent<ILayerProps, {}> {
     private ref: React.RefObject<HTMLDivElement> = React.createRef()
-
-    static defaultProps = {
-        mask: false
-    }
 
     get style() {
         const isNotNull = v => v !== undefined && v !== null ? true : undefined
@@ -70,7 +65,6 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
             children,
             className,
             left,
-            mask,
             top,
             onBlur,
             style,
@@ -99,8 +93,7 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
         const [locationStyle, restStyle] = this.style
 
         return [
-            mask && <div key={0} className={`${prefixCls}-layer-mask`} ></div>,
-            <div key={1}
+            <div
                 ref={this.ref}
                 className={classes}
                 style={locationStyle}
