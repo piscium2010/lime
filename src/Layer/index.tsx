@@ -38,13 +38,12 @@ export default class Layer extends React.PureComponent<ILayerProps, {}> {
         )
 
         return [locationStyle, restStyle]
-        // return { ...locationStyle, ...style }
     }
 
     private onWindowMouseDown = evt => {
-        let { target } = evt
-        let { onBlur = () => { }, onDismiss = () => { } } = this.props
-        if (this.ref.current && !this.ref.current.contains(target)) {
+        const { target } = evt
+        const { show, onBlur = () => { }, onDismiss = () => { } } = this.props
+        if (show && this.ref.current && !this.ref.current.contains(target)) {
             onDismiss(evt)
             onBlur(evt)
         }
