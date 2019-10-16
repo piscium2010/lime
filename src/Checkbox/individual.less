@@ -1,0 +1,98 @@
+@tickHeight: ~"@{prefixCls}-checkbox-tickHeight";
+@tickWidth: ~"@{prefixCls}-checkbox-tickWidth";
+
+.@{prefixCls} {
+    &-checkbox-wrapper {
+        align-items: center;
+        cursor: pointer;
+        display: inline-flex;
+        position: relative;
+
+        &:hover {
+            .@{prefixCls}-checkbox {
+                border: 1px solid @primaryColor;
+            }
+        }
+    }
+
+    &-checkbox {
+        border: 1px solid @limeBorderColor;
+        border-radius: @limeBorderRadius;
+        box-sizing: border-box;
+        display: inline-block;
+        height: 15px;
+        width: 15px;
+        position: relative;
+
+        &.checked {
+            border: 1px solid @primaryColor;
+            background: @primaryColor;
+        }
+
+        &.checked::before {
+            content: " ";
+            border-left: 2px solid currentColor;
+            border-bottom: 2px solid currentColor;
+            color: #fff;
+            left: 2px;
+            top: 2px;
+            height: 0;
+            position: absolute;
+            transform: rotate(-45deg);
+            width: 0;
+            .keyframes(@tickHeight;
+            {
+                from {
+                    height: 0;
+                }
+
+                to {
+                    height: 40%;
+                }
+            });
+            .keyframes(@tickWidth;
+            {
+                from {
+                    width: 0;
+                }
+
+                to {
+                    width: 70%;
+                }
+            });
+            .animation(~"@{tickHeight} .1s ease-in forwards, @{tickWidth} .1s .1s ease-in forwards");
+        }
+
+        &.checked::after {
+            content: " ";
+            display: block;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            pointer-events: none;
+            background: transparent
+        }
+
+        &.checked:hover::after {
+            background: #fff;
+            opacity: 0.1;
+        }
+    }
+
+    &-checkbox-input {
+        cursor: inherit;
+        width: 100%;
+        margin: 0;
+        opacity: 0;
+        padding: 0;
+        height: 100%;
+    }
+
+    &-checkbox-label {
+        cursor: inherit;
+        line-height: inherit;
+        margin-left: 6px;
+    }
+}

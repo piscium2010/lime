@@ -1,0 +1,25 @@
+.@{prefixCls} {
+    &-list-row {
+        position: relative;
+        // width: calc(100% - 20px);
+        width: 100%;
+        overflow: hidden;
+    }
+
+    &-list-item {
+        cursor: pointer;
+        padding: 0 10px;
+        &:hover {
+            background-color: lighten(@primaryColor, 50%);
+        }
+    }
+
+    &-list-item-disabled {
+        cursor: not-allowed;
+        color: @limeDisabledColor;
+        padding: 0 10px;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+}

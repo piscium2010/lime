@@ -13,14 +13,14 @@ gulp.task('clean', cb => {
     cb()
 })
 
-gulp.task('compile:less', () => {
-    return gulp.src('src/index.less')
+gulp.task('compile:less:lime', () => {
+    return gulp.src('src/lime.less')
         .pipe(less())
-        .pipe(gulp.dest('dist/lime.css', { overwrite: true }))
+        .pipe(gulp.dest('dist', { overwrite: true }))
 })
 
-gulp.task('compile:less:individual', () => {
-    return gulp.src(['src/**/*.less','!src/**/index*.less'])
+gulp.task('compile:less:each', () => {
+    return gulp.src(['src/**/*.less','!src/**/individual*.less'])
         .pipe(less())
         .pipe(gulp.dest('dist', { overwrite: true }))
 })
@@ -37,8 +37,7 @@ gulp.task('copy:package', cb => {
     cb()
 })
 
-// gulp.task('default', ['clean', 'compile:less','compile:less:one', 'compile:tsx', 'copy:package'])
-gulp.task('default', ['clean', 'compile:less:one'])
+gulp.task('default', ['clean', 'compile:less:lime','compile:less:each', 'compile:tsx', 'copy:package'])
 
 function copyFile(source, target) {
     fs.createReadStream(source).pipe(fs.createWriteStream(target));
