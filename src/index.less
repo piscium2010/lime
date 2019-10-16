@@ -1,0 +1,103 @@
+@prefix: ~"lime";
+@prefixCls: ~"lime";
+@primaryColor: #9dd411;
+@activeTextColor: darken(@primaryColor, 3%);
+@limeBorderHoverColor: rgba(34,36,38,.35);
+@limeBorderColor: rgba(34,36,38,.15);
+@limeBorderRadius: 2px;
+@limeDisabledColor: rgba(0,0,0,.26);
+@limeDiabledBackgroundColor: rgba(0,0,0,.12);
+
+
+@limeBoxShadow: 
+0 3px 1px -2px rgba(0, 0, 0, .2), 
+0 2px 2px 0 rgba(0, 0, 0, .14), 
+0 1px 5px 0 rgba(0, 0, 0, .12);
+
+.box-shadow {
+    -moz-box-shadow: @limeBoxShadow;
+    -webkit-box-shadow: @limeBoxShadow;
+    box-shadow: @limeBoxShadow;
+}
+
+.@{prefixCls} {
+    // util
+    &-active {
+        background-color: @primaryColor !important;
+    }
+
+    &-active-text {
+        color: @activeTextColor !important;
+    }
+
+    &-flex-center {
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    &-hover-text:hover {
+        color: @activeTextColor !important;
+        transition: color .2s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+    }
+
+    &-ribbon-right {
+        border-right: 2px solid @primaryColor !important;
+    }
+
+    &-ribbon-left {
+        border-left: 2px solid @primaryColor !important;
+    }
+
+    &-round {
+        border-radius: 50% !important;
+    }
+
+    &-hidden {
+        display: none;
+    }
+}
+
+.lime-raised {
+    .box-shadow;
+}
+
+.field {
+    padding: 0 22px 0 10px;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+}
+
+.input {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: @limeBorderRadius;
+    border: 1px solid @limeBorderColor;
+    height: 32px;
+    &:hover {
+        box-shadow: 0 0 5px -1px @primaryColor;
+        > input {
+            &:focus, &:active {
+                box-shadow: none !important;
+            }
+        }
+    }
+
+    > input {
+        &:focus, &:active {
+            box-shadow: 0 0 5px -1px @primaryColor;
+        }
+    }
+}
+
+.keyframes(@name; @arguments) {
+	@-moz-keyframes @name { @arguments(); }
+	@-webkit-keyframes @name { @arguments(); }
+	@keyframes @name { @arguments(); }
+}
+
+.animation(@arguments) {
+	-webkit-animation: @arguments;
+	-moz-animation: @arguments;
+	animation: @arguments;
+}
