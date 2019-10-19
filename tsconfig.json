@@ -4,8 +4,8 @@
         "outDir": "./public/",
         "noImplicitAny": false,
         "moduleResolution": "node",
-        "module": "es6",
-        "target": "es5",
+        "module": "CommonJS",
+        "target": "ES5",
         "jsx": "react",
         "lib": [
             "es5",
