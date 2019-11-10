@@ -8,7 +8,7 @@ export interface ILayerProps extends React.HTMLAttributes<HTMLDivElement> {
     boundingClientRect?: { top, right, bottom, left, width, height }
     className?: string
     left?: string | number
-    onBlur: (evt?) => void
+    onBlur?: (evt?) => void
     onDismiss?: (evt?) => void
     right?: string | number
     show?: boolean
