@@ -1,6 +1,6 @@
 {
   "name": "@piscium2010/lime",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -60,7 +60,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "debounce": "^1.2.0",
-    "react": "16.4.1",
+    "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
   "description": "Lime is an extremly lightweight react-based UI kit for building UI components.",
