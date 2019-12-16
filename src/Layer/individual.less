@@ -17,7 +17,10 @@
         z-index: 2;
 
         &-inactive {
-            pointer-events: none;
+            pointer-events: none !important;
+            * {
+                pointer-events: none !important;
+            }
         }
 
         &-active {
