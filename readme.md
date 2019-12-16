@@ -11,7 +11,7 @@ The fully featured component is also fully complex, hard to understand and custo
 
 ## For more information
 
-**[docs](https://piscium2010.github.io/lime)**.
+**[docs](https://piscium2010.github.io/lime)**
 
 ## Licenses
 
